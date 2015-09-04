@@ -53,13 +53,13 @@ $config['default'] = array
 	'persistent'    => FALSE,
 	'connection'    => array
 	(
-		'type'     => 'mysql',
+		'type'     => 'mysqli',
 		'user'     => 'root',
 		'pass'     => '',
 		'host'     => 'localhost',
 		'port'     => FALSE,
 		'socket'   => FALSE,
-		'database' => 'Emarketplace'
+		'database' => 'emarketplace'
 	),
 	'character_set' => 'utf8',
 	'table_prefix'  => '',
