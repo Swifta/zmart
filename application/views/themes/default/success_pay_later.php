@@ -64,7 +64,7 @@
 											<?php $R = $this->result; ?>
                                             <ul>                                                
                                                                                                 <?php if(isset($R->T_ID)){ ?>
-                                                                                                <li><label><?php echo $this->Lang["T_ID"]; ?> </label><span>:</span><strong><?php echo $R->TIMESTAMP; ?></strong></li>
+                                                                                                <li><label><?php echo $this->Lang["TRAN_ID"]; ?> </label><span>:</span><strong><?php echo $R->T_ID; ?></strong></li>
 												<?php } if(isset($R->TIMESTAMP)){ ?>
 												<li><label><?php echo $this->Lang["TRAN_TIME"]; ?> </label><span>:</span><p><?php echo $R->TIMESTAMP; ?></p></li>
 												<?php } if(isset($R->ACK)){ ?>
