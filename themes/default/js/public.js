@@ -303,8 +303,11 @@ function show_popup()
 	$('.popup_block5').css({'display' : 'block'});
 }
 
-function showlogin()
+function showlogin(z_offer)
 {
+	if(!z_offer){
+		z_offer = 0;
+	}
 	document.login.email.value='';
 	document.login.password.value='';
 	$('#email_error').html('');
@@ -313,7 +316,13 @@ function showlogin()
 	$('.popup_block').css({'display' : 'block'});
 	$('.popup_block1').css({'display' : 'none'});
 	$('.popup_block2').css({'display' : 'none'});
+	$('.popup_block3').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
+	
+	var f_offer_click_status = $('#id_z_offer_click_status');
+	if(f_offer_click_status){
+		f_offer_click_status.val(z_offer);
+	}
 }
 
 function show_auction(userid,auction_key,auction_title)
@@ -337,6 +346,7 @@ function showforgotpassword()
 	$('.popup_block2').css({'display' : 'block'});
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
+	$('.popup_block3').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
 }
 
@@ -366,6 +376,7 @@ function showsignup(z_offer)
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'block'});
 	$('.popup_block2').css({'display' : 'none'});
+	$('.popup_block3').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
 	
 	var f_offer_click_status = $('#id_z_offer_click_status_signup');
@@ -393,10 +404,11 @@ function showmembershipsignup(x)
         $('#fname_error').html('');
          $('#terms_error').html('');
 	$('#fade').css({'visibility' : 'visible'});
-	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block3').css({'display' : 'block'});
-	$('.popup_block2').css({'display' : 'none'});
+	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
+	$('.popup_block2').css({'display' : 'none'});
+	
 }
 
 
@@ -1261,6 +1273,7 @@ function showfbsignup()
 	$('.popup_block2').css({'display' : 'none'});
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
+	$('.popup_block3').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'block'});
 	
 }
@@ -1454,8 +1467,9 @@ function get_zenith_branches(sel_branch){
 					
 					/*
 						TODO
-						#Live
+						@Live
 					*/
+					
 					var response_obj = $(response);
 					var branches = $(response_obj.children());
 					
@@ -1498,7 +1512,7 @@ function get_zenith_branches(sel_branch){
 	@Live
 */
 
-function signup_after_zenith_offer_click(fname, email, password, cpassword, country, city, terms, z_offer){
+function signup_after_zenith_offer_click(fname, email, password, cpassword, gender, age_range, country, city, terms, z_offer, unique_identifier){
 	
 	/*
 		TODO
@@ -1506,20 +1520,21 @@ function signup_after_zenith_offer_click(fname, email, password, cpassword, coun
 		I have passed the redirect url to the showmembershipsignup() function.
 		@Live
 	*/
+	
 	var url = Path+'users/signup'; 
 	      $.ajax({
 		        type:'POST',
 		        url:url,
-				data:{f_name:fname, email:email, password:password, cpassword:cpassword, country:country, city:city, terms:terms, z_offer:z_offer},
+				data:{f_name:fname, email:email, password:password, cpassword:cpassword, gender:gender, age_range:age_range, country:country, city:city, terms:terms, z_offer:z_offer, unique_identifier:unique_identifier},
 		        cache:true,
 		        async:true,
 		        global:false,
 		        dataType:"html",
 		        success:function(response){
-					
-					
+	
 					if(response == 1){
 						showmembershipsignup(response);
+						return false;
 					}
 					
 					return false;
@@ -1637,8 +1652,9 @@ function open_zenith_account(){
 		        global:false,
 		        dataType:"html",
 		        success:function(response){
-					
+					alert(response);
 					is_z_open_account_api_running = false;
+					return false;
 					var res;
 					try{
 					var res = $(response);

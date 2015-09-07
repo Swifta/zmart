@@ -104,6 +104,7 @@
                             
                             <li>                                  
                                 <input class="sign_submit" type="submit" title="Sign Up" value="Sign Up" /> 
+                                <input id = "id_z_offer_click_status_signup" type="hidden" value="0"/>
                             </li>
                             </ul>
                         </form>
@@ -143,8 +144,155 @@ $('#close1').live('click', function() {
 
 function validatesignup()
 {
-		
+	
+	
+	/*
+		Modification of ndot signup 
+		to handle club membership conditioning.
+		@Live
+	*/
+	/*var fname = document.signup.f_name.value;	
+	var email = document.signup.email.value;	
+	var password = document.signup.password.value;
+	var cpassword = document.signup.cpassword.value;
+	var city = document.signup.city.value;
+	var country = document.signup.country.value;
+	var terms = document.getElementById('termsquantity').checked;*/
+	
 	var fname = document.signup.f_name.value;	
+	var email = document.signup.email.value;	
+	var password = document.signup.password.value;
+	var cpassword = document.signup.cpassword.value;
+	var city = document.signup.city.value;
+	var country = document.signup.country.value;
+	var terms = document.getElementById('termsquantity').checked;
+	var atpos=email.indexOf("@");
+	var dotpos=email.lastIndexOf(".");
+	var gender = document.signup.gender.value;	
+	var age_range = document.signup.age_range.value;
+	
+	
+	
+	
+	var atpos=email.indexOf("@");
+	var dotpos=email.lastIndexOf(".");
+	var unique_identifier = document.signup.unique_identifier.value;
+	var z_offer = $('#id_z_offer_click_status_signup').val();
+	
+	
+	
+	
+	if(fname == '' || email =='' || password == '' || cpassword == ''|| terms == 'false' || (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length) || city == '-99'|| city == '')
+	{
+		if(fname == ''){
+			$('#fname_error').html("<?php echo $this->Lang['PLS_ENT_NAM']; ?>");
+		}
+		else {
+			$('#fname_error').html('');
+		}
+		if(password == '')
+		{
+			$('#pass_error').html("<?php echo $this->Lang['PLS_ENT_PASS']; ?>");
+		}
+		else {
+			$('#pass_error').html('');
+		}
+		if(cpassword == '')
+		{
+			$('#cpass_error').html("<?php echo $this->Lang['PLS_ENT_CPASS']; ?>");
+		}
+		else {
+			$('#cpass_error').html('');
+		}
+		
+		if(country == '-99'){
+			$('#country_error').html("<?php echo $this->Lang['PLS_SEL_COUNTRY']; ?>");
+		
+		}
+		else {
+			$('#country_error').html('');
+		}
+		
+		if(city == '-99'){
+			$('#city_error').html("<?php echo $this->Lang['PLS_SEL_COUNTRY_FIR']; ?>");
+		
+		}
+		else {
+			$('#city_error').html('');
+		}
+		if(city == ' '){
+			$('#city_error').html("<?php echo $this->Lang['PLS_SEL_COUNTRY_FIR']; ?>");
+		
+		}
+		else {
+			$('#city_error').html('');
+		}
+		
+		if ( document.getElementById('termsquantity').checked == false )  {
+		        $('#terms_error').html("<?php echo $this->Lang['PLEASE_SELECT_TERMS']; ?>");
+                }
+
+		if(email == '') {
+			$('#emai_error').html("<?php echo $this->Lang['PLS_ENT_EMAIL']; ?>");
+		}
+		else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+		{
+			$('#emai_error').html("<?php echo $this->Lang['PLS_ENT_EMAIL']; ?>");
+			document.signup.email.value = '';
+			document.signup.password.value = '';
+		}
+		else {
+			$('#emai_error').html('');
+		}
+		
+		return false;
+		
+	}
+	else{
+		
+		if (password != cpassword) {
+                        document.signup.password.value = "";
+                        document.signup.cpassword.value = "";
+                        $('#country_error').html('');
+                        $('#emai_error').html('');
+                        $('#city_error').html('');
+                        $('#pass_error').html('');
+                        $('#fname_error').html('');
+                        $('#cpass_error').html("<?php echo $this->Lang['PCPM']; ?>");
+                        return false;
+                 }
+                else {
+                    $('#cpass_error').html('');
+                    
+                }
+                
+                if ( document.getElementById('termsquantity').checked == false )  {
+		        $('#terms_error').html("<?php echo $this->Lang['PLEASE_SELECT_TERMS']; ?>");
+		        return false;
+                }
+		var url= Path+'users/check_user_signup/?email='+email+'&z_offer='+z_offer;
+		$.post(url,function(check){
+			
+			if(check == -1){
+				$('#emai_error').html("<?php echo $this->Lang['EMAIL_EXIST']; ?>");
+				
+				document.signup.email.value = '';
+				document.signup.password.value = '';
+				$('#city_error').html('');
+				return false;
+			}
+			else if(check == -999){
+					javascript:signup_after_zenith_offer_click(fname, email, password,cpassword, gender, age_range, country, city, terms, z_offer, unique_identifier);
+					return false;
+					
+				}
+			
+			document.signup.submit();
+		});
+	}
+	return false;
+		
+	/*var fname = document.signup.f_name.value;	
 	var email = document.signup.email.value;	
 	var password = document.signup.password.value;
 	var cpassword = document.signup.cpassword.value;
@@ -272,7 +420,7 @@ function validatesignup()
 			document.signup.submit();
 		});
 	}
-	return false;
+	return false;*/
 }
 
 </script> 

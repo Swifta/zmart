@@ -186,6 +186,18 @@ class error {
 				case 'check_store_admin_with_supplier33':
 				$my_error[$key] = $this->Lang["STORE_ADMIN_MAIL"];
 				break;
+				case 'no_minus_99':
+				$my_error[$key] = "Select.";
+				break;
+				
+				case 'digit':
+				$my_error[$key] = "Invalid account. Only digits allowed.";
+				break;
+				
+				case 'existing_account_zenith':
+					$my_error[$key] = $this->Lang["BANK_ACC_ERR"];
+					break;
+				
 
 			}
 		}

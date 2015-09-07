@@ -1876,6 +1876,7 @@ box-shadow: 1px 1px 1px 0 #EEEEEE inset;-moz-box-shadow: 1px 1px 1px 0 #EEEEEE i
 .popup_block {display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:630px;margin:0 0 0 -315px;}
 .popup_block1 {display:none;float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%; z-index: 101;width:630px;margin:0 0 0 -315px;}
 .popup_block2 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
+.popup_block3 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
 .popup_block4 {float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:433px;margin:0 0 0 -216px;}
 .popup_block5 {display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:730px;margin:0 0 0 -365px;}
 .popup_block6 {display:none;float: left; font-size: 1.2em; position: absolute; top: 0; left:50%; z-index: 101;width:1030px;margin:0 0 0 -515px;}

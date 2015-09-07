@@ -12,19 +12,30 @@ class Users_Model extends Model
 	}
 	
 	/** GET LOGIN DETAILS **/
-
-	public function login_users($email = "",$password = "")
+	
+	/*
+		TODO
+		Added club membership status to session to support 
+		previous implementations for now.
+		This has to be replaced with the vendor's implementation that
+		users prime_customer session value.
+		@Live
+	*/
+	public function login_users($email = "",$password = "", $z_offer = "0")
 	{ 
 		$result = $this->db->from("users")->where(array("email" => $email, "password" =>  md5($password),"user_type" =>4))->get();
 		if(count($result) == 1){
 			foreach($result as $a){
 				if($a->user_status == 1){ 
 						
-				        $this->session->set(array("UserID" => $a->user_id, "UserName" => $a->firstname , "UserEmail" => $a->email, "city_id" => $a->city_id,"UserType" => $a->user_type));
+				        $this->session->set(array("UserID" => $a->user_id, "UserName" => $a->firstname , "UserEmail" => $a->email, "city_id" => $a->city_id,"UserType" => $a->user_type, "Club" => $a->club_member));
 				        if($a->unique_identifier !="" && $a->user_auto_key !="") {
 							$this->session->set("user_auto_key",$a->user_auto_key);
 							$this->session->set("prime_customer",1);
 						}
+						
+						if(strcmp($z_offer, "1") == 0)
+				        	return -999;
 				        return 1;
 				}
 				else if($a->user_status == 0){
@@ -41,6 +52,7 @@ class Users_Model extends Model
 
 	    public function add_users($post = "" , $user_referral_id = "")
 	    {
+			
 		$referral_id = text::random($type = 'alnum', $length = 8);
 		if($post->unique_identifier !=""){ 
 			$user_auto_key = text::random($type = 'alnum', $length = 4);
@@ -50,9 +62,12 @@ class Users_Model extends Model
 			$user_auto_key ="";
 			$this->session->set("prime_customer",0);
 		}
+		
+		
 		$result_country = $this->db->select("country_id")->from("city")->where(array("city_id" => $post->city ))->limit(1)->get();
 		$country_value = $result_country->current()->country_id;
 		$referred_user_id = 0;
+		
 		if($user_referral_id)
 		{
 		$result_referral = $this->db->select("user_id")->from("users")->where(array("referral_id" =>$user_referral_id))->limit(1)->get();
@@ -60,8 +75,10 @@ class Users_Model extends Model
 				$referred_user_id  = $result_referral->current()->user_id;
 			}
 		}
+		
+		
 		$result = $this->db->insert("users", array("firstname" => $post->f_name, "email" => $post->email, "password" =>  md5($post->password),"city_id" => $post->city, "country_id" => $post->country, "referral_id" => $referral_id, "referred_user_id" =>$referred_user_id, "joined_date" => time(),"last_login" => time(), "user_type"=> 4,"gender" =>$post->gender,"age_range"=>$post->age_range,"unique_identifier"=>$post->unique_identifier,"user_auto_key"=>$user_auto_key));
-
+		
 		$result_city = $this->db->select("category_id,city_id")->from("email_subscribe")->where(array("email_id" =>$post->email))->get();
 		        if(count($result_city) > 0) {
                         $city_subscribe = $result_city->current()->city_id;
@@ -71,8 +88,13 @@ class Users_Model extends Model
                         $category_result = $this->db->query("select * from category   where type = 1 and category_status = 1  ORDER BY RAND() LIMIT 1");
 			$category_subscribe = $category_result->current()->category_id;
 		        $result_email_subscribe = $this->db->insert("email_subscribe", array("user_id" => $result->insert_id(), "email_id" => $post->email,"city_id" => $post->city,"country_id" =>$post->country,"category_id" =>$category_subscribe));
-  		        }
-		$this->session->set(array("UserID" => $result->insert_id(), "UserName" => $post->f_name, "UserEmail" => $post->email, "city_id" => $post->city, "UserType" => 4));
+  		      }
+		/*
+			TODO
+			Add club member to this session.
+			@Live
+		*/
+		$this->session->set(array("UserID" => $result->insert_id(), "UserName" => $post->f_name, "UserEmail" => $post->email, "city_id" => $post->city, "UserType" => 4, "Club" => 0));
 		
 		return 1;
 	}
@@ -153,10 +175,12 @@ class Users_Model extends Model
 	
 	/** CHECK USER EXIST **/
 	
-	public function check_user_exist($email = "")
+	public function check_user_exist($email = "", $z_offer = "0")
 	{
 		$result = $this->db->from('users')->where(array('email' => $email))->get();
 		if(count($result) == 0){
+			if(strcmp($z_offer, "1") == 0)
+				return -999;
 			return 1;
 		}
 		return -1;

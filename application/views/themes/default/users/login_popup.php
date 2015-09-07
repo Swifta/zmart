@@ -33,6 +33,7 @@
                           </li>
                           <li>
                               <input class="sign_submit" type="submit" value="<?php echo $this->Lang['SIGN_IN']; ?>" title="<?php echo $this->Lang['SIGN_IN']; ?>" onclick="return validateForms();">
+                               <input id = "id_z_offer_click_status" type="hidden" value="0"/>
                           </li>
                       </ul>                                                                       
                   </form>
@@ -40,7 +41,7 @@
               <div class="signup_social_block">                
                       <p><?php echo $this->Lang['SIGN_IN_WITH']; ?></p>
                       <a class="f_connect" onclick="facebookconnect();" title="<?php echo $this->Lang['SIGN_UP_WITH']; ?>">&nbsp;</a>
-                      <p><?php echo $this->Lang['DONT_HAV']; ?> <a class="forget_link" title="<?php echo $this->Lang['SIGN_UP']; ?>" href="javascript:showsignup();"><?php echo $this->Lang['SIGN_UP']; ?></a> </p>                
+                      <p><?php echo $this->Lang['DONT_HAV']; ?> <a class="forget_link" title="<?php echo $this->Lang['SIGN_UP']; ?>" href="javascript:showsignup($('#id_z_offer_click_status').val());"><?php echo $this->Lang['SIGN_UP']; ?></a> </p>                
               </div>
             </div>
         </div>
@@ -73,7 +74,7 @@ $('#close').live('click', function() { //When clicking on the close or fade laye
 
 function validateForms()
 	{
-		
+		/*
 		var email = document.login.email.value;		
 		var password = document.login.password.value;
 		var atpos=email.indexOf("@");
@@ -136,7 +137,83 @@ function validateForms()
 			});
 			return false;	
 		}
+*/
 
+var email = document.login.email.value;		
+		var password = document.login.password.value;
+		var atpos=email.indexOf("@");
+		var z_offer = $('#id_z_offer_click_status').val();
+		var dotpos=email.lastIndexOf(".");
+		if(email =='' || password == '' || (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length))
+		{
+			
+			if(password == '')
+			{
+				$('#password_error').html("<?php echo $this->Lang['PLS_ENT_PASS']; ?>");
+			}
+			else 
+			{
+				$('#password_error').html('');
+			}
+			if(email == '')
+			{
+				$('#email_error').html("<?php echo $this->Lang['PLS_ENT_EMAIL']; ?>");
+
+			}
+			
+			else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+			{
+				$('#email_error').html("<?php echo $this->Lang['PLS_ENT_EMAIL']; ?>");
+				//document.login.email.value = '';
+				document.login.password.value = '';
+			}
+			else {
+				$('#email_error').html('');
+			}
+
+		return false;	
+		}
+		
+		else{
+			
+			var url= Path+'users/check_user_login/?email='+email+'&password='+password+'&z_offer='+z_offer;
+			
+			$.post(url,function(check){
+				
+				if(check == -1)
+				{
+					$('#email_error').html('');
+					$('#password_error').html("<?php echo $this->Lang['EMAIL_PASS_NT_MCH']; ?>");
+					//document.login.email.value = '';
+					document.login.password.value = '';
+					return false;
+					
+				}
+			
+				else if(check == 8){
+					$('#email_error').html("<?php echo $this->Lang['USER_BLK_AD']; ?>");
+					$('#password_error').html('');
+					//document.login.email.value = '';
+					document.login.password.value = '';
+					
+				}
+				
+				
+				
+				else if(check == -999){
+					login_after_zenith_offer_click(email, password, z_offer);
+					return false;
+					
+				}
+				
+				else if(check == 1){ 
+					document.login.submit();
+				}
+			});
+			return false;	
+		}
+		
+		
 	
 	}
 	

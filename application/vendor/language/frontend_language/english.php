@@ -1730,6 +1730,45 @@ $content_text = array(
  "PRD_CURR_NT_AVAIL" => "Products are currently not available for this store.",
  "ZENITH_OFFER" => "Zenith Offer",
  
+ "ZENITH_ACCOUNT_OPEN" => "Open A Zenith Bank A/C",
+ 
+ "SEL_GENDER" => "Select gender",
+
+"ZENITH_LOAD_BRANCH" => "Branches loading...",
+
+"ZENITH_LOAD_CLASS" => "Classes loading...",
+
+"ZENITH_SEL_BRANCH" => "Select branch",
+
+"ZENITH_SEL_CLASS" => "Select class",
+
+"ORD_COMPL_COD" => "Purchase Complete. Please await shipping updates from merchant.",
+
+"Z_BY_CLICKING_SUBMIT"=>"By clicking Open Account, you agree to $THIS_SITENAME",
+
+"ZENITH_BRANCH" => "Branch",
+
+"ZENITH_CLASS_CODE" => "Class Code",
+
+
+"USER_ZENITH_OFFER" => "Enjoy Special Offers, Provide your Bank A/C Number",
+    
+"ZENITH_OFFER" => "Zenith Offer",
+    
+"ZENITH_ACCOUNT_NUMBER" => "Zenith Account Number",
+    
+"ZENITH_ACCOUNT_OPEN" => "Open A Zenith Bank A/C",
+
+"ZENITH_ALREADY_HAVE_ACCOUNT" => "Already Have an A/C ?",
+    
+"ZENITH_INFO_OFFER" => "Verify your Zenith Account.",
+	
+"ACCOUNT_NUMBER" => "NUBAN Account Number",
+    
+"ENTER_ACCOUNT_NUMBER" => "ENTER YOUR NUBAN A/C NUMBER",
+
+"STORE_CRED" => "For Store Credit",
+ 
 
 
 			);

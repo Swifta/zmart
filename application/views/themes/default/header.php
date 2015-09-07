@@ -1118,7 +1118,9 @@ $srch = $this->Lang['SRCH_DEAL'];
 <div class='popup_block'><?php echo new View("themes/" . THEME_NAME . '/users/login_popup'); ?></div>
 <div class='popup_block1'><?php echo new View("themes/" . THEME_NAME . '/users/sign_up_popup'); ?></div>
 <div class='popup_block2'><?php echo new View("themes/" . THEME_NAME . '/users/forget_popup'); ?></div>
+<div class='popup_block3'><?php echo new View("themes/" . THEME_NAME . '/users/zenith_offer_popup'); ?></div>
 <div class='popup_block4'><?php echo new View("themes/" . THEME_NAME . '/users/fb_popup'); ?></div>
+
 
  <script type="text/javascript">
     $(document).ready(function() {

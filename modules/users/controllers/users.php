@@ -58,6 +58,21 @@ class Users_Controller extends Layout_Controller {
                                 ->add_rules('city', 'required');
 
                 $status = $this->users->add_users(arr::to_object($this->userPost),$user_referral_id);
+				
+				/*
+					TODO
+					Need to send both emarketplace and club membership signup
+					@Live
+				*/
+					
+			if(isset($_POST['z_offer'])){
+						
+				if(strcmp($_POST['z_offer'], "1") == 0){
+							echo 1;
+							exit;
+				}
+			}
+					
             if($status == 1){
 				$this->signup=1;
 				$from = CONTACT_EMAIL;
@@ -89,12 +104,34 @@ class Users_Controller extends Layout_Controller {
 
 	public function login()
 	{
-               	if($_POST){
-		        $email = $this->input->post('email');
-		        $password = $this->input->post('password');
-		        $url_redirect = $this->input->post('url');
-		        $status = $this->users->login_users($email,$password);
-		        if($status == 1){
+               /*
+					Added conditioning to add club membership flags
+					@Live
+				  */
+				  if($_POST){
+				  $email = $this->input->post('email');
+				  $password = $this->input->post('password');
+				  $url_redirect = $this->input->post('url');
+				  
+				  $z_offer = "0";
+				  if(isset($_POST['z_offer'])){
+					  $z_offer = $this->input->post('z_offer');
+				  }
+				  
+				  $status = $this->users->login_users($email,$password);
+				  if($status == 1 || -999){
+					  
+					  if(strcmp($z_offer, "1") == 0){
+						  if(isset($_SESSION['Club']) && strcmp($_SESSION['Club'], "1") == "0"){
+							  common::message(1, "You are already a Zenith Club member. Please enjoy the offers!");
+						  	 echo PATH.$url_redirect;
+					
+						  }else{
+							  echo 1;
+						  } 
+						 
+						  exit;
+					  }
 		            common::message(1, $this->Lang["SUCC_LOGIN"]);
 		             if($url_redirect){
 				                url::redirect(PATH.$url_redirect);
@@ -117,19 +154,41 @@ class Users_Controller extends Layout_Controller {
 	
 	public function check_user_login()
 	{ 
-		$email = $this->input->get('email');
+	 /*
+		  Added zenith offer status, to autoload offer UI.
+		  @Live
+	  */
+	  $email = $this->input->get('email');
+	  $password = $this->input->get('password');
+	  $z_offer = $this->input->get('z_offer');
+	  $check_user_exist = $this->users->login_users($email,$password, $z_offer);
+	  echo $check_user_exist;   exit;
+		  
+		/*$email = $this->input->get('email');
 		$password = $this->input->get('password');
 		$check_user_exist = $this->users->login_users($email,$password);
-		echo $check_user_exist;   exit;
+		echo $check_user_exist;   exit;*/
+		
+		
 	}
 	
 	/** CHECK USER SIGNUP **/
 	
 	public function check_user_signup()
 	{
-		$email = $this->input->get('email');
+		/*
+		  	Added Zenith offer parameter.
+		  	@Live
+		  */
+		  $email = $this->input->get('email');
+		  $z_offer = "0";
+		  if(isset($_GET['z_offer']))
+		  $z_offer = $this->input->get('z_offer');
+		  echo $check = $this->users->check_user_exist($email, $z_offer);
+		  exit;
+		/*$email = $this->input->get('email');
 		echo $check = $this->users->check_user_exist($email);
-		exit;
+		exit;*/
 	}
 
     	/** EDIT USER PROFILE **/
@@ -1508,5 +1567,341 @@ $pdf->Output('voucher.pdf', 'I');
 		$this->template->content = new View("themes/".THEME_NAME."/users/my_storecredit_approve_list");
 		
 	}
+	
+	
+	
+	
+	 
+
+		  /*   
+		   * ZENITH BANK GETTING BRANCH LIST AS AN ARRAY KEY=BRANCH CODE, VALUE=DEESCRIPTION
+		   * @param None
+		   */
+		   
+		   /*
+		   		TODO
+				Need to handle different API response other than
+				the user normal/error response.
+				@Live
+		   */
+		  public function club_registration_get_branch_list(){
+			
+			  $arg = array();
+			  $arg['userName'] = ZENITH_TEST_USER;
+			  $arg['Pwd'] = ZENITH_TEST_PASS;
+			  $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+			  $fun_resp_branch = $soap->getBranchList($arg);
+			  
+			  echo '<?xml version="1.0" encoding="utf-8"?>
+
+<branches>';
+  foreach($fun_resp_branch->getBranchListResult->Branches as $branch){
+  echo "
+  <branch>
+    <branch-name>".$branch->BranchName."</branch-name>
+    <branch-no>".$branch->BranchNo."</branch-no>
+  </branch>
+  ";
+  }
+  
+  echo '</branches>
+';
+  
+  exit(0);
+  
+  }
+  
+  
+   /*
+  * ZENITH BANK GETTING ACCOUNT CLASS AS AN ARRAY KEY=CODE, VALUE=DEESCRIPTION
+  * @param None
+  */
+  public function club_registration_get_account_class(){
+  $arg = array();
+  $arg['userName'] = ZENITH_TEST_USER;
+  $arg['Pwd'] = ZENITH_TEST_PASS;
+  $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+  $fun_resp_class = $soap->getAccountClass($arg);
+  
+  echo '
+  <?xml version="1.0" encoding="utf-8"?>
+  <classes>';
+  
+  foreach($fun_resp_class->getAccountClassResult->ClassCode as $class){
+  
+  //$ret[$value->ClassCodes] = $class->ClassName;
+  
+  echo "<class>
+    <class-name>".$class->ClassName."</class-name>
+    <class-code>".$class->ClassCodes."</class-code>
+    </class>";
+  
+  
+  }
+  echo '</classes>
+';
+  
+  exit;
+  }
+  
+  
+
+  public function club_open_bank_account_user($status = NULL){
+  
+  //before attempting to open this account for this user
+  //need to check if user already created an account with this platform before
+  
+  /*
+  Below code prunned for controller
+  @Live
+  */
+  
+  /*
+  $result = $this->db->query("SELECT * FROM zenith_opened_account WHERE user_id=".$this->UserID);
+  if(count($result) > 0){
+  return -1;//user already opened account with this platform in the past
+  }
+  */
+  
+    /*
+  TODO
+  Need to internationalize this error message.
+  @Live
+  */
+  
+  
+  if($status && strcmp($status, "1") == 0){
+  
+		common::message(1, "Thank you! Your Zenith bank account has been successfully created. please check it out in your profile.");
+		$urlreferer = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:PATH;
+		url::redirect($urlreferer);
+  
+  }elseif($status && strcmp($status, "-1") == 0){
+  
+		common::message(-1, "Sothing wen't wrong when openning up a Zenith bank account. Please try again.");
+		url::redirect(PATH);
+  
+  }elseif($status){
+	  
+	 
+  
+	  /* 
+	  TODO
+	  *	Faking account creation due to a down API endpoint
+	  *
+	  *	@Live
+	  */
+	  
+	  
+	  
+	  $account_number = "7767565657";
+	  $account_name 	= "DUMMY NAME";
+	  $account_class  = "57";
+	  
+	  $params = array('account_number'=>$account_number, 'account_name'=>$account_name, 'account_class'=>$account_class,);
+	  $update_status = $this->users->update_user_to_club_membership(TRUE, $params);	
+	  //common::message(1, '(MOCK NOTIFICATION) Your Bank Account has been created successfully.Thanks for choosing Zenith bank.');
+	  common::message(-1, $status);
+	  url::redirect(PATH);
+  
+  }
+  
+ 
+  
+  if($_POST){
+  
+  
+  $userPost = $this->input->post();
+  $testPost = Validation::factory($userPost)
+ 			 ->add_rules('f_name', 'required')
+ 			 ->add_rules('l_name', 'required')
+ 			 ->add_rules('email', 'required','valid::email')
+ 			 ->add_rules('phone', 'required', array($this, 'validphone'), 'chars[0-9-+().]')
+ 			 ->add_rules('addr', 'required')
+  			 ->add_rules('gender', 'required',  array($this, 'no_minus_99'))
+  			 ->add_rules('branch_no', 'required', array($this, 'no_minus_99'))
+ 		     ->add_rules('class_code', 'required', array($this, 'no_minus_99'));
+			
+  
+  
+  
+  if($testPost->validate()){
+  		
+		
+		$post = arr::to_object($userPost);
+		$arg = array();
+		$arg['userName'] = ZENITH_TEST_USER;
+		$arg['Pwd'] = ZENITH_TEST_PASS;
+		
+		$arg['FirstName'] = $post->f_name;
+		$arg['LastName'] = $post->l_name;
+		$arg['EmailAddress'] = $post->email;
+		$arg['MobilePhoneNo'] = $post->phone;
+		$arg['AddressLine'] = $post->addr;
+		$arg['Sex'] = $post->gender;
+		$arg['Branchno'] = $post->branch_no;
+		$arg['ClassCode'] = $post->class_code;
+		
+		
+  
+		$soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+		$mtds = $soap->__getFunctions();
+		$fun_resp = $soap->CreateAccount($arg);
+ 		$response = (array)$fun_resp->CreateAccountResult;
+		$err = (isset($response['errorMessage']))?-1:1;
+		
+		if($err == -1){
+			
+			echo $err;
+			exit;
+			
+		}
+		
+		$r = $this->users->update_user_to_club_membership(TRUE, $response);
+		if($r == 1){
+			echo $r;
+			common::message(1, "Thank you! Your Zenith bank account has been successfully created. please check it out in your profile.");
+			$urlreferer = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:PATH;
+			url::redirect($urlreferer);
+			exit;
+			
+		}else{
+			echo -2;
+		}
+		exit;
+				
+  }else{
+	  
+		/*
+			Invalid data in fields.
+			@Live
+		*/
+	
+			echo "<xml >";
+			echo "<root>";
+			echo "<errors>";
+  
+			foreach($this->form_error = error::_error($testPost->errors()) as $key => $value){;
+			
+				
+				echo "<error key = \"".$key."\" value = \"".$value."\" />";
+		
+				
+					
+		
+			}
+			
+			echo "</errors>";
+			echo "</root>";
+			
+			
+			exit;
+			
+	  
+	  
+ 		 }
+  
+  
+ 	 }
+  
+  }
+  
+   /*
+		  * ZENITH BANK VALIDATE ACCOUNT NUMBER FOR LOGGED IN USERS IF VALIDATION IS SUCCESSFUL
+		  * WE UPDATE THE DB AND FLAG USER ROW AS A CLUB MEMBER AND INSERT USER'S 
+		  * @param NUBAN provided
+		  */
+		  
+		  /*
+			  TODO
+			  Need to validate inputs here.
+			  I also don't see the need of passing $nuban in a post request.
+			  $nuban should be sent as a value in post. 
+			  @Live
+		  */
+		  public function club_registration_logged_in_user(){  
+		  
+		  		
+		  
+		  if($_POST){
+			  $nuban = $this->input->post('nuban');
+			  if($this->session->get("Club") == 1){
+				
+				  echo -1; //user is club member already.
+				  exit(0);
+			  }
+			  else{
+				  echo 7787;
+				  exit;
+				  $arg = array();
+				  $arg['userName'] = ZENITH_TEST_USER;
+				  $arg['Pwd'] = ZENITH_TEST_PASS;
+				  $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+				  $arg['account_number'] = $nuban;
+				  $fun_resp = $soap->VerifyAccount($arg);
+				  
+				  $response = (array)$fun_resp->VerifyAccountResult;
+					  if($response){
+						  $nuban_response = (isset($response['errorMessage']))?-1:1;
+						 
+						  if($nuban_response == 1){
+							  
+							   $r = $this->users->update_user_to_club_membership(FALSE, $arg);
+								common::message(1, "Thank you for signup! You can now enjoy club membership offers.");
+								if($r == 1){
+									 $urlreferer = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:PATH;
+									 echo $urlreferer;
+									 exit;
+								}else{
+									
+									echo -2;
+								}
+								
+								exit;	
+							  
+						  }
+					  }
+						  echo -1;
+						  exit;
+				 
+			  }
+			  
+			 }
+		  }
+		  
+  
+  
+    public function no_minus_99($sel_option = ""){
+		 
+		  
+		  if(!$sel_option){
+			  return 0;
+		  }
+		  
+		  $sel_option = trim($sel_option);
+		  
+		  if($sel_option == "" || $sel_option == "0" || $sel_option == "-99" ){
+			  return 0;
+		  }
+		  
+		  return 1;
+		  
+	  }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
