@@ -1905,7 +1905,7 @@ transition: all 0.4s ease;-webkit-transition: all 0.4s ease;-o-transition: all 0
 
 .shipping_copy_address{width:100%;padding:10px 0 0 0;float:left;}
 .shipping_copy_address label{font:normal 14px/19px arial;color:#333;padding:0 10px 0 0;}
-.complete_order_button{padding:0;float:left;margin:10px 0 0;}
+.complete_order_button{padding:0;margin:10px 0 0;}
 .complete_order_button input{display:inline-block;color:#ffffff;font:normal 17px arial;padding:8px 25px;border:0;background: none;cursor: pointer;text-transform: capitalize;}
 .frm_clr{clear:both;}
 /* Payment page form end */
