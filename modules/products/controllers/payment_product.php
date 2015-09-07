@@ -281,9 +281,10 @@ class Payment_product_Controller extends Layout_Controller {
 		$duration_period = 0;
 		$installment_value = 0;
 		
+		
 		foreach($_SESSION as $key=>$value) 
 		{
-			if(($key=='product_cart_id'.$value)){                   
+			if(($key =='product_cart_id'.$value)){                   
 				$product_id = $_SESSION[$key];
 				$item_qty = $this->input->post($key);
 				foreach($_SESSION as $key=>$value) {

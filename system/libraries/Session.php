@@ -166,7 +166,14 @@ class Session_Core {
 		if ( ! isset($_SESSION['_kf_flash_']))
 		{
 			$_SESSION['total_hits'] = 0;
-			$_SESSION['_kf_flash_'] = array();
+			/*
+				TODO
+				Turned this from an array initialization to string.
+				When array, it breaks checkout.
+				It should be further investigated why.
+				@Live
+			*/
+			$_SESSION['_kf_flash_'] = '';
 
 			$_SESSION['user_agent'] = Kohana::$user_agent;
 			$_SESSION['ip_address'] = $this->input->ip_address();

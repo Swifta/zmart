@@ -80,6 +80,12 @@ $this->language_List = str_replace(".php", "", $DL);
 
 						<?php } ?>
 						                <li><a href="<?php echo PATH; ?>wishlist.html" title="<?php echo $this->Lang['MY_WISH']; ?>"><?php echo $this->Lang['MY_WISH']; ?></a> </li>
+   		<!-- 
+    		Adding Zenith Offer Label to the header.
+    		@Live
+   		-->
+    <li class="mnav_dnone">|</li>
+	<li style="color:green;font-weight: bold;"><a href="javascript:load_club();" title="<?php echo $this->Lang['ZENITH_OFFER']; ?>"><?php echo $this->Lang['ZENITH_OFFER']; ?></a></li>
 								<li class="mnav_dnone">|</li>
 								<li><a href="<?php echo PATH; ?>logout.html" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
 							<?php } else { ?>
@@ -89,8 +95,8 @@ $this->language_List = str_replace(".php", "", $DL);
 								<li <?php $compare = $this->session->get("product_compare"); if(is_array($compare) && count($compare)>1){  ?> class="mnav_dnone compare_show" <?php } else { ?> class="mnav_dnone compare_add" <?php } ?>>|</li>
 								
 							<?php } ?>
-								<li><a id="login" href="javascript:showlogin();" title="<?php echo $this->Lang['LOGIN']; ?>"><?php echo $this->Lang['LOGIN']; ?></a></li>
-								<li class="mnav_dnone">|</li>
+                            
+                         		
 								<li><a href="javascript:showsignup();" title="<?php echo $this->Lang['SIGN_UP']; ?>"><?php echo $this->Lang['SIGN_UP']; ?></a> </li>
 								<li><a  style="cursor:pointer;" onclick="facebookconnect();" title="<?php echo $this->Lang['FB_CONN']; ?>"><img src="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/images/new/f_connect.png" alt="f_connect"/></a></li>
 							<?php } ?>
@@ -563,7 +569,16 @@ if ($lan != LANGUAGE) {
 <?php } ?>
         <li><a href="<?php echo PATH; ?>wishlist.html" title="<?php echo $this->Lang['MY_WISH']; ?>"><?php echo $this->Lang['MY_WISH']; ?></a> </li>
 	<li class="mnav_dnone">|</li>
+    
+   		<!-- 
+    		Adding Zenith Offer Label to the header.
+    		@Live
+   		-->
+   
+	<li style="color:green;font-weight: bold;"><a href="javascript:load_club();" title="<?php echo $this->Lang['ZENITH_OFFER']; ?>"><?php echo $this->Lang['ZENITH_OFFER']; ?></a></li>
+     <li class="mnav_dnone">|</li>
 	<li><a href="<?php echo PATH; ?>logout.html" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
+   
 <?php } else { ?>
 
 <?php if(isset($this->is_home) || isset($this->is_product) ) { ?>
@@ -580,10 +595,19 @@ if ($lan != LANGUAGE) {
 	
 <?php } ?>
 
+	
+
 	<li><a id="login" href="javascript:showlogin();" title="<?php echo $this->Lang['LOGIN']; ?>"><?php echo $this->Lang['LOGIN']; ?></a></li>
 	<li class="mnav_dnone">|</li>
 	
 	<li><a href="javascript:showsignup();" title="<?php echo $this->Lang['SIGN_UP']; ?>"><?php echo $this->Lang['SIGN_UP']; ?></a> </li>
+    <!-- 
+    	Adding Zenith Offer Label to the header.
+    	@Live
+    -->
+    <li class="mnav_dnone">|</li>
+	<li style="color:green;font-weight: bold;"><a href="javascript:load_club();" title="<?php echo $this->Lang['ZENITH_OFFER']; ?>"><?php echo $this->Lang['ZENITH_OFFER']; ?></a></li>
+
 	<li><a  style="cursor:pointer;" href="javascript:showfbsignup();" <?php /*onclick="facebookconnect();"*/?> title="<?php echo $this->Lang['FB_CONN']; ?>"><img src="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/images/new/f_connect.png" alt="f_connect"/></a></li>
 	
 
@@ -1345,4 +1369,43 @@ $("#cart_window1").mouseover(function(){
 $("#cart_window1").mouseout(function(){
 	$(".cart_window_products1").css({"display":"none"});
 });
+
+
+function load_club(){
+	/* 
+	 *	Check session to see if user is logged and is of type 4 (customer)
+	 * If user is logged in but of any other type other than 4. return false.
+	 * If not logged in, prompt for login/signup
+	 * On logging in, check for club memebrship status.
+	 * If member already, notify.
+	 * If not member, prompt for membership signup
+	 * #Live
+	 */
+	 
+	
+	 
+	  <?php 
+	 if(isset($_SESSION['UserID'])){
+		
+		 if(isset($_SESSION['UserType']) && strcmp($_SESSION['UserType'], "4") == 0 && isset($_SESSION['Club']) && strcmp($_SESSION['Club'], "0") == 0 ){ 
+			 ?>
+			 
+			 javascript:showmembershipsignup(); 
+			 
+		 <?php }else if(isset($_SESSION['Club']) && strcmp($_SESSION['Club'], "1") == 0){?>
+			 alert("You are already a Zenith Club member. Please enjoy the offers!");
+			 return;
+			 <?php
+		 }else{?>
+		 alert("Sorry, something went wrong. Please contact the site administrator.");
+		 return;
+		 <?php }
+	 }else{?>
+		javascript:showlogin("1");
+		
+	<?php }?>
+	
+
+	 
+}
 </script>
