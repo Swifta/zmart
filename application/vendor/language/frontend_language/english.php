@@ -1735,6 +1735,7 @@ $content_text = array(
  "BRANCH_CURR_NT_AVAIL" => "Branches are currently not available for this store.",
  
  "PRD_CURR_NT_AVAIL" => "Products are currently not available for this store.",
+ "ZENITH_OFFER" => "Zenith Offer",
  
 
 "GLOBAL_PAY" => "Interswitch WebPay",    

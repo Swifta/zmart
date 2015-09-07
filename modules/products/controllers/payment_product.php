@@ -281,6 +281,7 @@ class Payment_product_Controller extends Layout_Controller {
 		$duration_period = 0;
 		$installment_value = 0;
 		
+		
 		foreach($_SESSION as $key=>$value) 
 		{
                     if(!is_array($value))

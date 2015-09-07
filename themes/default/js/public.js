@@ -3,6 +3,16 @@ var scripts = document.getElementsByTagName("script"),
 SrcPath = scripts[0].src;
 Path = SrcPath.replace("js/jquery.js", "");
 
+/*
+	Zenith API flags
+	@Live
+*/
+
+var is_branch_api_running = false;
+var is_class_api_running = false;
+var is_z_open_account_api_running = false;
+var is_z_verify_account_api_running = false;
+
 
 $(document).ready(function () {
         
@@ -330,7 +340,42 @@ function showforgotpassword()
 	$('.popup_block4').css({'display' : 'none'});
 }
 
-function showsignup()
+function showsignup(z_offer)
+{
+	document.signup.f_name.value='';
+	document.signup.password.value='';
+	document.signup.email.value='';
+	document.signup.city.value='-99';
+	
+	if(!z_offer){
+		z_offer = 0;
+	}
+	
+	$('#fname_error').html('');
+	$('#emai_error').html('');
+	$('#pass_error').html('');
+	$('#city_error').html('');
+	$('#country_error').html('');
+        $('#emai_error').html('');
+        $('#city_error').html('');
+        $('#pass_error').html('');
+        $('#cpass_error').html('');
+        $('#fname_error').html('');
+         $('#terms_error').html('');
+	$('#fade').css({'visibility' : 'visible'});
+	$('.popup_block').css({'display' : 'none'});
+	$('.popup_block1').css({'display' : 'block'});
+	$('.popup_block2').css({'display' : 'none'});
+	$('.popup_block4').css({'display' : 'none'});
+	
+	var f_offer_click_status = $('#id_z_offer_click_status_signup');
+	if(f_offer_click_status){
+		f_offer_click_status.val(z_offer);
+	}
+}
+
+
+function showmembershipsignup(x)
 {
 	document.signup.f_name.value='';
 	document.signup.password.value='';
@@ -349,10 +394,11 @@ function showsignup()
          $('#terms_error').html('');
 	$('#fade').css({'visibility' : 'visible'});
 	$('.popup_block').css({'display' : 'none'});
-	$('.popup_block1').css({'display' : 'block'});
+	$('.popup_block3').css({'display' : 'block'});
 	$('.popup_block2').css({'display' : 'none'});
-	$('.popup_block4').css({'display' : 'none'});
+	$('.popup_block1').css({'display' : 'none'});
 }
+
 
 function check(){
 
@@ -1329,4 +1375,312 @@ function show_page_storecredits(main,sub,sec,third)
 
 
 	});
+}
+
+
+
+
+
+/*
+	Get Zenith bank account classes.
+	@Live
+*/
+
+
+function get_zenith_class(sel_class){
+	var url = Path+'users/club_registration_get_account_class'; 
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					
+				/*
+					TODO
+					#Live
+				*/
+				var response_obj = $(response);
+				var classes = $(response_obj.children());
+				
+				var i = 0;
+				
+				var sel_class_c = "";
+					
+					for(i; i < classes.length; i++){
+							
+						var classx = $(classes[i]);
+						var name = $(classx.children()[0]).text();
+						var no = $(classx.children()[1]).text();
+						sel_class_c +="<option value ="+no+">"+name+"</option>";
+						
+					}
+					
+					
+					sel_class.html(sel_class_c);
+					return;
+					
+				 
+		          window.location.href = Path+"cart.html" ;
+		          document.getElementById("item_count").innerHTML=check;
+		        },
+		       	 error:function(){
+					is_class_api_running = false;
+			        alert('No data found.');
+		        }
+
+	          });	  
+}
+
+/*
+	Get Zenith branches.
+	@Live
+*/
+
+
+function get_zenith_branches(sel_branch){
+	
+	var url = Path+'users/club_registration_get_branch_list'; 
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					
+					/*
+						TODO
+						#Live
+					*/
+					var response_obj = $(response);
+					var branches = $(response_obj.children());
+					
+					var i = 0;
+					
+					var sel_branch_c = "";
+					
+		
+					for(i; i < branches.length; i++){
+						
+						
+						
+						var branch = $(branches[i]);
+						var name = $(branch.children()[0]).text();
+						var no = $(branch.children()[1]).text();
+						sel_branch_c +="<option value ="+no+">"+name+"</option>";
+						
+						
+						
+					}
+					
+					sel_branch.html(sel_branch_c);
+					return;
+					
+				 
+		          window.location.href = Path+"cart.html" ;
+		          document.getElementById("item_count").innerHTML=check;
+		        },
+		       	 error:function(){
+					 is_branch_api_running = false;
+			         alert('No data found.');
+		        }
+
+	          });
+}
+
+
+/*
+	Sign up after zenith offer click
+	@Live
+*/
+
+function signup_after_zenith_offer_click(fname, email, password, cpassword, country, city, terms, z_offer){
+	
+	/*
+		TODO
+		Need to redirect page after club membership issues.
+		I have passed the redirect url to the showmembershipsignup() function.
+		@Live
+	*/
+	var url = Path+'users/signup'; 
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+				data:{f_name:fname, email:email, password:password, cpassword:cpassword, country:country, city:city, terms:terms, z_offer:z_offer},
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					
+					
+					if(response == 1){
+						showmembershipsignup(response);
+					}
+					
+					return false;
+				
+		        },
+		       	 error:function(){
+			        alert('No data found.');
+					return false;
+		        }
+
+	          });	  
+}
+
+
+
+/*
+	Login after Zenith Offer Click
+	@Live
+*/
+
+function login_after_zenith_offer_click(email, password, z_offer){
+	/*
+		TODO
+		Need to redirect page after club membership issues.
+		I have passed the redirect url to the showmembershipsignup() function.
+		@Live
+	*/
+	var url = Path+'users/login'; 
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+				data:{username:email, password:password, z_offer:z_offer},
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					if(response == 1)
+						showmembershipsignup(response);
+					else
+						window.location.href = response;
+					
+					return true;
+				
+		        },
+		       	 error:function(){
+			        alert('No data found.');
+					return false;
+		        }
+
+	          });	  
+}
+
+
+
+/*
+	Open Zenith Account
+	@Live
+*/
+function open_zenith_account(){
+	var url = Path+'users/club_open_bank_account_user'; 
+	
+	var fs = $($('.z_acc_input'));
+	
+	//var n1 = $(fs[0]).attr('name'); 
+	var v1 = $(fs[0]).val();
+	
+	//var n2 = $(fs[1]).attr('name'); 
+	var v2 = $(fs[1]).val();
+	
+	//var n3 = $(fs[2]).attr('name'); 
+	var v3 = $(fs[2]).val();
+	
+	//var n4 = $(fs[3]).attr('name'); 
+	var v4 = $(fs[3]).val();
+	
+	//var n5 = $(fs[4]).attr('name'); 
+	var v5 = $(fs[4]).val();
+	
+	//var n6 = $(fs[5]).attr('name'); 
+	var v6 = $(fs[5]).val();
+	
+	//var n7 = $(fs[6]).attr('name'); 
+	var v7 = $(fs[6]).val();
+	
+	//var n8 = $(fs[7]).attr('name'); 
+	var v8 = $(fs[7]).val();
+	
+	//var n9 = $(fs[8]).attr('name'); 
+	var v9 = $(fs[8]).val();
+	
+	$('#terms_err').text('');
+	
+	var params_obj = {
+		
+		f_name:v1,
+		l_name:v2,
+		email:v3,
+		phone:v4,
+		addr:v5,
+		gender:v6,
+		branch_no:v7,
+		class_code:v8,
+		terms:v9
+	}
+	
+
+	
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+				data:params_obj,
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					
+					is_z_open_account_api_running = false;
+					var res;
+					try{
+					var res = $(response);
+					}catch(e){
+					}
+					
+					
+					if(isNaN(response) && res){
+						var error_obj = res.children();
+						if(error_obj){
+							var errors = error_obj.children().children();
+							if(errors)
+							for(i = 0; i < errors.length; i++){
+								var error_f_part = $(errors[i]).attr('key');
+								var error_f = error_f_part+"_err";
+								$("#"+error_f).text($(errors[i]).attr('value'));
+							}
+							exit;
+						}
+					
+					}
+					
+					
+					if(isNaN(response)){
+						
+						return false;
+						
+					}else{
+						$('#terms_err').text("Sorry, something went wrong opening your account. Please try again.");
+						
+						exit;
+						
+					}
+					
+				
+				return;
+		
+		        },
+		       	 error:function(){
+					is_z_open_account_api_running = false;
+			        alert('No data found.');
+		        }
+
+	          });	  
 }
