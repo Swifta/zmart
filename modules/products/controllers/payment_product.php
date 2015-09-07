@@ -283,6 +283,8 @@ class Payment_product_Controller extends Layout_Controller {
 		
 		foreach($_SESSION as $key=>$value) 
 		{
+                    if(!is_array($value))
+                    {
 			if(($key=='product_cart_id'.$value)){                   
 				$product_id = $_SESSION[$key];
 				$item_qty = $this->input->post($key);
@@ -322,6 +324,7 @@ class Payment_product_Controller extends Layout_Controller {
 					}
 				}
 			}
+                    }
 		} 
 
 		if($installment_value>0 && MONTHLY_INSTALLMENT_LIMIT>0) {
@@ -338,6 +341,8 @@ class Payment_product_Controller extends Layout_Controller {
 		//print_r($_SESSION);
 		foreach($_SESSION as $key=>$value) 
                 {
+                    if(!is_array($value))
+                    {
                         if(($key=='product_cart_id'.$value)){                   
                                 $deal_id = $_SESSION[$key];
                                 $item_qty = $this->input->post($key);	
@@ -468,6 +473,7 @@ class Payment_product_Controller extends Layout_Controller {
                                        }
                                }
                         }
+                    }
                 }
 		
 		$this->get_cart_products_list = $this->payment_products->get_cart_products();
@@ -645,6 +651,85 @@ class Payment_product_Controller extends Layout_Controller {
 	            }
 	      }
 
+        public function pay_later_transaction(){
+
+	            foreach($_SESSION as $key=>$value)
+                {
+					//if(!is_object($value) && !is_array($value)) {
+							if((is_string($value)) && ($key=='product_cart_id'.$value)){
+							$qty = $this->session->get('product_cart_qty'.$value);
+							$deal_id = $_SESSION[$key];
+							foreach($_SESSION as $key=>$value)
+							{
+							if(($key=='product_size_qty'.$deal_id)){
+							   unset($_SESSION[$key]);
+							}
+							if(($key=='product_quantity_qty'.$deal_id)){
+							   unset($_SESSION[$key]);
+							}
+							if(($key=='product_color_qty'.$deal_id)){
+								unset($_SESSION[$key]);
+							}
+							if(($key=='store_credit_id'.$deal_id)){
+								  
+								unset($_SESSION[$key]);
+							}
+							if(($key=='store_credit_period'.$deal_id)){
+								unset($_SESSION[$key]);
+							}
+							if(($key=='main_storecreditid'.$deal_id)){
+								unset($_SESSION[$key]);
+							}
+							if(($key=='product_cart_qty'.$deal_id)){
+								unset($_SESSION[$key]);
+							}
+
+							}
+						 }
+					//}
+               }
+
+            foreach($_SESSION as $key=>$value)
+            {
+				//if(!is_object($value) && !is_array($value)) {
+
+                    if(((is_string($value)) && ($key=='product_cart_id'.$value))){
+                            unset($_SESSION[$key]);
+                    }
+                //}
+            }
+                $this->session->delete("count");
+                $this->session->delete('shipping_name');
+                $this->session->delete('shipping_address1');
+                $this->session->delete('shipping_address2');
+                $this->session->delete('shipping_checkbox');
+                $this->session->delete('shipping_country');
+                $this->session->delete('shipping_state');
+                $this->session->delete('shipping_city');
+                $this->session->delete('shipping_postal_code');
+                $this->session->delete('shipping_phone');
+                $this->session->delete('aramex_currencycode');
+                $this->session->delete('aramex_value');
+                $this->result = $this->session->get('payment_result');
+                if($this->session->get('is_store_credit') ==1) {
+					$this->is_store_credit = 1;
+					$this->session->delete('is_store_credit');
+				}
+                
+			if(!$this->result){
+				url::redirect(PATH);
+			}
+
+                //$this->trasaction_id = $this->session->get("transaction_id");
+                
+	        $this->session->delete('payment_result');
+                
+			$this->template->content = new View("themes/".THEME_NAME."/success_pay_later");
+
+            common::message(1, $this->Lang["THANK_FOR_PURCH"]);
+            //url::redirect(PATH."products.html");            
+        }
+        
 	   /* PRODUCT PAYMENT PAYPAL */
 	public function cart_payment_paypal()
 	{

@@ -30,6 +30,7 @@
                 <?php } ?>
                 $('.AuthorizeNet_pay').hide();
                 $('.cash_pay').hide();
+                $('.interswitch_pay').hide();
                 $('.what_happens').hide();
                 $('.what_buygift').hide();
                 $('.can_change').hide();
@@ -71,15 +72,18 @@
                 $('.error').html('');
                 $('.cancel_login').show();
                 $('.befor_login').hide();
+                $('.interswitch_pay').hide();
                 $('.AuthorizeNet_pay').hide();
                 $('.cash_pay').hide();
+                $('.pay_later').hide();
                 $('.pay_later').hide();
                 $('.inter_switch').hide();
         }
         function SimilarProducts() {
                 $('.error').html('');
-                $('.befor_login').show();
+                $('.befor_login').hide();
                 $('.cancel_login').hide();
+                $('.interswitch_pay').hide();
                 $('.AuthorizeNet_pay').hide();
                 $('.cash_pay').hide();
                 $('.pay_later').hide();
@@ -89,8 +93,10 @@
                 $('.error').html('');
                 $('.befor_login').hide();
                 $('.cancel_login').hide();
+                $('.interswitch_pay').hide();
                 $('.AuthorizeNet_pay').show();
                 $('.cash_pay').hide();
+                $('.pay_later').hide();
                 $('.pay_later').hide();
                 $('.inter_switch').hide();
         }
@@ -99,27 +105,30 @@
                 $('.cash_pay').show();
                 $('.befor_login').hide();
                 $('.cancel_login').hide();
+                $('.interswitch_pay').hide();
                 $('.AuthorizeNet_pay').hide();
                 $('.inter_switch').hide();
+                $('.pay_later').hide();
                 $('.pay_later').hide();
         }
          function Pay_later() {
                 $('.error').html('');
                 $('.cash_pay').hide();
+                $('.interswitch_pay').hide();
                 $('.befor_login').hide();
                 $('.cancel_login').hide();
                 $('.AuthorizeNet_pay').hide();
                 $('.inter_switch').hide();
                 $('.pay_later').show();
         }
-         function Inter_switch() {
+        function InterswitchPay(){
                 $('.error').html('');
                 $('.cash_pay').hide();
+                $('.interswitch_pay').show();
                 $('.befor_login').hide();
-                $('.cancel_login').hide();
-                $('.AuthorizeNet_pay').hide();
                 $('.pay_later').hide();
-                $('.inter_switch').show();
+                $('.cancel_login').hide();
+                $('.AuthorizeNet_pay').hide();            
         }
 </script>
 <script type="text/javascript"> 
@@ -821,31 +830,32 @@
                 <h3 class="paybr_title pay_titlebg"><?php echo $this->Lang['TYPE_PAY']; ?></h3>
                         <div class="p_inner_block">                            
                                 <div class="payment_select"> 
+                                        <div class="payment_sel_lft">
+                                        <a onclick="return InterswitchPay();" id="InterswitchPay"  >
+                                        <input id="paypal_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['GLOBAL_PAY']; ?></p></div>
+                                         <?php if ($this->pay_later_setting) { ?>
+                                                <div class="payment_sel_lft"> 
+                                                <a onclick="return Pay_later();" id="Wire"  > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['PAY_LATER']; ?></p></div>
+                                        <?php } ?>
                                         <?php if ($this->paypal_setting) { ?>
                                                 <div class="payment_sel_lft">
                                                 <a onclick="return SimilarProducts();" id="SimilarProducts"  >
-                                                <input id="paypal_radio" type="radio" name="name"  checked /></a><p><?php echo $this->Lang['PAYPAL']; ?></p></div>
+                                                <input id="paypal_radio" type="radio" name="name" disabled /></a><p><?php echo $this->Lang['PAYPAL']; ?></p></div>
                                         <?php } ?>
                                         <?php if ($this->credit_card_setting) { ?>
                                                 <div class="payment_sel_lft">  <a onclick="return SimilarDeals();" id="SimilarDeals"  >
                                                 <input type="radio" name="name"  <?php if ($this->paypal_setting) {
-                                                } else {  ?> checked <?php } ?>  /></a><p><?php echo $this->Lang['PAYPAL_CREDIT']; ?></p></div>
+                                                } else {  ?> checked <?php } ?>  disabled /></a><p><?php echo $this->Lang['PAYPAL_CREDIT']; ?></p></div>
                                         <?php } ?>
                                         <?php if ($this->authorize_setting) { ?>
                                                 <div class="payment_sel_lft"> 
-                                                <a onclick="return Authorize();" id="Authorize"  > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['AUTHORIZE']; ?></p></div>
+                                                <a onclick="return Authorize();" id="Authorize"  > <input type="radio" name="name"  disabled/></a> <p><?php echo $this->Lang['AUTHORIZE']; ?></p></div>
                                         <?php } ?>
                                         <?php /*if ($this->uri->last_segment() != "payment_details_friend.html") { ?>
                                                 <?php if ($this->cash_on_delivery_setting) { ?>
                                                 <div class="payment_sel_lft"> <a onclick="return cash_delivery();" > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['CASH_ON_DEL']; ?></p></div>
                                                 <?php } ?>
                                         <?php } */?>
-                                         <?php if ($this->pay_later_setting) { ?>
-                                                <div class="payment_sel_lft"> 
-                                                <a onclick="return Pay_later();" id="Wire"  > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['PAY_LATER']; ?></p></div>
-                                        <?php } ?>
-												<div class="payment_sel_lft"> 
-                                                <a onclick="return Inter_switch();" id="interswitch"  > <input type="radio" name="name" id="interswitch_radio" /></a> <p><?php echo $this->Lang['INTER_SWITCH']; ?></p></div>
                                 </div>
                                 <div class="befor_login">
                                 <?php echo new View("themes/" . THEME_NAME . "/paypal/p_paypal"); ?>
@@ -864,8 +874,8 @@
                                 <div class="pay_later">
                                 <?php echo new View("themes/" . THEME_NAME . "/paypal/pay_later"); ?>
                                 </div>
-                                 <div class="inter_switch">
-                                <?php echo new View("themes/" . THEME_NAME . "/paypal/inter_switch"); ?>
+                                <div class="interswitch_pay">
+                                <?php echo new View("themes/" . THEME_NAME . "/interswitch/pay"); ?>
                                 </div>
 							</div>
 						</div>
