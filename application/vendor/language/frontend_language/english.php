@@ -1019,8 +1019,11 @@ $content_text = array(
 
 "YOUR_PAYMENT_SUCCESS" => "Your payment has been completed successfully",
     
-"YOUR_PAYMENT_PENDING" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY ON DELIVERY or PAY LATER at"
-    . " the channels below",
+"YOUR_PAYMENT_PENDING" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY LATER at"
+    . " any of the channels in the Image",
+    
+"YOUR_PAYMENT_PENDING_COD" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY ON DELIVERY",
+
 
 "YOUR_PAYMENT"=>"Your payment reference is",
 
@@ -1562,7 +1565,7 @@ $content_text = array(
 
 "GIFT" => "Gift",
 
-"PAY_LATER" => "Pay Later / Cash On Delivery",
+"PAY_LATER" => "Pay Later ",
 
 "PAY_LATER_DETAILS" => "Pay Later Details",
 

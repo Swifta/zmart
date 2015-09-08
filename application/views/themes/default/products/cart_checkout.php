@@ -21,6 +21,7 @@
                 <?php if ($this->paypal_setting) { ?> 
                         $('.cancel_login').hide();
                         $('.inter_switch').hide();
+                        $('.befor_login').hide();
                 <?php } else { ?>
                         $('.befor_login').hide();
                         //$('.cancel_login').show();
@@ -29,7 +30,7 @@
                         
                 <?php } ?>
                 $('.AuthorizeNet_pay').hide();
-                $('.cash_pay').hide();
+                $('.cod').hide();
                 $('.interswitch_pay').hide();
                 $('.what_happens').hide();
                 $('.what_buygift').hide();
@@ -78,6 +79,19 @@
                 $('.pay_later').hide();
                 $('.pay_later').hide();
                 $('.inter_switch').hide();
+                $('.cod').hide();
+        }
+        function COD() {
+                $('.error').html('');
+                $('.cancel_login').hide();
+                $('.befor_login').hide();
+                $('.interswitch_pay').hide();
+                $('.AuthorizeNet_pay').hide();
+                $('.cash_pay').hide();
+                $('.cod').show();
+                $('.pay_later').hide();
+                $('.pay_later').hide();
+                $('.inter_switch').hide();
         }
         function SimilarProducts() {
                 $('.error').html('');
@@ -88,6 +102,7 @@
                 $('.cash_pay').hide();
                 $('.pay_later').hide();
                 $('.inter_switch').hide();
+                $('.cod').hide();
         }
         function Authorize() {
                 $('.error').html('');
@@ -99,6 +114,7 @@
                 $('.pay_later').hide();
                 $('.pay_later').hide();
                 $('.inter_switch').hide();
+                $('.cod').hide();
         }
         function cash_delivery() {
                 $('.error').html('');
@@ -120,6 +136,7 @@
                 $('.AuthorizeNet_pay').hide();
                 $('.inter_switch').hide();
                 $('.pay_later').show();
+                $('.cod').hide();
         }
         function InterswitchPay(){
                 $('.error').html('');
@@ -128,7 +145,8 @@
                 $('.befor_login').hide();
                 $('.pay_later').hide();
                 $('.cancel_login').hide();
-                $('.AuthorizeNet_pay').hide();            
+                $('.AuthorizeNet_pay').hide();
+                $('.cod').hide();
         }
 </script>
 <script type="text/javascript"> 
@@ -833,6 +851,9 @@
                                         <div class="payment_sel_lft">
                                         <a onclick="return InterswitchPay();" id="InterswitchPay"  >
                                         <input id="paypal_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['GLOBAL_PAY']; ?></p></div>
+                                        <div class="payment_sel_lft">
+                                        <a onclick="return COD();" id="cod"  >
+                                        <input id="cod_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['CASH_ON_DEL']; ?></p></div>
                                          <?php if ($this->pay_later_setting) { ?>
                                                 <div class="payment_sel_lft"> 
                                                 <a onclick="return Pay_later();" id="Wire"  > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['PAY_LATER']; ?></p></div>
@@ -864,7 +885,7 @@
                                 <?php echo new View("themes/" . THEME_NAME . "/paypal/p_Authorize"); ?>
                                 </div>
                                 <?php if ($this->uri->last_segment() != "payment_details_friend.html") { ?>
-                                <div class="cash_pay">
+                                <div class="cod">
                                 <?php echo new View("themes/" . THEME_NAME . "/paypal/cash_delivery"); ?>
                                 </div>
                                 <?php } ?>

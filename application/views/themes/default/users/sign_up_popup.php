@@ -88,13 +88,14 @@
                                      <em id="city_error"></em>
                                 </div>
                            </li>
-			    <li>
+                           <input type="hidden" name="unique_identifier" value="0000000000" />
+			    <!--<li>
                                 <label><?php echo $this->Lang['UNIQ_IDEN'];?>:<span class="form_star"></span></label>
                                 <div class="fullname">
                                     <input name="unique_identifier" maxlength="15" placeholder="<?php echo $this->Lang['ENTER_UNIQ_IDEN']; ?>" type="text" value="" />
                                 </div>   
                                 <label></label>
-                            </li>
+                            </li>-->
                            <li class="check_box">
                                 <p><input type="checkbox" name="terms" id="termsquantity" value="terms"><?php echo $this->Lang['BY_CLICKING_SUBMIT']; ?> 									
                                 <a class="forget_link" target="_blank" title="<?php echo $this->Lang['TEMRS']; ?>" href="<?php echo PATH; ?>terms-and-conditions.php"><?php echo $this->Lang['TEMRS']; ?></a>									

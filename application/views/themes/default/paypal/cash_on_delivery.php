@@ -68,7 +68,7 @@
       
 </script>
   
-  <form name="payment" method="POST" id="commentForm" action="<?php echo PATH;?>cash_on_delivery/cash_delivery">  
+  <form name="payment" method="POST" id="commentForm" action="<?php echo PATH;?>cash_on_delivery/product_payment">  
   <?php if($this->uri->last_segment() == "payment_details_friend.html"){ ?>
       <div class="payment_form_block clearfix">
               <h3 class="type_form_title"><?php echo $this->Lang['FRI_INFO']; ?></h3>

@@ -26,6 +26,7 @@ $config['cart_checkout.html'] ="/payment_product/cart_checkout_item";
 $config['cart.html'] ="/payment_product/cart_products_item";
 $config['payment_product/cart_payment_paypal.html'] ="/payment_product/cart_payment_paypal";
 $config['payment_product/pay_later_transaction.html'] ="/payment_product/pay_later_transaction";
+$config['payment_product/cod_transaction.html'] ="/payment_product/cod_transaction";
 $config['payment_product/problem_payment_paypal.html'] ="/payment_product/problem_payment_paypal";
 $config['product/payment_details_friend.html'] ="/payment_product/cart_checkout_item";
 

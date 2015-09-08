@@ -142,15 +142,16 @@ class Webpay_Controller extends Layout_Controller
                 $total_item_in_cart = $this->session->get("count");
                 $loop = 0;
                 $TRANSACTIONID = text::random($type = 'alnum', $length = 15);
-                while($loop < $total_item_in_cart){
-		//foreach($_SESSION as $key=>$value){
+                //while($loop < $total_item_in_cart){
+		foreach($_SESSION as $key=>$value){
                     
-                    //$value = $this->session->get("count")
-                    //if(($value && $key=='product_cart_id'.$value)){
+                    //$value = $this->session->get("count");
+                    if(!is_array($value)){
+                    if(($value && $key=='product_cart_id'.$value)){
                         //echo "in ";
 			$product_color = 0;
                         $product_size = 0;
-                        $deal_id = $value = intval($loop+1); //$_SESSION[$key];
+                        $deal_id = $_SESSION[$key]; //$value = intval($loop+1); 
                         $item_qty = $this->session->get('product_cart_qty'.$deal_id);
                         $this->session->set('product_cart_qty'.$deal_id,$item_qty);
                         $amount = $this->input->post("amount");
@@ -210,9 +211,9 @@ class Webpay_Controller extends Layout_Controller
                         $status = $this->do_captured_transaction($captured, $deal_id,$item_qty,$transaction);
                         //echo "here"; die;
                         //break;
-                       //}
-                        $loop++;
-
+                       }
+                        //$loop++;
+                }
 	            }
                     //$this->product_id = $transaction;
                     $this->session->set('webpay_total', intval($pay_amount1*100));
@@ -265,7 +266,7 @@ class Webpay_Controller extends Layout_Controller
 		
 		
 	           
-
+            //var_dump($_SESSION);
 	        $from = CONTACT_EMAIL;
 		$this->products_list = $this->webpay->get_products_coupons_list($transaction,$deal_id);
 		$this->product_size = $this->webpay->get_shipping_product_size();

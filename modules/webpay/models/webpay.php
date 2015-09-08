@@ -111,7 +111,9 @@ class Webpay_Model extends Model
                  //$this->db->query("update users set merchant_account_balance = merchant_account_balance + $merchantcommission where user_type = 3 and user_id = $merchant_id ");
 
                 //$this->db->query("update users set merchant_account_balance = merchant_account_balance + $total_pay_amount where user_type = 1");	     
-         
+                if($qty == ""){
+                    $qty = 1;
+                }
 		$purchase_count_total = $purchase_qty + $qty;
                 //echo $qty; die;
 	    $result_deal = $this->db->update("product", array("purchase_count" => $purchase_count_total), array("deal_id" => $deal_id)); 
