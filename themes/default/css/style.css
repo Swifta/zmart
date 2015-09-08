@@ -1983,7 +1983,9 @@ input.sign_submit:hover{cursor: pointer;background: #144F5D;}
 .signup_social_block{float:left;width:280px;padding:50px 20px;text-align: center;}
 .new_user_signup .signup_social_block{width:90%;padding:10px 5% 5px;}
 .signup_social_block p{float:left;clear:both;width:100%;font:normal 13px/19px arial;color:#676767;}
-.f_connect{display:inline-block;background:url(../images/new/facebook.png) no-repeat;margin:10px 0px;width:231px;height:44px;}
+.f_connect{display:inline-block;background:url(../images/new/fbookbutton.png) no-repeat;margin:10px 0px;width:231px;height:44px;}
+.g_connect{display:inline-block;background:url(../images/new/googlebutton.png) no-repeat;margin:10px 0px;width:200px;height:40px;}
+.t_connect{display:inline-block;background:url(../images/new/twitterbutton.png) no-repeat;margin:10px 0px;width:231px;height:40px;}
 .sign_cancel{
     background: #144F5D;
     border:0;

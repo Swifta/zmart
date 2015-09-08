@@ -40,6 +40,47 @@ class Users_Controller extends Layout_Controller {
 		}
 	}
 
+          public function google(){
+              $password = text::random($type = 'alnum', $length = 10);
+              $this->name=$this->input->get('full_name');
+              $this->email =$this->input->get('email');
+              $this->password =$password;
+              //echo $this->name." and ".$this->email." and ".$this->password;die;
+              if($this->name == ""){
+                  $this->name = "UNKNOWN";
+              }
+              $status = $this->users->add_users_social($this->name, $this->email, $this->password);
+              
+                if($status == 1){
+                  $this->signup=1;
+                  $from = CONTACT_EMAIL;
+                  $subject = $this->Lang['YOUR'].' '.SITENAME.' '.$this->Lang['REG_COMPLETE'];
+                  $message = new View("themes/".THEME_NAME."/mail_template");
+                  if(EMAIL_TYPE==2){
+                          email::smtp($from, $this->email,$subject, $message);
+                  } else {
+                          email::sendgrid($from, $this->email,$subject, $message);
+                  }
+                  common::message(1, $this->Lang["SUCC_SIGN"]);
+                  //url::redirect(PATH."users/my-account.html");
+                  $this->UserID = $this->session->get("UserID");
+                }
+                else if($status == 2){
+                    //welcome back user
+                    //echo "here";
+                    //die;
+                  common::message(1, "Welcome back, ".$this->name);
+                  //url::redirect(PATH."users/my-account.html");
+                  //$this->UserID = $this->session->get("UserID");
+                }
+                $_SESSION['Club'] = 1;
+                //url::redirect(PATH."");
+                //var_dump($_SESSION);
+                //echo $status; die;
+                url::redirect(PATH."users/my-account.html"); 
+              die;
+          }
+          
 	/** USER SIGNUP **/
 
 	public function signup()

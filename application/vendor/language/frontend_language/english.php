@@ -884,6 +884,10 @@ $content_text = array(
 "CONNECTIONS"=>"Connections",
 
 "FB_CONN" => "Facebook connect",
+    
+"GOOGLE_CONN" => "Google connect",
+"TWITTER_CONN" => "TwitterSIGN_IN_WITH connect",
+    
 
 "GENDER" => "Gender",
 
