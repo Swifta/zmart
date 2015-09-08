@@ -1652,9 +1652,7 @@ function open_zenith_account(){
 		        global:false,
 		        dataType:"html",
 		        success:function(response){
-					alert(response);
 					is_z_open_account_api_running = false;
-					return false;
 					var res;
 					try{
 					var res = $(response);
