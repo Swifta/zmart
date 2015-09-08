@@ -161,3 +161,12 @@ $config['ABC-Pvt-Ltd/products/c/(.*)/(.*).html'] = "/electronics3/product_list/A
 $config['ABC-Pvt-Ltd/deal/c/(.*)/(.*).html'] = "/electronics3/deal_list/ABC-Pvt-Ltd/$1/$2";
 $config['ABC-Pvt-Ltd/auction/c/(.*)/(.*).html'] = "/electronics3/auction_list/ABC-Pvt-Ltd/$1/$2";
 // ABC-Pvt-Ltd End
+// Musty-International-Store Start
+$config['Musty-International-Store'] ="electronics3/stores_home_page/Musty-International-Store";
+$config['Musty-International-Store/products.html'] = "/electronics3/product_list/Musty-International-Store";
+$config['Musty-International-Store/today-deals.html'] = "/electronics3/deal_list/Musty-International-Store";
+$config['Musty-International-Store/auction.html'] = "/electronics3/auction_list/Musty-International-Store";
+$config['Musty-International-Store/products/c/(.*)/(.*).html'] = "/electronics3/product_list/Musty-International-Store/$1/$2";
+$config['Musty-International-Store/deal/c/(.*)/(.*).html'] = "/electronics3/deal_list/Musty-International-Store/$1/$2";
+$config['Musty-International-Store/auction/c/(.*)/(.*).html'] = "/electronics3/auction_list/Musty-International-Store/$1/$2";
+// Musty-International-Store End

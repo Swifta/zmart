@@ -52,7 +52,7 @@
                             <input type="hidden" name="xml_data" value='<?php echo $this->xml_data; ?>' />
                             
                             <div style="text-align:center">
-                                <div class="buy_it complete_order_button" id="submit">                                                        
+                                <div class="buy_it complete_order_button" id="submit" style="text-align: center">                                                        
                                     <input type="submit" value="<?php echo $this->Lang['PAY_NOW']; ?>" tabindex="3" title="<?php echo $this->Lang['PAY_NOW']; ?>" />
                                 </div>
                             </div>
