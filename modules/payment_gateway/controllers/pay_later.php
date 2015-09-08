@@ -14,12 +14,14 @@ class Pay_later_Controller extends Layout_Controller
 		$merchant_id_array=array();
 		foreach($_SESSION as $key=>$value)
         {
+        if(!is_array($value)){            
             if(($key=='product_cart_id'.$value)){
 				$deal_id = $_SESSION[$key];
 				$item_qty = $this->session->get('product_cart_qty'.$deal_id);
 				$product_size = "1";
                 foreach($_SESSION as $key=>$value)
                 {
+                    
                     if(($key=='product_size_qty'.$deal_id)){
                         $product_size = $value;
                     }
@@ -65,6 +67,8 @@ class Pay_later_Controller extends Layout_Controller
                     url::redirect(PATH."cart.html");
                 }
             }
+            
+            }
         }
 		if($_POST){
 			$referral_amount = $this->input->post("p_referral_amount");
@@ -87,6 +91,7 @@ class Pay_later_Controller extends Layout_Controller
 			$TRANSACTIONID = text::random($type = 'alnum', $length = 16);
 			foreach($_SESSION as $key=>$value)
 			{
+                            if(!is_array($value)){
 				if(($key=='product_cart_id'.$value)){
 					$product_color = 0;
 					$product_size = 0;
@@ -188,13 +193,15 @@ class Pay_later_Controller extends Layout_Controller
 					$status = $this->do_captured_transaction($captured, $deal_id,$item_qty,$transaction);
 			}
 				}
+                            }
 			}
 	        $status = $this->do_captured_transaction1($captured, $deal_id,$item_qty,$transaction,$TRANSACTIONID);
 
 			$this->transaction_result = array("TIMESTAMP" => date('m/d/Y h:i:s a', time()), "ACK" => $this->Lang['SUCCESS'] ,"AMT"=> $pay_amount1,"CURRENCYCODE"=>CURRENCY_CODE);
+                        $this->transaction_result['T_ID'] = $TRANSACTIONID;
 			$this->result_transaction = arr::to_object($this->transaction_result);
 			$this->session->set('payment_result', $this->result_transaction);
-			url::redirect(PATH."payment_product/cart_payment_paypal.html");
+			url::redirect(PATH."payment_product/pay_later_transaction.html");
 		}
 	}
 	

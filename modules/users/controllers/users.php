@@ -1831,8 +1831,7 @@ $pdf->Output('voucher.pdf', 'I');
 				  exit(0);
 			  }
 			  else{
-				  echo 7787;
-				  exit;
+				 
 				  $arg = array();
 				  $arg['userName'] = ZENITH_TEST_USER;
 				  $arg['Pwd'] = ZENITH_TEST_PASS;

@@ -1010,12 +1010,17 @@ $content_text = array(
 "YOUR_PURCH_CROSSED"=>"Your purchase limit crossed for this deal",
 
 "PAY_SUCC" => "Payment success",
+    
+"PAY_PENDING" => "Transaction Successful, Payment Pending",
 
 "BACK_TO_HOME" => "Back to home page",
 
 "ORDER_STATUS" => "Your order status",
 
 "YOUR_PAYMENT_SUCCESS" => "Your payment has been completed successfully",
+    
+"YOUR_PAYMENT_PENDING" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY ON DELIVERY or PAY LATER at"
+    . " the channels below",
 
 "YOUR_PAYMENT"=>"Your payment reference is",
 
@@ -1025,6 +1030,8 @@ $content_text = array(
 
 "TRAN_TIME" => "Transaction time",
 
+"TRAN_ID" => "Transaction ID",
+    
 "TRAN_STATUS" => "Transaction status",
 
 "TRAN_AMOUNT" => "Transaction amount",
@@ -1555,7 +1562,7 @@ $content_text = array(
 
 "GIFT" => "Gift",
 
-"PAY_LATER" => "Pay Later",
+"PAY_LATER" => "Pay Later / Cash On Delivery",
 
 "PAY_LATER_DETAILS" => "Pay Later Details",
 
@@ -1770,5 +1777,9 @@ $content_text = array(
 "STORE_CRED" => "For Store Credit",
  
 
+"GLOBAL_PAY" => "Interswitch WebPay",    
+    
+"PROCEED_GLOBAL_PAY" => "Proceed to Payment via Interswitch Gateway", 
 
+"PAY_NOW" => "Pay Now",
 			);
