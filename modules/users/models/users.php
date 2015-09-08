@@ -901,5 +901,77 @@ class Users_Model extends Model
 		return $result;
 	}
 	
+	  /*
+        * ZENITH BANK OPEN NEW BANK ACCOUNT FOR LOGGED IN USER
+         * WE SEND AN EMAIL TO THE USER
+         * @param JSONObject of valid required fields to Open an account
+        */
+        public function update_user_to_club_membership($create_account = false, $params=""){
+            /*
+				before attempting to open this account for this user
+				need to check if user already created an account with this platform before
+			*/
+			
+           /* $result = $this->db->query("SELECT * FROM zenith_opened_account WHERE user_id=".$this->UserID);
+				if(count($result) > 0){
+					return -1;//user already opened account with this platform in the past
+				}
+            */
+			
+			
+			/*
+				I don't think this is required. Club membership signup is only restricted
+				on none club members. If they opened up zenith account on this platform, their
+				profile is automatically updated to club members.(Open for discussion thought :-))
+				@Live
+			*/
+						
+			$params_obj = arr::to_object($params);	
+			
+			try{
+				/*	Insertion into zenith_opened_account table
+					@Live
+				*/
+				/*if($create_account){
+				        $this->db->insert("zenith_opened_account", array("user_id" => $this->UserID,
+						"account_number"=>$params_obj->account_number, "account_name"=>$params_obj->account_name, "account_class"
+						=>$params_obj->account_class));
+				}*/
+				/*
+					Auto update user profile to club membership
+					@Live
+				*/
+				
+				
+				$u_tb_name = 'users';
+				$u_columns = array('nuban'=>$params_obj->account_number, 'club_member'=>1);
+				$u_where = array('user_id'=>$this->UserID);
+				$results = $this->db->update($u_tb_name, $u_columns, $u_where);
+				/*
+					Set club session variable to 1 (for club members);
+					@Live
+				*/
+				$this->session->set(array("Club"=>1));	
+				return 1;
+					
+			} catch(Exception $e){
+				/*
+					TODO
+					Incase of any failure, need to roll back both transactions above.
+					@Live
+				*/
+				return -1;
+			}
+			
+                
+            
+        }
+	
+	
+	
+	
+	
+	
+	
 	
 }
