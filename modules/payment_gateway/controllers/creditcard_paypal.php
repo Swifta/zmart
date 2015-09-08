@@ -747,12 +747,22 @@ class Creditcard_paypal_Controller extends Layout_Controller
 
 	private function hash_call($methodName, $nvpStr)
 	{
+		/*
+			TODO
+			Clear this on production.
+			This change is to enable test of paypal on 
+			a http rather than https.
+			Changed:
+			 .CURLOPT_SSL_VERIFYPEER from TRUE to FALSE
+			 .CURLOPT_SSL_VERIFYHOST from TRUE to FALSE
+			@Live
+		*/
 		$nvpheader = $this->nvpHeader();
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->API_Endpoint);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 		curl_setopt($ch, CURLOPT_POST, 1);
 

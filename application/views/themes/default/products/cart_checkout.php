@@ -95,7 +95,14 @@
         }
         function SimilarProducts() {
                 $('.error').html('');
-                $('.befor_login').hide();
+				/*
+					TODO
+					Just testing the payment lifecycle
+					with the new parameters.
+					Disable after.
+					@Live
+				*/
+                $('.befor_login').show();
                 $('.cancel_login').hide();
                 $('.interswitch_pay').hide();
                 $('.AuthorizeNet_pay').hide();
@@ -861,7 +868,7 @@
                                         <?php if ($this->paypal_setting) { ?>
                                                 <div class="payment_sel_lft">
                                                 <a onclick="return SimilarProducts();" id="SimilarProducts"  >
-                                                <input id="paypal_radio" type="radio" name="name" disabled /></a><p><?php echo $this->Lang['PAYPAL']; ?></p></div>
+                                                <input id="paypal_radio" type="radio" name="name"  /></a><p><?php echo $this->Lang['PAYPAL']; ?></p></div>
                                         <?php } ?>
                                         <?php if ($this->credit_card_setting) { ?>
                                                 <div class="payment_sel_lft">  <a onclick="return SimilarDeals();" id="SimilarDeals"  >
