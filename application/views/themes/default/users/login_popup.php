@@ -1,3 +1,14 @@
+    <script type="text/javascript">
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://plus.google.com/js/client:plusone.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+    </script>
+    
+
 <?php defined('SYSPATH') OR die('No direct access allowed.'); ?>
 	<div class="shadow_bg"></div>
         <div class="sign_up_outer">  
@@ -41,6 +52,26 @@
               <div class="signup_social_block">                
                       <p><?php echo $this->Lang['SIGN_IN_WITH']; ?></p>
                       <a class="f_connect" onclick="facebookconnect();" title="<?php echo $this->Lang['SIGN_UP_WITH']; ?>">&nbsp;</a>
+<br />
+    <button class="g-signin g_connect" 
+            data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+            data-requestvisibleactions="http://schemas.google.com/AddActivity"
+            data-clientId="997154646959-uttoqigl36r6gpg5a4eht2tn9jru7taq.apps.googleusercontent.com"
+            data-accesstype="offline"
+            data-callback="signinCallback"
+            data-theme="dark"
+            data-cookiepolicy="single_host_origin">
+    </button>
+<!--<button class="g-signin g_connect"
+        data-scope="https://www.googleapis.com/auth/plus.login"
+        data-clientid="997154646959-uttoqigl36r6gpg5a4eht2tn9jru7taq.apps.googleusercontent.com"
+        data-callback="signinCallback"
+        data-theme="dark"
+        data-cookiepolicy="single_host_origin"
+        data-requestvisibleactions="http://schemas.google.com/AddActivity"
+        data-width="wide">Hello
+    </button>--><br />
+                        <!--<a class="t_connect" onclick="disconnectUser();" title="<?php echo $this->Lang['TWITTER_CONN']; ?>">&nbsp;</a>-->
                       <p><?php echo $this->Lang['DONT_HAV']; ?> <a class="forget_link" title="<?php echo $this->Lang['SIGN_UP']; ?>" href="javascript:showsignup($('#id_z_offer_click_status').val());"><?php echo $this->Lang['SIGN_UP']; ?></a> </p>                
               </div>
             </div>
@@ -71,6 +102,96 @@ $('#close').live('click', function() { //When clicking on the close or fade laye
         }
     });
 });
+
+
+var token;
+var full_name;
+var gpclass = (function(){
+
+//Defining Class Variables here
+var response = undefined;
+return {
+        //Class functions / Objects
+
+        mycoddeSignIn:function(response){
+                // The user is signed in
+                if (response['access_token']) {
+                    token = response['access_token'];
+                        //Get User Info from Google Plus API
+                        gapi.client.load('plus','v1',this.getUserInformation);
+
+                } else if (response['error']) {
+                        // There was an error, which means the user is not signed in.
+                        //alert('There was an error: ' + authResult['error']);
+                }
+        },
+
+        getUserInformation: function(){
+                var request = gapi.client.plus.people.get( {'userId' : 'me'} );
+                request.execute( function(profile) {
+                        var email = profile['emails'].filter(function(v) {
+                                return v.type === 'account'; // Filter out the primary email
+                        })[0].value;
+                        var fName = profile.displayName;
+                        //alert(fName);
+                        //alert(email);
+                        disconnectUser();
+                        location.href='/zmart/google-connect.php?full_name='+fName+'&email='+email
+                        //$("#inputFullname").val(fName);
+//                        /$("#inputEmail").val(email);
+                        
+                });
+        }
+
+}; //End of Return
+})();
+
+function signinCallback(gpSignInResponse) {
+    gpclass.mycoddeSignIn(gpSignInResponse);
+//  if (authResult['access_token']) {
+//    // Successfully authorized
+//    token = authResult['access_token'];
+//    //gapi.client.setApiKey('997154646959-uttoqigl36r6gpg5a4eht2tn9jru7taq.apps.googleusercontent.com'); //set your API KEY
+//    //gapi.client.load('plus', 'v1',function(){});//Load Google + API
+//
+//   alert("here");
+//    //then redirect to URL
+//    //location.href='/ecommerce/google-connect.php?full_name='+fullName+'&email=';
+//    //document.getElementById('signinButton').setAttribute('style', 'display: none');
+//
+//  } else if (authResult['error']) {
+//    // There was an error.
+//    // Possible error codes:
+//    //   "access_denied" - User denied access to your app
+//    //   "immediate_failed" - Could not automatially log in the user
+//    // console.log('There was an error: ' + authResult['error']);
+//    alert("Failed");
+//  }
+}
+
+function disconnectUser() {
+  var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
+      token;
+
+  // Perform an asynchronous GET request.
+  $.ajax({
+    type: 'GET',
+    url: revokeUrl,
+    async: false,
+    contentType: "application/json",
+    dataType: 'jsonp',
+    success: function(nullResponse) {
+      // Do something now that user is disconnected
+      // The response is always undefined.
+    },
+    error: function(e) {
+      // Handle the error
+      // console.log(e);
+      // You could point users to manually disconnect if unsuccessful
+      // https://plus.google.com/apps
+    }
+  });
+}
 
 function validateForms()
 	{
