@@ -8,6 +8,15 @@ class Deals_Model extends Model
 		$this->session = Session::instance();
 		$this->city_id = $this->session->get("CityID");
 		$this->UserID = $this->session->get("UserID");
+		
+		/*
+			Test for club membership and set conditions.
+			@Live
+		*/
+		
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->deal_club_condition = 'and deals.for_store_cred = '.$_SESSION['Club'].' ':$this->deal_club_condition = '';
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->deal_club_condition_arr = true:$this->deal_club_condition_arr = false;
+		
 	}
 
 	/* GET BANNER LIST */
@@ -26,11 +35,11 @@ class Deals_Model extends Model
                         $conditions = "and category.category_id IN ($category)";
                 }
                 if(CITY_SETTING){
-                        $query = "select deal_id from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' $conditions order by deal_id DESC ";
+                        $query = "select deal_id from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' $conditions order by deal_id DESC ";
                         $result = $this->db->query($query);
                         return count($result);
                 } else {
-                        $query = "select deal_id from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1  $conditions order by deal_id DESC ";
+                        $query = "select deal_id from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1  $conditions order by deal_id DESC ";
                         $result = $this->db->query($query);
                         return count($result);
                 }
@@ -144,11 +153,11 @@ class Deals_Model extends Model
 
 		if(CITY_SETTING){
 
-		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating from deals  join stores on stores.store_id=deals.shop_id $join  where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' $conditions order by deal_id DESC limit $offset,$record";
+		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating from deals  join stores on stores.store_id=deals.shop_id $join  where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' $conditions order by deal_id DESC limit $offset,$record";
 		$result = $this->db->query($query);
 
 		} else {
-		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating from deals  join stores on stores.store_id=deals.shop_id $join  where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 $conditions order by deal_id DESC limit $offset,$record";
+		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating from deals  join stores on stores.store_id=deals.shop_id $join  where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 $conditions order by deal_id DESC limit $offset,$record";
 		$result = $this->db->query($query);
 
 		}
@@ -161,7 +170,7 @@ class Deals_Model extends Model
 
         public function get_deals_count($cat_type,$category = "")
 	{
-		$conditions = "deal_status = 1 AND enddate > ".time()." AND startdate < ".time()." AND purchase_count < maximum_deals_limit  AND category.category_status = 1 AND store_status = 1 " ;
+		$conditions = "deal_status = 1 ".$this->deal_club_condition." AND enddate > ".time()." AND startdate < ".time()." AND purchase_count < maximum_deals_limit  AND category.category_status = 1 AND store_status = 1 " ;
 		$join = "deals.category_id";
 
 		if(CITY_SETTING){
@@ -192,7 +201,7 @@ class Deals_Model extends Model
 
 	public function get_deals_list($cat_type,$category = "", $offset = "", $record = "")
 	{
-		 $conditions = " deal_status = 1 AND enddate > ".time()." AND startdate < ".time()." AND purchase_count < maximum_deals_limit AND category.category_status = 1 AND store_status = 1 " ;
+		 $conditions = " deal_status = 1 ".$this->deal_club_condition."  AND enddate > ".time()." AND startdate < ".time()." AND purchase_count < maximum_deals_limit AND category.category_status = 1 AND store_status = 1 " ;
 			$join = "deals.category_id";
 		if(CITY_SETTING){
 				$conditions .= " AND stores.city_id = $this->city_id ";
@@ -223,7 +232,7 @@ class Deals_Model extends Model
 
 	public function get_search_deals_count($search = "",$maincatid="")
 	{
-	     $conditions = " enddate >".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 ";
+	     $conditions = " enddate >".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 ";
 		if(CITY_SETTING){
 			$conditions .= " and stores.city_id = '$this->city_id' ";
 		}
@@ -244,7 +253,7 @@ class Deals_Model extends Model
 
 	public function  get_search_deals_list($search = "",  $offset = "", $record = "",$maincatid="")
 	{
-		$conditions = " enddate >".time()." AND purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 ";
+		$conditions = " enddate >".time()." AND purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 ";
 			if(CITY_SETTING){
 				$conditions .= " and stores.city_id = '$this->city_id' ";
 			}
@@ -268,11 +277,11 @@ class Deals_Model extends Model
 	{
 	
 	if(CITY_SETTING){ 
-	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and stores.city_id = '$this->city_id' and  store_status = 1 order by deals.view_count DESC limit 3 ";
+	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and stores.city_id = '$this->city_id' and  store_status = 1 order by deals.view_count DESC limit 3 ";
 
 	$result = $this->db->query($query);
 	} else {
-	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 order by deals.view_count DESC limit 3 ";
+	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 order by deals.view_count DESC limit 3 ";
 
 	$result = $this->db->query($query);
 	}
@@ -282,12 +291,12 @@ class Deals_Model extends Model
 	public function get_hot_deals_view()
 	{
 	if(CITY_SETTING){ 
-	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  deal_feature =  1 and store_status = 1 and stores.city_id = '$this->city_id' ORDER BY RAND() limit 4";
+	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  deal_feature =  1 and store_status = 1 and stores.city_id = '$this->city_id' ORDER BY RAND() limit 4";
 
 	$result = $this->db->query($query);
 	
 	} else {
-	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  deal_feature =  1 and store_status = 1 ORDER BY RAND() limit 4";
+	$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating  from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1  ".$this->deal_club_condition."  and category.category_status = 1 and  deal_feature =  1 and store_status = 1 ORDER BY RAND() limit 4";
 
 	$result = $this->db->query($query);
 	}
@@ -315,8 +324,11 @@ class Deals_Model extends Model
 			                $this->db->insert("view_count_location", array("deal_key" => $deal_key,"ip" =>$ip,"city" => $city,"country" => $country,"date" => time()));
 			                $this->db->query("update deals set view_count = view_count + 1 where deal_key = '$deal_key'");
 			       }
-
-				$condition = array("url_title" => $url_title, "deal_key" => $deal_key, "deal_status" => 1, "category.category_status" => 1, "store_status" => 1);
+				 $condition = array("url_title" => $url_title, "deal_key" => $deal_key, "deal_status" => 1, "category.category_status" => 1, "store_status" => 1);
+				 
+				 $condition = array("url_title" => $url_title, "deal_key" => $deal_key, "deal_status" => 1, "for_store_cred" => 0, "category.category_status" => 1, "store_status" => 1);
+				if($this->deal_club_condition_arr)
+				$condition = array("url_title" => $url_title, "deal_key" => $deal_key, "deal_status" => 1, "for_store_cred" => 0, "category.category_status" => 1, "store_status" => 1);
 			}
 	        $result = $this->db->select("*","stores.phone_number as phone","stores.address1 as addr1","stores.address2 as addr2")
 					->from("deals")
@@ -337,9 +349,9 @@ class Deals_Model extends Model
 	public function get_related_category_deals_list($deal_id = "", $category_id = "")
 	{
 
-		$condition = "deal_id != $deal_id AND purchase_count < maximum_deals_limit AND deals.sec_category_id = $category_id AND enddate > ".time()." AND startdate < ".time()." AND deal_status = 1 AND category.category_status = 1 AND store_status = 1 ";
+		$condition = "deal_id != $deal_id AND purchase_count < maximum_deals_limit AND deals.sec_category_id = $category_id AND enddate > ".time()." AND startdate < ".time()." AND deal_status = 1 ".$this->deal_club_condition."  AND category.category_status = 1 AND store_status = 1 ";
 	 if(CITY_SETTING){
-		$condition = "deal_id != $deal_id AND purchase_count < maximum_deals_limit AND deals.sec_category_id = $category_id AND stores.city_id = $this->city_id AND enddate > ".time()." AND startdate < ".time()." AND deal_status = 1 AND category.category_status = 1 AND store_status = 1 AND city.city_status = 1 ";
+		$condition = "deal_id != $deal_id AND purchase_count < maximum_deals_limit AND deals.sec_category_id = $category_id AND stores.city_id = $this->city_id AND enddate > ".time()." AND startdate < ".time()." AND deal_status = 1 ".$this->deal_club_condition."  AND category.category_status = 1 AND store_status = 1 AND city.city_status = 1 ";
 
 		// $condition = array("deal_id <>" => $deal_id,"deals.category_id" =>$category_id, "stores.city_id" => $city_id, "enddate >" => time(),"startdate <" => time(),"deal_status" => 1, "category.category_status" => 1, "store_status" => 1);
 		}
@@ -390,8 +402,12 @@ class Deals_Model extends Model
 
 	public function get_deals_payment_details($deal_key = "", $url_title = "")
 	{
+		 $n_condition = array("url_title" => $url_title, "deal_key" => $deal_key,"deal_status" => 1);
+		 if($this->deal_club_condition_arr)
+		  	$n_condition = array("url_title" => $url_title, "deal_key" => $deal_key,"deal_status" => 1, "for_store_cred" => 0);
+		 
 	        $result = $this->db->from("deals")
-			            ->where(array("url_title" => $url_title, "deal_key" => $deal_key,"deal_status" => 1))
+			            ->where($n_condition)
 				    ->get();
                 return $result;
 	}
@@ -475,7 +491,7 @@ class Deals_Model extends Model
 
 
 		if(CITY_SETTING){
-		$query = "select MAX(deal_value) as max_deal,MIN(deal_value) as min_deal,MAX(deal_savings) as max_per,MIN(deal_savings) as min_per from deals join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate < ".time()." and purchase_count < maximum_deals_limit  and deal_status = 1 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'   order by deal_id  ";
+		$query = "select MAX(deal_value) as max_deal,MIN(deal_value) as min_deal,MAX(deal_savings) as max_per,MIN(deal_savings) as min_per from deals join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate < ".time()." and purchase_count < maximum_deals_limit  and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'   order by deal_id  ";
 		$result = $this->db->query($query);
 
 
@@ -484,7 +500,7 @@ class Deals_Model extends Model
 
 		 else {
 
-			$query = "select MAX(deal_value) as max_deal, MIN(deal_value) as min_deal ,MAX(deal_savings) as max_per,MIN(deal_savings) as min_per from deals join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate < ".time()." and purchase_count < maximum_deals_limit  and  deal_status = 1 and category.category_status = 1 and  store_status = 1  order by deal_id ";
+			$query = "select MAX(deal_value) as max_deal, MIN(deal_value) as min_deal ,MAX(deal_savings) as max_per,MIN(deal_savings) as min_per from deals join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate < ".time()." and purchase_count < maximum_deals_limit  and  deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1  order by deal_id ";
 			$result = $this->db->query($query);
 
 	        return $result;
@@ -508,7 +524,7 @@ class Deals_Model extends Model
 					$discount_to= 100;
 				}
 
-				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and startdate <".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' and deals.deal_value between $price_from and $price_to and deals.deal_percentage between $discount_from and $discount_to  order by deal_id ASC ";
+				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and startdate <".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id' and deals.deal_value between $price_from and $price_to and deals.deal_percentage between $discount_from and $discount_to  order by deal_id ASC ";
 				$result = $this->db->query($query);
 
 
@@ -526,7 +542,7 @@ class Deals_Model extends Model
 					$discount_to= 100;
 				}
 
-				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate <".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and  store_status = 1  and deals.deal_value between $price_from and $price_to and deals.deal_percentage between $discount_from and $discount_to  order by deal_id ASC ";
+				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where  enddate > ".time()." and startdate <".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1  and deals.deal_value between $price_from and $price_to and deals.deal_percentage between $discount_from and $discount_to  order by deal_id ASC ";
 				$result = $this->db->query($query);
 
 
@@ -799,11 +815,11 @@ class Deals_Model extends Model
 
 
 		if(CITY_SETTING){
-		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title from deals join stores on stores.store_id=deals.shop_id $join where purchase_count < maximum_deals_limit and  enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'  $conditions group by deals.deal_id order by deals.deal_id DESC $pagin";
+		$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title from deals join stores on stores.store_id=deals.shop_id $join where purchase_count < maximum_deals_limit and  enddate > ".time()." and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'  $conditions group by deals.deal_id order by deals.deal_id DESC $pagin";
 		$result = $this->db->query($query);
 
 		} else {
-			$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title from deals  join stores on stores.store_id=deals.shop_id $join where purchase_count < maximum_deals_limit and deal_status = 1 and enddate > ".time()." and category.category_status = 1 and  store_status = 1 $conditions group by deals.deal_id order by deals.deal_id DESC $pagin";
+			$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,stores.store_url_title from deals  join stores on stores.store_id=deals.shop_id $join where purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and enddate > ".time()." and category.category_status = 1 and  store_status = 1 $conditions group by deals.deal_id order by deals.deal_id DESC $pagin";
 			$result = $this->db->query($query);
 
 		}
@@ -816,12 +832,12 @@ class Deals_Model extends Model
 	
 	 if(CITY_SETTING){
 				
-				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and deal_id <> '$deal_id' and stores.city_id = '$this->city_id' and  deal_feature =  1 and store_status = 1 ORDER BY RAND()";
+				$query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition."  and category.category_status = 1 and deal_id <> '$deal_id' and stores.city_id = '$this->city_id' and  deal_feature =  1 and store_status = 1 ORDER BY RAND()";
 		$result = $this->db->query($query);
 				return $result;
 		}
 		else {
-	                        $query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 and category.category_status = 1 and deal_id <> '$deal_id' and  deal_feature =  1 and store_status = 1 ORDER BY RAND()";
+	                        $query = "select deals.deal_id,deals.deal_key,deals.deal_title,deals.url_title,deals.deal_value,deals.deal_price, category.category_url, deals.maximum_deals_limit, deals.purchase_count,deals.enddate,deals.deal_percentage,store_url_title from deals  join stores on stores.store_id=deals.shop_id join category on category.category_id=deals.category_id where enddate > ".time()." and purchase_count < maximum_deals_limit and deal_status = 1 ".$this->deal_club_condition." and category.category_status = 1 and deal_id <> '$deal_id' and  deal_feature =  1 and store_status = 1 ORDER BY RAND()";
 	$result = $this->db->query($query);
 	
 		return $result;

@@ -3181,7 +3181,7 @@ $content_text = array(
 
 			"ATTR_DELETE" =>"If you delete this specification, concern products specification data will lost. you will not recover those data again. Are you sure you want to delete?",
 
-			"DEL_POLICY" =>"Delivery Policy",
+			"DEL_POLICY" =>"Return Policy",
 
 			"HOT_DEAL" => "Featured Deals",
 
@@ -3971,5 +3971,7 @@ $content_text = array(
 			"MON_LMT_STR" => "Monthly limit amount of Store credit product",
 			
 			"FR_STR_EXA" => " For example For 2 months type 2, for three months type 3 etc ",
+			
+			"STORE_CRED" => "For store credit",
 
 			);
