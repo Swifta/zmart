@@ -11,6 +11,45 @@ class Seller_Model extends Model
 		
 	}
 	
+        /*
+         * @musty
+         */
+        public function validate_nuban($nuban = ""){
+          $arg = array();
+          $arg['userName'] = ZENITH_TEST_USER;
+          $arg['Pwd'] = ZENITH_TEST_PASS;
+          $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+          $arg['account_number'] = $nuban;
+          $fun_resp = $soap->VerifyAccount($arg);
+          
+          $response = (array)$fun_resp->VerifyAccountResult;
+          if($response){
+              $nuban_response = (isset($response['errorMessage']))?-1:1;
+              if($nuban_response == 1){
+                  //valid account. check duplicate use
+                  $check_duplicate = $this->checkDuplicateUser($nuban);
+                  if(!$check_duplicate){
+                      return 1; //verified and valid
+                  }
+                  else{
+                      return -1; //duplicate use of nuban number (fraud)
+                  }
+              }
+              else{
+                  return 0; //not verified
+              }
+          }
+          else{
+              return 0;
+          }
+          //var_dump($response); die;
+        }
+        
+        public function checkDuplicateUser($nuban = ""){
+            $result = $this->db->count_records('users', array('nuban' => $nuban));
+            return (bool) $result;            
+        }
+        
 	/** GET COUNTRY BASED CITY LIST **/
 	
 	    public function get_city_by_country($country = "")
@@ -31,7 +70,10 @@ class Seller_Model extends Model
 			$country_value1 = $result_country1->current()->country_id;
 			//$password = text::random($type = 'alnum', $length = 8);
 
-			$result = $this->db->insert("users", array("firstname" => $this->session->get('firstname'),"lastname" => $this->session->get('lastname'), "email" =>$this->session->get('memail'),'password' => md5($password),"payment_account_id" =>$this->session->get('payment_acc'),'address1' => $this->session->get('mraddress1'), 'address2' => $this->session->get('mraddress2'), 'city_id' =>$post->city, 'country_id' => $country_value1, 'phone_number' => $this->session->get('mphone_number'), 'user_type'=>'3','login_type'=>'2', "joined_date" => time(),"user_status" =>0,"approve_status" => 0,"user_sector_id" =>$this->session->get('sector'),"user_sub_sector_id" =>$this->session->get("sub_sector")));
+			$result = $this->db->insert("users", array("firstname" => $this->session->get('firstname'),"lastname" => $this->session->get('lastname'), "email" =>$this->session->get('memail'),'password' => md5($password),"payment_account_id" =>$this->session->get('payment_acc'),
+                            'address1' => $this->session->get('mraddress1'), 'address2' => $this->session->get('mraddress2'), 'city_id' =>$post->city, 'country_id' => $country_value1, 
+                            'phone_number' => $this->session->get('mphone_number'), 'user_type'=>'3','login_type'=>'2', "joined_date" => time(),"user_status" =>0,"approve_status" => 0,"user_sector_id" =>$this->session->get('sector'),
+                            "user_sub_sector_id" =>$this->session->get("sub_sector"), "nuban"=>  $this->session->get("nuban")));
 			
 			$merchant_id = $result->insert_id();
 			

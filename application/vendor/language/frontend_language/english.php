@@ -1028,7 +1028,14 @@ $content_text = array(
     
 "YOUR_PAYMENT_PENDING_COD" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY ON DELIVERY",
 
-
+"ZENITH_ACCOUNT_ENTER" => "Enter Your Zenith Bank A/C (NUBAN) <sup>*</sup>",
+    
+"ZENITH_ACCOUNT_ENTER_PLACEHOLDER" => "Zenith Bank A/C Number(NUBAN)",
+    
+"PLZ_ETR_NUBAN" => "Your ZENITH BANK A/C Number is mandatory",
+    
+"PLS_ENT_NUBAN" => "Enter a valid NUBAN number",
+    
 "YOUR_PAYMENT"=>"Your payment reference is",
 
 "USE_ONLY"=>".Use only whole numbers for the balance of reference",

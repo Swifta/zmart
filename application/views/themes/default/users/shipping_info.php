@@ -124,7 +124,9 @@
                                                         <label><?php echo $this->Lang['COUNTRY']; ?><span>*</span></label>
                                                         <div class="fullname">
                                                             <select name="country" id="country" onchange="return city_change_merchant(this.value);">
+                                                                <option value="">Select your Country</option>
     <?php foreach ($this->country_list as $c) { ?>
+                                                                
                                                                     <option <?php if ($c->country_id == $u->ship_country) { ?> selected <?php } ?>  title="<?php echo $c->country_name; ?>" value="<?php echo $c->country_id; ?>" ><?php echo $c->country_name; ?></option>
     <?php } ?>
                                                             </select> 
@@ -138,6 +140,7 @@
                                                         <label><?php echo $this->Lang['CITY']; ?><span>*</span></label>
                                                         <div class="fullname">
                                                             <select name="city" id="CitySD">
+                                                                <option value="">Select a City First</option>
     <?php foreach ($this->all_city_list as $c) { ?>
                 <?php if ($c->country_id == $u->ship_country) { ?>
                                                                     <option  <?php if ($c->city_id == $u->ship_city) { ?> selected <?php } ?> title="<?php echo $c->city_name; ?>"value="<?php echo $c->city_id; ?>" ><?php echo $c->city_name; ?></option>
