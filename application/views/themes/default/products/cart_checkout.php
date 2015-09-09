@@ -861,6 +861,9 @@
                                         <div class="payment_sel_lft">
                                         <a onclick="return COD();" id="cod"  >
                                         <input id="cod_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['CASH_ON_DEL']; ?></p></div>
+                                        <!--<div class="payment_sel_lft">
+                                        <a onclick="return false;" id="cod"  >
+                                        <input id="cod_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['DIRECT_DEBIT']; ?></p></div>-->
                                          <?php if ($this->pay_later_setting) { ?>
                                                 <div class="payment_sel_lft"> 
                                                 <a onclick="return Pay_later();" id="Wire"  > <input type="radio" name="name"  /></a> <p><?php echo $this->Lang['PAY_LATER']; ?></p></div>

@@ -1796,4 +1796,8 @@ $content_text = array(
 "PROCEED_GLOBAL_PAY" => "Proceed to Payment via Interswitch Gateway", 
 
 "PAY_NOW" => "Pay Now",
+    
+"DIRECT_DEBIT" =>"Direct Debit",
+    
+"WEBPAY_RESPONSE" => "Webpay Transaction Response",
 			);

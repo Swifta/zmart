@@ -35,20 +35,23 @@ class Webpay_Controller extends Layout_Controller
         }
         
         public function confirm(){
+            $this->response_code = "UNKNOWN";
+            $this->response_discription = "";
+            $this->paid_amount = 0;
 //            echo "Interswitch Called Redirect URL HERE<br />"; 
 //            echo $_REQUEST['resp']."<br />";
 //            echo $_REQUEST['desc']."<br />";
             //txnref=1234567&payRef=&refRef=238477494594&cardNum=0&apprAmt=0
             if(isset($_REQUEST['resp'])){
-                echo "Response Details <br />";
-                echo $_REQUEST['resp']."<br />";
-                echo $_REQUEST['desc']."<br />";
+                //echo "Response Details <br />";
+                //echo $_REQUEST['resp']."<br />";
+                //echo $_REQUEST['desc']."<br />";
                 $txnref = $_REQUEST['txnref'];
                 $payRef = $_REQUEST['payRef'];
                 $retRef = $_REQUEST['retRef'];
                 $cardNum = $_REQUEST['cardNum'];
                 $apprAmt = $_REQUEST['apprAmt'];
-                echo "Gotten from WebPaypay: ".$txnref.", ".$payRef.", ".$retRef.", ".$cardNum.", ".$apprAmt;
+                //echo "Gotten from WebPaypay: ".$txnref.", ".$payRef.", ".$retRef.", ".$cardNum.", ".$apprAmt;
                 $hash = hash("sha512", $this->product_id.$txnref.$this->mac_key);
                 $url_call = "https://stageserv.interswitchng.com/test_paydirect/api/v1/".
                     "gettransaction.json?productid=".$this->product_id."&transactionreference=".$txnref.
@@ -72,13 +75,25 @@ class Webpay_Controller extends Layout_Controller
                 {
                     var_dump(curl_error($ch));
                 }
-                var_dump(json_decode($response));
-                echo $url_call."<br />";
+                //var_dump(json_decode($response));
+                $interswitch = json_decode($response);
+                //echo $url_call."<br />";
                 //echo $hash;
+                $this->response_code = $interswitch->ResponseCode;
+                $this->response_discription = $interswitch->ResponseDescription;
+                if($interswitch->Amount > 0){
+                    $this->paid_amount = intval($interswitch->Amount/100);
+                }
                 
                 curl_close($ch);
             }
-            die;
+            //die;
+            $this->transaction_result = array("TIMESTAMP" => date('m/d/Y h:i:s a', time()), "ACK" => "FAILED TRANSACTION","AMT"=> $this->paid_amount,"CURRENCYCODE"=>CURRENCY_CODE);
+            $this->transaction_result['T_ID'] = $txnref;
+            $this->result_transaction = arr::to_object($this->transaction_result);
+            $this->session->set('payment_result', $this->result_transaction);
+            $this->template->title = $this->result_transaction->ACK." Interswitch Payment System";
+            $this->template->content = new View("themes/".THEME_NAME."/interswitch/payment_finished");   
         }
 
 

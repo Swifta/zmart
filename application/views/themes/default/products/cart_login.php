@@ -225,6 +225,7 @@
             </div>  
                 <?php if ($total_amount != 0) {
     ?>
+<!--
     <div class="payouter_block pay_br">    
         <h3 class="paybr_title pay_titlebg"><?php echo $this->Lang['ACC_INFO']; ?></h3>
         <div class="p_inner_block">
@@ -404,11 +405,11 @@
 
 
                             </div>
-                            <!--<p class="terms-conditons-text">By clicking Complete Order I accept the <a href="#" title="Terms & Conditions">Terms and contitions.</a></p>-->
+                            <p class="terms-conditons-text">By clicking Complete Order I accept the <a href="#" title="Terms & Conditions">Terms and contitions.</a></p>
 
                     
                 
-        </div>
+        </div> -->
                <?php } ?>
         </div>
         <?php if(count($this->cms_tc) > 0){ ?>

@@ -185,6 +185,7 @@
                             <table class="mcart_table_inner" width="100%" cellspacing="0" cellpadding="5" border="0" >      
                             
                             <?php 
+                            //echo "x";die; 
                                 $total_amount = "0";
                                 $shippingamount = "0";
                                 $flatamount = "0";
@@ -650,7 +651,28 @@
                             <img alt="logo" src="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/images/new/cat_ta_img.png"/>
                         </div>
                 </div>
-                <?php } ?>
+                <?php } 
+                else{?>
+                
+                
+                            <div class="p_inner_block">
+                                <div class="checkout-section clearfix">
+                                    <div class="checkout_section_right" style="padding-right:50px">
+                                        <div class="continue-shop-text"><a href="<?php echo PATH ?>products.html"><?php echo $this->Lang['CONTINUE_SHOPPING']; ?></a></div>
+                                        <!--<small><?php echo $this->Lang['OR']; ?></small>
+                                        <div class="checkout-button">                                        
+                                            <a class="buy_it" href="#jump_here" title="<?php echo $this->Lang['PROCEDURE']; ?>"><?php echo $this->Lang['PROCEDURE']; ?></a>                                                
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+               
+                
+                
+                <?php
+                }
+                ?>
                 </div> 
                 	<?php /* </form> */ ?>
                 </div>
@@ -745,7 +767,7 @@
                                                         </li>
                                                 </ul>
                                           </div>
-                                          <input type="submit" value="Update" class="sign_submit" />
+                                          <input type="submit" value="Update" class="sign_submit" id="jump_here"/>
                                           <input class="sign_cancel" type="button" value="Cancel" onclick="hide_shipping_addr()" />
                                 </div>
                                 </div>

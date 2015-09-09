@@ -87,7 +87,7 @@ $this->language_List = str_replace(".php", "", $DL);
     <li class="mnav_dnone">|</li>
 	<li style="color:green;font-weight: bold;"><a href="javascript:load_club();" title="<?php echo $this->Lang['ZENITH_OFFER']; ?>"><?php echo $this->Lang['ZENITH_OFFER']; ?></a></li>
 								<li class="mnav_dnone">|</li>
-								<li><a href="<?php echo PATH; ?>logout.html" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
+                                                                <li><a href="<?php if($this->session->get("count") > 0){ echo 'javascript:logout_click();'; }else{ echo PATH."logout.html"; } ?>" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
 							<?php } else { ?>
 							<?php if(isset($this->is_home) || isset($this->is_product) ) { ?>
 								<li  <?php $compare = $this->session->get("product_compare"); if(is_array($compare) && count($compare) > 1){  ?> class="compare_show" <?php } else { ?> class="compare_add" <?php } ?>>  <a href="<?php echo PATH; ?>product-compare.html" title="<?php echo $this->Lang['MY_COMP']; ?>"><?php echo $this->Lang['MY_COMP']; ?></a></li>
@@ -577,7 +577,7 @@ if ($lan != LANGUAGE) {
    
 	<li style="color:green;font-weight: bold;"><a href="javascript:load_club();" title="<?php echo $this->Lang['ZENITH_OFFER']; ?>"><?php echo $this->Lang['ZENITH_OFFER']; ?></a></li>
      <li class="mnav_dnone">|</li>
-	<li><a href="<?php echo PATH; ?>logout.html" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
+	<li><a href="<?php if($this->session->get("count") > 0){ echo 'javascript:logout_click();'; }else{ echo PATH."logout.html"; } ?>" title="<?php echo $this->Lang['LOGOUT']; ?>"><?php echo $this->Lang['LOGOUT']; ?></a> </li>
    
 <?php } else { ?>
 
@@ -1121,7 +1121,31 @@ $srch = $this->Lang['SRCH_DEAL'];
 <div class='popup_block3'><?php echo new View("themes/" . THEME_NAME . '/users/zenith_offer_popup'); ?></div>
 <div class='popup_block4'><?php echo new View("themes/" . THEME_NAME . '/users/fb_popup'); ?></div>
 
-
+<link rel="stylesheet" href="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/css/sweetalert.css" type="text/css" /> 
+<script src="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/js/sweetalert.min.js"></script>
+<script>
+function logout_click(){
+    //alert("here");
+    //<?php echo PATH; ?>logout.html
+    swal({   
+        title: "Are you sure?",   
+        text: "Your Shopping Cart is not empty. It Will be Emptied",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, Logout!",   
+        cancelButtonText: "No, Proceed!",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+    }, function(isConfirm){   
+        if (isConfirm) {     
+            location.href = "<?php echo PATH; ?>logout.html"; 
+        } else {     
+            location.href = "<?php echo PATH; ?>"; 
+        } 
+    });
+}
+</script>
  <script type="text/javascript">
     $(document).ready(function() {
         $(".show1").click(function() {
