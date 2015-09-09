@@ -8,7 +8,16 @@ class Auction_Model extends Model
 		$this->session = Session::instance();
 		$this->city_id = $this->session->get("CityID");
 		$this->UserID = $this->session->get("UserID");
+		
+		/*
+			Test for club membership and set conditions.
+			@Live
+		*/
+		
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->auction_club_condition = 'and auction.for_store_cred = '.$_SESSION['Club'].' ':$this->auction_club_condition = '';
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->auction_club_condition_arr = true:$this->auction_club_condition_arr = false;
 	}
+	
 
 		/* GET BANNER LIST */
 	public function get_banner_list()
@@ -20,7 +29,7 @@ class Auction_Model extends Model
 	/** TODAY DEALS COUNT**/
     public function get_today_deals_count($category = "",$sort = "",$search = "")
 	{
-		$conditions = "deal_status = 1 and enddate >".time()." and category.category_status = 1 and stores.store_status= 1 and auction_status = 0 ";
+		$conditions = " deal_status = 1 ".$this->auction_club_condition."  and enddate >".time()." and category.category_status = 1 and stores.store_status= 1 and auction_status = 0 ";
 		if(CITY_SETTING){
 			$conditions .= "and stores.city_id = $this->city_id  ";
 		}
@@ -89,7 +98,7 @@ class Auction_Model extends Model
 
 	public function get_today_deals_list($offset = "", $record = "",$category = "",$sort = "",$search = "",$price="",$main_cat="",$sub_cat="",$sec_cat="",$third_cat="",$price_text="")
 	{
-		$conditions = "deal_status = 1 and enddate >".time()." and category.category_status = 1 and stores.store_status= 1 and auction_status = 0 ";
+		$conditions = " deal_status = 1 ".$this->auction_club_condition."  and enddate >".time()." and category.category_status = 1 and stores.store_status= 1 and auction_status = 0 ";
 		if(CITY_SETTING){
 			$conditions .= "and stores.city_id = $this->city_id  ";
 		}
@@ -235,7 +244,7 @@ class Auction_Model extends Model
 
         public function get_deals_count($cat_type ="",$category = "")
 		{
-			$conditions = "deal_status = 1 AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
+			$conditions = " deal_status = 1 ".$this->auction_club_condition."  AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
 			$join = "auction.category_id";
 		if(CITY_SETTING){
 			$conditions .= " AND stores.city_id = $this->city_id ";
@@ -267,7 +276,7 @@ class Auction_Model extends Model
 	public function get_deals_list($cat_type ="",$category = "", $offset = "", $record = "")
 	{
 
-		$conditions = "deal_status = 1 AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
+		$conditions = " deal_status = 1 ".$this->auction_club_condition."  AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
 			$join = "auction.category_id";
 		if(CITY_SETTING){
 			$conditions .= " AND stores.city_id = $this->city_id ";
@@ -300,11 +309,11 @@ class Auction_Model extends Model
 	public function get_auction_view()
 	{
 	/*if(CITY_SETTING){ 
-	$conditions = "deal_status = 1 AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and stores.city_id = '$this->city_id' and auction_status = 0 ";
+	$conditions = " deal_status = 1 ".$this->auction_club_condition."  AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and stores.city_id = '$this->city_id' and auction_status = 0 ";
 	$result = $this->db->query( "select * from auction join category ON category.category_id = category.category_id join stores ON stores.store_id = auction.shop_id  where $conditions  order by auction.view_count DESC limit 3 ");
 	return $result;
 	} else {
-	$conditions = "deal_status = 1 AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
+	$conditions = " deal_status = 1 ".$this->auction_club_condition."  AND enddate > ".time()." AND category.category_status = 1 AND  store_status = 1 and auction_status = 0 ";
 	$result = $this->db->query( "select * from auction join category ON category.category_id = category.category_id join stores ON stores.store_id = auction.shop_id  where $conditions  order by auction.view_count DESC limit 3 ");
 	return $result;
 	} */
@@ -312,11 +321,11 @@ class Auction_Model extends Model
 	
 	
 	if(CITY_SETTING){ 
-	$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate,stores.store_url_title,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()."  and deal_status = 1 and category.category_status = 1 and stores.city_id = '$this->city_id' and  store_status = 1 order by auction.view_count DESC limit 3 ";
+	$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate,stores.store_url_title,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()."  and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and stores.city_id = '$this->city_id' and  store_status = 1 order by auction.view_count DESC limit 3 ";
 
 	$result = $this->db->query($query);
 	} else {
-	$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate,stores.store_url_title,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()."  and deal_status = 1 and category.category_status = 1 and  store_status = 1 order by auction.view_count DESC limit 3 ";
+	$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate,stores.store_url_title,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()."  and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 order by auction.view_count DESC limit 3 ";
 
 	$result = $this->db->query($query);
 	}
@@ -329,7 +338,7 @@ class Auction_Model extends Model
 
 	public function get_search_deals_count($search = "",$maincatid="")
 	{
-	        $conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
+	        $conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
 
 		if(CITY_SETTING){
 				$conditions .= "and stores.city_id = '$this->city_id' ";
@@ -353,7 +362,7 @@ class Auction_Model extends Model
 
 	public function  get_search_deals_list($search = "",  $offset = "", $record = "",$maincatid="")
 	{
-		 $conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
+		 $conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
 
 		if(CITY_SETTING){
 				$conditions .= "and stores.city_id = '$this->city_id' ";
@@ -377,11 +386,11 @@ class Auction_Model extends Model
 	public function  get_hot_deals_view()
 	{
 	        if(CITY_SETTING){ 
-		 $conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
+		 $conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
 		$query = "select *,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id join users on users.user_id=stores.merchant_id join city on city.city_id=stores.city_id where $conditions and deal_feature = 1 and stores.city_id = '$this->city_id'  and users.user_status=1 and city.city_status=1 ORDER BY RAND() limit 4";
 		$result = $this->db->query($query);
 		} else {
-		$conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
+		$conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 ";
 		$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate,store_url_title,(select avg(rating) from rating where type_id=auction.deal_id and module_id=3) as avg_rating from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id join users on users.user_id=stores.merchant_id join city on city.city_id=stores.city_id where $conditions and deal_feature = 1 and users.user_status=1 and city.city_status=1 ORDER BY RAND() limit 4";
 		$result = $this->db->query($query);
 		}
@@ -436,7 +445,9 @@ class Auction_Model extends Model
 
 	public function get_payment_auction_details($deal_id = "")
 	{
-		$result = $this->db->from("auction")->join("stores","stores.store_id","auction.shop_id")->where(array("deal_id" =>$deal_id,"deal_status" =>1,"auction_status" =>1))->get();
+		if($this->auction_club_condition_arr)
+		
+		$result = $this->db->from("auction")->join("stores","stores.store_id","auction.shop_id")->where($n_condition)->get();
 		return $result;
 	}
 	/** GET RELATED CATEGORY DEALS LIST  **/
@@ -444,8 +455,13 @@ class Auction_Model extends Model
 	public function get_related_category_deals_list($deal_id = "", $category_id = "")
 	{
 		$condition = array("deal_id <>" => $deal_id,"auction.sec_category_id" =>$category_id, "enddate >" => time(),"deal_status" => 1, "category.category_status" => 1, "store_status" => 1,"auction_status" => 0);
+		if($this->auction_club_condition_arr)
+		$condition = array("deal_id <>" => $deal_id,"auction.sec_category_id" =>$category_id, "enddate >" => time(),"deal_status" => 1, "for_store_cred" => 0, "category.category_status" => 1, "store_status" => 1,"auction_status" => 0);
 	 if(CITY_SETTING){
+		 
 		 $condition = array("deal_id <>" => $deal_id,"auction.sec_category_id" =>$category_id, "stores.city_id" => $this->city_id, "enddate >" => time(),"deal_status" => 1, "category.category_status" => 1, "store_status" => 1,"city.city_status" => 1);
+		 if($this->auction_club_condition_arr)
+		 	$condition = array("deal_id <>" => $deal_id,"auction.sec_category_id" =>$category_id, "stores.city_id" => $this->city_id, "enddate >" => time(),"deal_status" => 1, "for_store_cred" => 0, "category.category_status" => 1, "store_status" => 1,"city.city_status" => 1);
 		}
 
 	        $result = $this->db->select("*","stores.phone_number as phone")->from("auction")
@@ -524,8 +540,11 @@ class Auction_Model extends Model
 
 	public function get_deals_list_map()
 	{
+				$contition = array("stores.city_id" => $this->city_id ,"enddate >" => time(), "deal_status" => 1,"city_status" => 1);
 
-	        	$contition = array("stores.city_id" => $this->city_id ,"enddate >" => time(), "deal_status" => 1,"city_status" => 1);
+				if($this->auction_club_condition_arr)
+	        		$contition = array("stores.city_id" => $this->city_id ,"enddate >" => time(), "deal_status" => 1, "for_store_cred" => 0,"city_status" => 1);
+				
 		        $result = $this->db->from("deals")
                                                 ->join("stores","stores.store_id","deals.shop_id")
                                                 ->join("city","city.city_id","stores.city_id")
@@ -654,13 +673,13 @@ class Auction_Model extends Model
 	  {
 		if(CITY_SETTING){
 
-				$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate from (auction)  join category on category.category_id=auction.category_id join stores on stores.store_id=auction.shop_id where enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0  and stores.city_id = '$this->city_id' and auction.deal_value between $price_from and $price_to   order by deal_id ASC ";
+				$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate from (auction)  join category on category.category_id=auction.category_id join stores on stores.store_id=auction.shop_id where enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0  and stores.city_id = '$this->city_id' and auction.deal_value between $price_from and $price_to   order by deal_id ASC ";
 				$result = $this->db->query($query);
 				return $result;
 		}
 		else {
 
-				$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 and auction.deal_value between $price_from and $price_to  order by deal_id ASC ";
+				$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 and auction.deal_value between $price_from and $price_to  order by deal_id ASC ";
 				$result = $this->db->query($query);
 				return $result;
 		}
@@ -692,11 +711,11 @@ class Auction_Model extends Model
 	{
 
 		if(CITY_SETTING){
-		$query = "select MAX(deal_value) as max_deal,MIN(deal_value) as min_deal from auction join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where  enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 and stores.city_id = '$this->city_id'   order by deal_id  ";
+		$query = "select MAX(deal_value) as max_deal,MIN(deal_value) as min_deal from auction join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where  enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 and stores.city_id = '$this->city_id'   order by deal_id  ";
 		$result = $this->db->query($query);
 
 		} else {
-		$query = "select MAX(deal_value) as max_deal, MIN(deal_value) as min_deal from auction join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where  enddate > ".time()." and  deal_status = 1 and category.category_status = 1 and auction_status = 0 and  store_status = 1  order by deal_id ";
+		$query = "select MAX(deal_value) as max_deal, MIN(deal_value) as min_deal from auction join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where  enddate > ".time()." and   deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and auction_status = 0 and  store_status = 1  order by deal_id ";
 		$result = $this->db->query($query);
 
 		}
@@ -835,11 +854,11 @@ class Auction_Model extends Model
 		}
 
 		if(CITY_SETTING){
-			$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate,stores.store_url_title from auction join stores on stores.store_id=auction.shop_id $join where enddate > ".time()." and deal_status = 1 and auction_status = 0 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'  $conditions group by auction.deal_id order by auction.deal_id DESC $pagin";
+			$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate,stores.store_url_title from auction join stores on stores.store_id=auction.shop_id $join where enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and auction_status = 0 and category.category_status = 1 and  store_status = 1 and stores.city_id = '$this->city_id'  $conditions group by auction.deal_id order by auction.deal_id DESC $pagin";
 		$result = $this->db->query($query);
 
 		} else {
-			$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate,stores.store_url_title from auction  join stores on stores.store_id=auction.shop_id $join where enddate > ".time()." and auction_status = 0 and deal_status = 1 and category.category_status = 1 and  store_status = 1 $conditions group by auction.deal_id order by auction.deal_id DESC $pagin";
+			$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,auction.enddate,stores.store_url_title from auction  join stores on stores.store_id=auction.shop_id $join where enddate > ".time()." and auction_status = 0 and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 $conditions group by auction.deal_id order by auction.deal_id DESC $pagin";
 			$result = $this->db->query($query);
 
 		}
@@ -864,7 +883,7 @@ class Auction_Model extends Model
 	
 	         if(CITY_SETTING){
 				
-				$conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 and deal_id <> '$deal_id' and stores.city_id = '$this->city_id'";
+				$conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 and deal_id <> '$deal_id' and stores.city_id = '$this->city_id'";
 
 		$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where $conditions and deal_feature = 1 ORDER BY RAND()";
 		$result = $this->db->query($query);
@@ -872,7 +891,7 @@ class Auction_Model extends Model
 	        
 		}
 		else {
-		 $conditions = "enddate > ".time()." and deal_status = 1 and category.category_status = 1 and  store_status = 1 and auction_status = 0 and stores.city_id = '$this->city_id'";
+		 $conditions = "enddate > ".time()." and  deal_status = 1 ".$this->auction_club_condition."  and category.category_status = 1 and  store_status = 1 and auction_status = 0 and stores.city_id = '$this->city_id'";
 
 		$query = "select auction.deal_id,auction.deal_key,auction.deal_title,auction.url_title,auction.deal_value,auction.deal_price, category.category_url,product_value,auction.enddate from auction  join stores on stores.store_id=auction.shop_id join category on category.category_id=auction.category_id where $conditions and deal_feature = 1 ORDER BY RAND()";
 		$result = $this->db->query($query);

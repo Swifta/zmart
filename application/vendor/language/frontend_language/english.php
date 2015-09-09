@@ -1790,7 +1790,6 @@ $content_text = array(
 
 "STORE_CRED" => "For Store Credit",
  
-
 "GLOBAL_PAY" => "Interswitch WebPay",    
     
 "PROCEED_GLOBAL_PAY" => "Proceed to Payment via Interswitch Gateway", 

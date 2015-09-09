@@ -191,6 +191,15 @@
 		
                 </tr>
 		
+				<tr>
+                    <td><label><?php echo $this->Lang['STORE_CRED']; ?></label><span>*</span></td>
+                    <td><label>:</label></td>
+                    <td>
+                        <input type="radio"  name="store_cred" value="0" checked><?php echo $this->Lang['NO']; ?>
+                        <input type="radio"  name="store_cred" value="1"><?php echo $this->Lang['YES']; ?>
+
+                    </td>
+                 </tr>
 
               
 

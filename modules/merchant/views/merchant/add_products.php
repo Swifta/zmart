@@ -512,7 +512,25 @@ function validate() {
                  <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td> <input class="search_submit" id="Delivery_add" type="button" name="addmore" value="<?php echo $this->Lang['ADDMORE'];?>" onclick="addDelivery()">   </td>
-		    </tr>                 
+		    </tr>  
+            
+            <!--
+                	Add radios for store credit as per
+                    Swift implementaion of the Store credit feature.
+                	@Live
+                 -->
+                
+                   <tr>
+                    <td><label><?php echo $this->Lang['STORE_CRED']; ?></label><span>*</span></td>
+                    <td><label>:</label></td>
+                    <td>
+                        <input type="radio"  name="store_cred" value="0" checked><?php echo $this->Lang['NO']; ?>
+                        <input type="radio"  name="store_cred" value="1"><?php echo $this->Lang['YES']; ?>
+
+                    </td>
+                 </tr>
+                 
+                                
                  <tr>
                  
                 <tr id="shop">
@@ -769,8 +787,8 @@ function validate() {
                     </td>
                 </tr>
 
-			  
-                 
+			  	
+                
                 
 
 
