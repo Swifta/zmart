@@ -150,7 +150,7 @@
                                     <li>
                                         <label><?php echo $this->Lang["ZIP_CODE"]; ?>:</label>
                                  <div class="fullname">
-									<input type="text" name="zipcode" maxlength="10" class="required number" value="<?php if(!isset($this->form_error['zipcode']) && isset($this->userPost['zipcode'])){echo $this->userPost['zipcode'];}?>" placeholder="<?php echo $this->Lang["ENTER_ZIP_CODE"]; ?>"/>
+									<input type="text" name="zipcode" maxlength="10" class="" value="<?php if(!isset($this->form_error['zipcode']) && isset($this->userPost['zipcode'])){echo $this->userPost['zipcode'];}?>" placeholder="<?php echo $this->Lang["ENTER_ZIP_CODE"]; ?>"/>
 									<em><?php if(isset($this->form_error['zipcode'])){ echo $this->form_error["zipcode"]; }?></em>
                                  </div>
                                         </li>
@@ -201,7 +201,7 @@
          $("form#signup4").validate({
 			 rules: {
 				website: {
-				  required: true,
+				  //required: true,
 				  //url: true
 				}
 				
@@ -251,10 +251,10 @@
 		   required: "<?php echo $this->Lang['PLS_ENT_ZIP']; ?>",
 		   number: "<?php echo $this->Lang['PLS_ENT_NO']; ?>"                             
 		},
-		website : {
-		   required: "<?php echo $this->Lang['PLS_ENT_URL']; ?>",
+		//website : {
+		   //required: "<?php echo $this->Lang['PLS_ENT_URL']; ?>",
 		   //url: "<?php echo $this->Lang['PLS_ENT_URL']; ?>"                             
-		},
+		//},
 		data : {
 		   required: "<?php echo $this->Lang['PLZ_DESCRIBE']; ?>"
 		},

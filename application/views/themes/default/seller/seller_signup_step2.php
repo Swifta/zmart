@@ -73,18 +73,33 @@
 									<em> <?php if(isset($this->form_error['email'])){ echo $this->form_error["email"]; }?> </em>
 								</div>
                                     </li>
-                                    <li>
+                                    <li style="display: none;">
                                         <label><?php echo $this->Lang['ADD_PAYPAL_ACC']; ?>:</label>
                                 <div class="fullname">
                                 
-									<input type="text" name="payment_acc" class="required email " 
+									<input type="text" name="payment_acc" class=" " 
 									<?php if($this->session->get('payment_acc')) { ?>
 									value="<?php  echo $this->session->get('payment_acc'); ?>" placeholder= "<?php echo $this->Lang['ADD_PAYPAL_ACC']; ?>" /> 			                        <?php } else { ?>
 									value="<?php if(!isset($this->form_error['payment_acc']) && isset($this->userPost['payment_acc'])){echo $this->userPost['payment_acc'];}?>" placeholder="<?php echo $this->Lang['ADD_PAYPAL_ACC']; ?>" />
 									<?php } ?>
 									<em><?php if(isset($this->form_error['payment_acc'])){ echo $this->form_error["payment_acc"]; }?></em>
                                 </div>
-                                    </li>                                    
+                                    </li>
+                                    
+                                    
+                                    
+                                <li >
+                                        <label><?php echo $this->Lang["ZENITH_ACCOUNT_ENTER"]; ?>:</label>
+								<div class="fullname">
+									<input type="text" name="nuban" class="required number" placeholder= "<?php echo $this->Lang['ZENITH_ACCOUNT_ENTER_PLACEHOLDER']; ?>"
+									<?php if($this->session->get('nuban_session')) { ?>
+									value="<?php  echo $this->session->get('nuban_session'); ?>"  /> 			 <?php } else { ?>
+									value="<?php if(!isset($this->form_error['error_nuban']) && isset($this->userPost['error_nuban'])){echo $this->userPost['error_nuban'];}?>" placeholder="<?php echo $this->Lang["ZENITH_ACCOUNT_ENTER_PLACEHOLDER"]; ?>"  />
+									<?php } ?>
+									<em><?php if(isset($this->form_error['error_nuban'])){ echo $this->form_error["error_nuban"]; }?></em>
+                                </div>
+                                </li>
+                                
 					<li class="frm_clr">			
                                             <label><?php echo $this->Lang["ADDR1"]; ?>:</label>
 								<div class="fullname">
@@ -119,6 +134,11 @@
 									<em><?php if(isset($this->form_error['mr_mobile'])){ echo $this->form_error["mr_mobile"]; }?></em>
                                 </div>
                                 </li>
+
+                                
+
+                                
+                                
                                  <li >
                                 <label><?php echo $this->Lang["SECTOR"]; ?>:</label>
 				<div class="fullname">
@@ -155,6 +175,7 @@
                                 } ?></em>
 
                                 </li>
+                                
                                 
                                 <li >
                                     <label>Shipping method:</label>
@@ -235,6 +256,10 @@
 		  mr_mobile : {
 			   required: "<?php echo $this->Lang['PLZ_ETR_PHO']; ?>",
 			   number: "<?php echo $this->Lang['PLS_ENT_NO']; ?>"                             
+			},
+		  error_nuban : {
+			   required: "<?php echo $this->Lang['PLZ_ETR_NUBAN']; ?>",
+			   number: "<?php echo $this->Lang['PLS_ENT_NUBAN']; ?>"                             
 			},
 			payment_acc: {
 				required:"<?php echo $this->Lang['PLS_ENT_EMAIL']; ?>",

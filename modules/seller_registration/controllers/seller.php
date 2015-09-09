@@ -54,7 +54,7 @@ class Seller_Controller extends Layout_Controller {
 						->add_rules('mr_address1', 'required')
 						->add_rules('mr_address2', 'required')
 						->add_rules('lastname', 'required')
-						->add_rules('payment_acc', 'required','valid::email')
+						->add_rules('nuban', 'required', array($this, 'nuban_available'))
 						->add_rules('sector', 'required')
 						->add_rules('subsector', 'required')
 						->add_rules('email', 'required','valid::email',array($this, 'email_available'));
@@ -63,6 +63,7 @@ class Seller_Controller extends Layout_Controller {
 						{
 							$post->add_rules('subsector', 'required');
 						}
+                                                //var_dump($post->validate());die;
 					if($post->validate())
 					{
 					
@@ -87,9 +88,9 @@ class Seller_Controller extends Layout_Controller {
                                                 $aramex = $post->aramex;
                                                 }
                                                 
-						 $this->session->set(array("firstname" => $post->firstname,"lastname" => $post->lastname, 'mraddress1' => $post->mr_address1, 'mraddress2' => $post->mr_address2, 'mphone_number' => $post->mr_mobile,"memail"=>$post->email,"payment_acc" => $post->payment_acc,"free" => $free,"flat" => $flat, "product" => $product,'quantity' => $quantity, 'aramex' => $aramex,"sector"=>$post->sector,"sub_sector"=>$post->subsector));
-
+						 $this->session->set(array("firstname" => $post->firstname,"lastname" => $post->lastname, 'mraddress1' => $post->mr_address1, 'mraddress2' => $post->mr_address2, 'mphone_number' => $post->mr_mobile,"memail"=>$post->email,"nuban_session" => $post->nuban,"free" => $free,"flat" => $flat, "product" => $product,'quantity' => $quantity, 'aramex' => $aramex,"sector"=>$post->sector,"sub_sector"=>$post->subsector));
 							common::message(1, $this->Lang['SUCC_COM_STEP2']);
+                                                        //echo "Got here"; die;
 							url::redirect(PATH."merchant-signup-step3.html");
 							
 					} else {
@@ -151,7 +152,7 @@ class Seller_Controller extends Layout_Controller {
 	public function seller_signup_step3($seller_id = "")
 	{
 	  
-		if(($this->session->get('firstname') != "") && ($this->session->get('memail') != "") && ($this->session->get('payment_acc') != "") ){
+		if(($this->session->get('firstname') != "") && ($this->session->get('memail') != "") && ($this->session->get('nuban_session') != "") ){
 			if($_POST){    
 				$this->userPost = $this->input->post();
 				$post = new Validation($_POST);
@@ -161,8 +162,8 @@ class Seller_Controller extends Layout_Controller {
 							->add_rules('address1', 'required')
 							->add_rules('address2', 'required')
 							->add_rules('storename', 'required',array($this,'check_store_exist'))
-							->add_rules('zipcode', 'required', 'chars[0-9.]')
-							->add_rules('website','required'/*,'valid::url'*/)
+							//->add_rules('zipcode', 'required', 'chars[0-9.]')
+							//->add_rules('website','required'/*,'valid::url'*/)
 							->add_rules('latitude', 'required','chars[0-9.-]')
 							->add_rules('longitude', 'required','chars[0-9.-]')
 							->add_rules('image', 'upload::valid', 'upload::type[gif,jpg,png,jpeg]', 'upload::size[1M]')
@@ -289,7 +290,8 @@ class Seller_Controller extends Layout_Controller {
 										$this->session->delete('mraddress1');
 										$this->session->delete('mraddress2');
 										$this->session->delete('mphone_number');
-										$this->session->delete('payment_acc'); 
+										$this->session->delete('payment_acc');
+                                                                                $this->session->delete('nuban');
 										$this->session->delete('sector'); 
 										$this->session->delete('subsector'); 
 										
@@ -327,6 +329,16 @@ class Seller_Controller extends Layout_Controller {
 		}
 		return 0;
 	}
+        
+	/** CHECK VALID NUBAN OR NOT **/
+	
+	public function validnuban($nuban = "")
+	{
+		if(valid::phone($nuban,array(7,10,11,12,13,14)) == TRUE){
+			return 1;
+		}
+		return 0;
+	}
 	
 	/** CHECK EMAIL EXIST **/
 	 
@@ -335,6 +347,14 @@ class Seller_Controller extends Layout_Controller {
 		$exist = $this->seller->exist_email($email);
 		return ! $exist;
 	}
+        
+        public function nuban_available($nuban = ""){
+            $ret = false;
+            $ret = $this->seller->validate_nuban($nuban);
+            //var_dump($ret);die;
+            return true;
+        }
+        
 	public function check_store_exist(){
 	   
 	    $exist = $this->seller->exist_name($this->input->post("storename"));
