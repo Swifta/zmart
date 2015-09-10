@@ -10,8 +10,8 @@ class Webservices_Model extends Model
         public function get_details($admin, $key, $transaction_id, $amount){
             $ret = array();
             $ret['success'] = false;
-            $ret['msg'] = "Invalid User Credentials";
-            $result = $this->db->query("SELECT * FROM users WHERE email='".$admin."' AND password=md5('".$key."')");
+            $ret['msg'] = "Invalid User Credentials/Priviledge";
+            $result = $this->db->query("SELECT * FROM users WHERE email='".$admin."' AND password=md5('".$key."') AND user_type=7");
             if(count($result) == 1){
 	         $result = $this->db->from("transaction")
                             ->where(array("transaction.transaction_id"=>$transaction_id))
@@ -75,7 +75,7 @@ class Webservices_Model extends Model
             $ret = array();
             $ret['success'] = false;
             $ret['msg'] = "Authentication Failed";
-            $result = $this->db->query("SELECT * FROM users WHERE email='".$admin."' AND password=md5('".$key."')");
+            $result = $this->db->query("SELECT * FROM users WHERE email='".$admin."' AND password=md5('".$key."') AND user_type=7");
             if(count($result) == 1){
 	         $result = $this->db->from("transaction")
                             ->where(array("transaction.transaction_id"=>$transaction_id))

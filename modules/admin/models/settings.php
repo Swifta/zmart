@@ -102,9 +102,9 @@ class Settings_Model extends Model
 	}
 
 	/** MODULE SETTINGS **/
-		public function update_module($deal='',$product ='',$blog = '',$auction = '',$paypal = "",$credit_card = "",$authorize = "", $cash_on_delivery = "",$free_shipping = "",$flat_shipping = "",$per_product = "",$per_quantity = "",$aramex = "", $near_me_map = "",$store_list = "",$past_deal = "",$faq = "",$city = "",$cms ="",$newsletter = "",$pay_later="")
+		public function update_module($deal='',$product ='',$blog = '',$auction = '',$paypal = "",$credit_card = "",$authorize = "", $cash_on_delivery = "",$free_shipping = "",$flat_shipping = "",$per_product = "",$per_quantity = "",$aramex = "", $near_me_map = "",$store_list = "",$past_deal = "",$faq = "",$city = "",$cms ="",$newsletter = "",$pay_later="", $interswitch="")
 	{
-		$status = $this->db->update("module_settings",array("is_deal" => $deal, "is_product" => $product, "is_auction" => $auction ,"is_blog" => $blog,"is_paypal" => $paypal, "is_credit_card" => $credit_card, "is_authorize" => $authorize, "is_cash_on_delivery" => $cash_on_delivery, "free_shipping" => $free_shipping,"flat_shipping" => $flat_shipping,"per_product" => $per_product,"per_quantity" => $per_quantity,"aramex" => $aramex,"is_map" =>$near_me_map,"is_store_list" =>$store_list,"is_past_deal" => $past_deal,"is_faq" =>$faq,"is_city" =>$city,"is_cms" =>$cms,"is_newsletter" =>$newsletter,"is_pay_later"=>$pay_later), array("module_id" => 1));
+		$status = $this->db->update("module_settings",array("is_deal" => $deal, "is_product" => $product, "is_auction" => $auction ,"is_blog" => $blog,"is_paypal" => $paypal, "is_credit_card" => $credit_card, "is_authorize" => $authorize, "is_cash_on_delivery" => $cash_on_delivery, "free_shipping" => $free_shipping,"flat_shipping" => $flat_shipping,"per_product" => $per_product,"per_quantity" => $per_quantity,"aramex" => $aramex,"is_map" =>$near_me_map,"is_store_list" =>$store_list,"is_past_deal" => $past_deal,"is_faq" =>$faq,"is_city" =>$city,"is_cms" =>$cms,"is_newsletter" =>$newsletter,"is_pay_later"=>$pay_later, "is_interswitch"=>$interswitch), array("module_id" => 1));
 		return 1;
 	}
 
