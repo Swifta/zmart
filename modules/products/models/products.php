@@ -1608,10 +1608,12 @@ public function get_store_id($storeurl="")
 	{
 		$n_condtion = array("deal_id" =>$productid,"deal_status" =>1,"deal_status" =>1);
 		
-		if($this->club_condition_arr)
+                //Kohana::debug($productid); die;
+		if($this->club_condition_arr){
 			$n_condtion = array("deal_id" =>$productid,"deal_status" =>1,"deal_status" =>1, "for_store_cred" => 0);
-		
-			$result = $this->db->from("product")->join("stores","stores.store_id","product.shop_id")->where($n_condition)->get();
+                }
+                //var_dump($n_condtion); die;
+			$result = $this->db->from("product")->join("stores","stores.store_id","product.shop_id")->where($n_condtion)->get();
 		return $result;
 	}
 	// for shipping address used in payment pages

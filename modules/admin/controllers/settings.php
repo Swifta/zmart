@@ -467,7 +467,9 @@ const ALLOW_PRODUCTION = FALSE;
 					common::message(-1, $this->Lang["PAY_SET_ERR2"]);
 					url::redirect(PATH."admin/module-settings.html");
 				}
-				
+				/*
+                                 * http://emarket.know3.com/products/purchase_order/ODI=/NDg=/MzY=/MQ==
+                                 */
 			if($deal == ""){ $deal =0; }
 			if($product == ""){ $product =0; }
 			if($auction == ""){ $auction =0; }
