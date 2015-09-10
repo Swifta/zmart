@@ -71,7 +71,9 @@ class Layout_Controller extends Template_Controller
 			$this->faq_setting = $setting->is_faq;
 			$this->cms_setting = $setting->is_cms;
 			$this->newsletter_setting = $setting->is_newsletter;	
-			$this->pay_later_setting = $setting->is_pay_later;		
+			$this->pay_later_setting = $setting->is_pay_later;
+                        $this->cash_on_delivery = $setting->is_cash_on_delivery;
+                        $this->interswitch = $setting->is_interswitch;
 			define('CITY_SETTING', $setting->is_city);
 		}
 		/** USING GEOIP FIND CITY ID **/

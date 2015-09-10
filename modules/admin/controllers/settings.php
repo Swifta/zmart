@@ -440,6 +440,7 @@ const ALLOW_PRODUCTION = FALSE;
 			$cms = $this->input->post('cms');
 			$newsletter = $this->input->post('newsletter');
 			$pay_later = $this->input->post('pay_later');
+                        $interswitch = $this->input->post('interswitch');
 			
 
 			if($free_shipping == ""){ $free_shipping =0; }
@@ -457,6 +458,7 @@ const ALLOW_PRODUCTION = FALSE;
 			if($authorize == ""){ $authorize =0; }
 			if($cash_on_delivery == ""){ $cash_on_delivery =0; }
 			if($pay_later == ""){ $pay_later =0; }
+                        if($interswitch == ""){ $interswitch =0; }
 				if(($paypal=="") && ($credit_card =="") && ($authorize =="") && ($cash_on_delivery =="") && ($pay_later == "")){
 					common::message(-1, $this->Lang["PAY_SET_ERR1"]);
 					url::redirect(PATH."admin/module-settings.html");
@@ -478,7 +480,7 @@ const ALLOW_PRODUCTION = FALSE;
 			if($newsletter =="") { $newsletter =0; }
 			if($deal != "" || $product != "" || $auction != ""||$blog != "" || $store_list!= "" || $past_deal = "" || $faq || $cms || $newsletter){
 				
-			$status = $this->settings->update_module($deal,$product,$blog,$auction,$paypal,$credit_card,$authorize,$cash_on_delivery,$free_shipping,$flat_shipping,$per_product,$per_quantity,$aramex,$near_me_map,$store_list,$past_deal,$faq,$city,$cms,$newsletter,$pay_later);
+			$status = $this->settings->update_module($deal,$product,$blog,$auction,$paypal,$credit_card,$authorize,$cash_on_delivery,$free_shipping,$flat_shipping,$per_product,$per_quantity,$aramex,$near_me_map,$store_list,$past_deal,$faq,$city,$cms,$newsletter,$pay_later,$interswitch);
 			if($status==1){
 				common::message(1,$this->Lang['MODULE_SUCC_UPTD']);
 					url::redirect(PATH."admin/module-settings.html");

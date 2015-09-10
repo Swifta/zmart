@@ -204,6 +204,7 @@
 	}
 </script>
 
+
 <div class="contianer_outer">
     <div class="contianer_inner">
         <div class="contianer">
@@ -855,13 +856,21 @@
                 <h3 class="paybr_title pay_titlebg"><?php echo $this->Lang['TYPE_PAY']; ?></h3>
                         <div class="p_inner_block">                            
                                 <div class="payment_select"> 
+                                    <?php if ($this->interswitch) { ?>
                                         <div class="payment_sel_lft">
                                         <a onclick="return InterswitchPay();" id="InterswitchPay"  >
                                         <input id="paypal_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['GLOBAL_PAY']; ?></p></div>
-                                        <div class="payment_sel_lft">
+                                    <?php
+                                    }
+                                    ?>
+                                    <?php if ($this->cash_on_delivery) { ?>    
+                                    <div class="payment_sel_lft">
                                         <a onclick="return COD();" id="cod"  >
                                         <input id="cod_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['CASH_ON_DEL']; ?></p></div>
-                                        <!--<div class="payment_sel_lft">
+                                    <?php
+                                    }
+                                    ?>
+                                    <!--<div class="payment_sel_lft">
                                         <a onclick="return false;" id="cod"  >
                                         <input id="cod_radio" type="radio" name="name" /></a><p><?php echo $this->Lang['DIRECT_DEBIT']; ?></p></div>-->
                                          <?php if ($this->pay_later_setting) { ?>

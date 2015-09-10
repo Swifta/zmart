@@ -147,21 +147,8 @@
 				<?php foreach($this->set_module as $u ){ ?>
 					
 				
-						<?php /*<div class="dash_active_left"> </div> 
-						 <div class="dash_active_mid_mod">
-											  
-						  <div class="dash_act_img">
-						
-						  <img src="<?php echo PATH ?>images/cash_on_delivery.png" class="image" alt="<?php echo $this->Lang['CASH_ON_DEL']; ?>"/>
-						   </div>
-						   
-						   <p><?php echo $this->Lang['CASH_ON_DEL']; ?>
-
-						   <span> <input type="checkbox" name="cash_on_delivery" <?php if($u->is_cash_on_delivery == 1){ ?> checked = "checked" <?php }  ?> value="1" >
-						   </span> </p>
-						  
-						   </div> <div class="dash_active_right">  </div> */?>
-						   <input type="checkbox" style="display:none" name="cash_on_delivery" <?php if($u->is_cash_on_delivery == 1){ ?> checked = "checked" <?php }  ?> value="1" >
+						<?php /* */?>
+						  <!-- <input type="checkbox" style="display:none" name="cash_on_delivery" <?php if($u->is_cash_on_delivery == 1){ ?> checked = "checked" <?php }  ?> value="1" > -->
 						
 					  
 					
@@ -232,9 +219,37 @@
 							   </span> </p>
 							  
 							   </div> <div class="dash_active_right">  </div> 
+                                                           
+                            <div class="dash_active_left"> </div> 
+                             <div class="dash_active_mid_mod">
+
+                              <div class="dash_act_img">
+
+                              <img src="<?php echo PATH ?>images/cash_on_delivery.png" class="image" alt="<?php echo $this->Lang['CASH_ON_DEL']; ?>"/>
+                               </div>
+
+                               <p><?php echo $this->Lang['CASH_ON_DEL']; ?>
+
+                               <span> <input type="checkbox" name="cash_on_delivery" <?php if($u->is_cash_on_delivery == 1){ ?> checked = "checked" <?php }  ?> value="1" >
+                               </span> </p>
+
+                               </div> <div class="dash_active_right">  </div>
 						
 					   
-					
+                            <div class="dash_active_left"> </div> 
+                             <div class="dash_active_mid_mod">
+
+                              <div class="dash_act_img">
+
+                              <img src="<?php echo PATH ?>images/interswitch.png" class="image" alt="<?php echo $this->Lang['INTER_SWITCH']; ?>"/>
+                               </div>
+
+                               <p><?php echo $this->Lang['INTER_SWITCH']; ?>
+
+                               <span> <input type="checkbox" name="interswitch" <?php if($u->is_interswitch == 1){ ?> checked = "checked" <?php }  ?> value="1" >
+                               </span> </p>
+
+                               </div> <div class="dash_active_right">  </div>					
 
 			 <?php } ?>         
 					

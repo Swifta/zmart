@@ -281,10 +281,10 @@ class Payment_product_Controller extends Layout_Controller {
 		$duration_period = 0;
 		$installment_value = 0;
 		
-		
+		//var_dump($_SESSION); die;
 		foreach($_SESSION as $key=>$value) 
 		{
-                    if(!is_array($value))
+                    if(is_string($value))
                     {
 			if(($key=='product_cart_id'.$value)){                   
 				$product_id = $_SESSION[$key];
@@ -342,7 +342,7 @@ class Payment_product_Controller extends Layout_Controller {
 		//print_r($_SESSION);
 		foreach($_SESSION as $key=>$value) 
                 {
-                    if(!is_array($value))
+                    if(is_string($value))
                     {
                         if(($key=='product_cart_id'.$value)){                   
                                 $deal_id = $_SESSION[$key];
