@@ -1903,9 +1903,8 @@ $pdf->Output('voucher.pdf', 'I');
 				  $response = (array)$fun_resp->VerifyAccountResult;
 					  if($response){
 						  $nuban_response = (isset($response['errorMessage']))?-1:1;
-						 
 						  if($nuban_response == 1){
-							  
+							 
 							   $r = $this->users->update_user_to_club_membership(FALSE, $arg);
 								common::message(1, "Thank you for signup! You can now enjoy club membership offers.");
 								if($r == 1){

@@ -902,6 +902,34 @@ class Users_Model extends Model
 		$result = $this->db->update("users", array("unique_identifier" => $unique_identifier,"user_auto_key"=>$user_auto_key), array("user_id" => $this->UserID));print_r($result);exit;
 	}
 	
+	/**  UPDATE UNIQUE IDENTIFIER
+		
+		Customize this for updating after account verification.
+		@Live
+		
+	**/
+	public function update_unique_identifier1($unique_identifier="")
+	{
+		if($unique_identifier !=""){ 
+			$user_auto_key = text::random($type = 'alnum', $length = 4);
+			$this->session->set("user_auto_key",$user_auto_key);
+			$this->session->set("prime_customer",1);
+		} else {
+			$user_auto_key ="";
+			$this->session->delete("user_auto_key");
+			$this->session->set("prime_customer",0);
+		}
+		try{
+			
+			$result = $this->db->update("users", array("unique_identifier" => $unique_identifier,"user_auto_key"=>$user_auto_key), array("user_id" => $this->UserID));
+			
+			return 1;
+			
+		}catch(Expection $e){
+			return -1;
+		}
+	}
+	
 	public function get_gift($gift_id="")
 	{
 		$resulkt=$this->db->select("gift_name")->from("free_gift")->where(array("gift_status" => 1,"gift_id" =>$gift_id))->get();
@@ -980,7 +1008,6 @@ class Users_Model extends Model
         */
         public function update_user_to_club_membership($create_account = false, $params=""){
             
-						
 			$params_obj = arr::to_object($params);	
 			
 			try{
@@ -999,9 +1026,8 @@ class Users_Model extends Model
 				$results = $this->db->update($u_tb_name, $u_columns, $u_where);
 				
 				$this->session->set(array("Club"=>1));
-				update_unique_identifier("0000000000");	
+				return $this->update_unique_identifier1("0000000000");	
 				
-				return 1;
 					
 			} catch(Exception $e){
 				/*

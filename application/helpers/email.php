@@ -60,7 +60,7 @@ class Email{
 
 	/** SEND EMAIL USING SMTP MAILER **/
 
-    public function smtp($from = "",$receiver = array(), $subject = "", $message = "",$file = "")
+    public function smtp_back($from = "",$receiver = array(), $subject = "", $message = "",$file = "")
     {
 
 
@@ -586,6 +586,64 @@ public function sendgrid_attach1($receiver= "", $subject = "", $message = "", $f
 	}
 
 }
+
+/*
+
+	Use send in blue to send transactional emails.
+	@Live
+
+*/
+
+public function smtp($from = "",$receiver = array(), $subject = "", $message = "",$file = ""){
+   require_once(APPPATH.'vendor/mailin-sendinblue/V2.0/Mailin.php');
+   $mail = new Mailin("https://api.sendinblue.com/v2.0","Kx4syT6qOJmWCbLU");
+   
+   		$sitename = SITENAME;
+        if(!$sitename){
+            $sitename = $_SERVER['HTTP_HOST'];
+        }
+        $fromEmail = NOREPLY_EMAIL;
+        if(!$fromEmail){
+            $fromEmail = "noreply@".$_SERVER['HTTP_HOST'];
+        }
+        try {
+			$attachment = array();
+            if($file != "")
+			{
+					$x = 0;
+					foreach($file as $f){
+						$attachment[x] = $f;
+						$x++;
+
+					}
+			}
+			
+			$to = array();
+			$to[$receiver] = "";	
+			$subject = "";
+			$cc = array(); 
+			$bcc = array();
+			$replyto = array("noreply@zmart.com","NOREPLY"); 
+			$attachment = array(); 
+			$headers = array("Content-Type"=> "text/html; charset=iso-8859-1","X-Ewiufkdsjfhn"=> "hello","X-Custom" => "Custom");
+            $r = $mail->send_email($to,$subject,$from,$message,"",$cc,$bcc,$replyto,$attachment,$headers);
+			var_dump($r);
+			exit;
+			
+
+        }
+        catch(Expection $e) {
+            common::message(-1,  $e->errorMessage());
+
+        }
+        catch (Exception $e) {
+            common::message(-1,  $e->getMessage());
+        }
+        return;
+    }
+
+
+
 
 
 }

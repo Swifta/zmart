@@ -766,7 +766,9 @@ class Welcome_Controller extends Layout_Controller
 	/*  SUBSCRIPTION */
 	public function subscriber()
     	{
+		
            	$this->session->set("Skip",1); 
+			$this->session->set('Club', 0);
 	        url::redirect(PATH);
   	 }
   	 
