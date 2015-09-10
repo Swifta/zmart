@@ -93,15 +93,26 @@ class Users_Model extends Model
 	    {
 			
 		$referral_id = text::random($type = 'alnum', $length = 8);
-		if($post->unique_identifier !=""){ 
+		/*
+			Comment out the unique_identifier value
+			as creteria for club membership.
+			This sets all users as normal, and
+			club membership comes after zenith account verification.
+			@Live
+		*/
+		
+		/*if($post->unique_identifier !=""){ 
 			$user_auto_key = text::random($type = 'alnum', $length = 4);
 			$this->session->set("user_auto_key",$user_auto_key);
 			$this->session->set("prime_customer",1);
 		} else {
+			
 			$user_auto_key ="";
 			$this->session->set("prime_customer",0);
-		}
+		}*/
 		
+		$user_auto_key ="";
+		$this->session->set("prime_customer",0);
 		
 		$result_country = $this->db->select("country_id")->from("city")->where(array("city_id" => $post->city ))->limit(1)->get();
 		$country_value = $result_country->current()->country_id;
@@ -114,6 +125,8 @@ class Users_Model extends Model
 				$referred_user_id  = $result_referral->current()->user_id;
 			}
 		}
+		
+		
 		
 		
 		$result = $this->db->insert("users", array("firstname" => $post->f_name, "email" => $post->email, "password" =>  md5($post->password),"city_id" => $post->city, "country_id" => $post->country, "referral_id" => $referral_id, "referred_user_id" =>$referred_user_id, "joined_date" => time(),"last_login" => time(), "user_type"=> 4,"gender" =>$post->gender,"age_range"=>$post->age_range,"unique_identifier"=>$post->unique_identifier,"user_auto_key"=>$user_auto_key));
@@ -940,44 +953,42 @@ class Users_Model extends Model
 		return $result;
 	}
 	
+	/*
+		Check whether zenith account number already used before.
+		@Live
+	*/
+	public function check_zenith_account_used($nuban = ""){
+		if(!isset($nuban))
+			return -1;
+			
+		$nuban = trim($nuban);
+		if($nuban == "")
+			return -1;
+		
+		$r = $this->db->from("users")
+						  ->where(array("nuban" => $nuban))
+						  ->get();
+		if(count($r)== 0)
+			return 1;
+		return -1;
+		
+	}
 	  /*
         * ZENITH BANK OPEN NEW BANK ACCOUNT FOR LOGGED IN USER
          * WE SEND AN EMAIL TO THE USER
          * @param JSONObject of valid required fields to Open an account
         */
         public function update_user_to_club_membership($create_account = false, $params=""){
-            /*
-				before attempting to open this account for this user
-				need to check if user already created an account with this platform before
-			*/
-			
-           /* $result = $this->db->query("SELECT * FROM zenith_opened_account WHERE user_id=".$this->UserID);
-				if(count($result) > 0){
-					return -1;//user already opened account with this platform in the past
-				}
-            */
-			
-			
-			/*
-				I don't think this is required. Club membership signup is only restricted
-				on none club members. If they opened up zenith account on this platform, their
-				profile is automatically updated to club members.(Open for discussion thought :-))
-				@Live
-			*/
+            
 						
 			$params_obj = arr::to_object($params);	
 			
 			try{
-				/*	Insertion into zenith_opened_account table
-					@Live
-				*/
-				/*if($create_account){
-				        $this->db->insert("zenith_opened_account", array("user_id" => $this->UserID,
-						"account_number"=>$params_obj->account_number, "account_name"=>$params_obj->account_name, "account_class"
-						=>$params_obj->account_class));
-				}*/
+				
 				/*
-					Auto update user profile to club membership
+					.Auto update user profile to club membership
+					.Update user's prime memberhsip to bootstrap vendor's 
+					club membership implementations.
 					@Live
 				*/
 				
@@ -986,11 +997,10 @@ class Users_Model extends Model
 				$u_columns = array('nuban'=>$params_obj->account_number, 'club_member'=>1);
 				$u_where = array('user_id'=>$this->UserID);
 				$results = $this->db->update($u_tb_name, $u_columns, $u_where);
-				/*
-					Set club session variable to 1 (for club members);
-					@Live
-				*/
-				$this->session->set(array("Club"=>1));	
+				
+				$this->session->set(array("Club"=>1));
+				update_unique_identifier("0000000000");	
+				
 				return 1;
 					
 			} catch(Exception $e){

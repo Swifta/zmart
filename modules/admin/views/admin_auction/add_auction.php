@@ -205,6 +205,23 @@
                        <em><?php if(isset($this->form_error["users"])){ echo $this->form_error["users"]; }?></em>
                      </td>
                 </tr>
+                
+                
+                <!--
+                	Add radios for store credit as per
+                    Swift implementaion of the Store credit feature.
+                	@Live
+                 -->
+                
+                   <tr>
+                    <td><label><?php echo $this->Lang['STORE_CRED']; ?></label><span>*</span></td>
+                    <td><label>:</label></td>
+                    <td>
+                        <input type="radio"  name="store_cred" value="0" checked><?php echo $this->Lang['NO']; ?>
+                        <input type="radio"  name="store_cred" value="1"><?php echo $this->Lang['YES']; ?>
+
+                    </td>
+                 </tr>
                      
                 <tr id="shop">
                     <td><label><?php echo $this->Lang["SEL_SHOP"]; ?></label><span>*</span></td>
