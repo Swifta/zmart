@@ -8,6 +8,14 @@ class Stores_Model extends Model
 		$this->session = Session::instance();
 		$this->city_id = $this->session->get("CityID");
 		$this->UserID = $this->session->get("UserID");
+		
+		/*
+			Test for club membership and set conditions.
+			@Live
+		*/
+		
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->club_condition = 'and for_store_cred = '.$_SESSION['Club'].' ':$this->club_condition = '';
+		(strcmp($_SESSION['Club'], '0') == 0)?$this->club_condition_arr = true:$this->club_condition_arr = false;
 	}
 
 	/**STORE DETAILS COUNT**/
@@ -96,7 +104,7 @@ class Stores_Model extends Model
 	public function get_deals_categories($store_id = "",$search="",$type="")
 	{
 		
-		$conditions = "deals.shop_id = $store_id and deals.deal_status = 1 and enddate > ".time()."";
+		$conditions = "deals.shop_id = $store_id and deals.deal_status = 1 ".$this->club_condition." and enddate > ".time()."";
 		$order1="";
 		$order="";
 		  if($search){
@@ -131,8 +139,14 @@ class Stores_Model extends Model
                             
                     return $result;
 		}else {
+			
+				   $n_condition = array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1);
+				   
+				   if($this->club_condition_arr)
+				  	 $n_condition = array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1, "for_store_cred" => 0);
+					 
 			       $result = $this->db->select('*,(select avg(rating) from rating where type_id=deals.deal_id and module_id=1) as avg_rating')->from("deals")
-	                    ->where(array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1))
+	                    ->where($n_condition)
                             ->join("stores","stores.store_id","deals.shop_id")
                             ->join("users","users.user_id","deals.merchant_id")
                             ->join("category","category.category_id","deals.category_id")
@@ -163,7 +177,7 @@ class Stores_Model extends Model
 		if(CITY_SETTING){ 
 			$conditions .= " and stores.city_id = $this->city_id ";
 		}
-		$query = "select deal_id, deal_key, url_title, deal_title, deal_description, deal_value,category_url,stores.store_url_title,deal_price,(select avg(rating) from rating where type_id=product.deal_id and module_id=2) as avg_rating from product  join stores on stores.store_id=product.shop_id join category on category.category_id=product.category_id where $conditions and product.deal_status = 1 group by product.deal_id order by product.deal_id DESC"; 
+		$query = "select deal_id, deal_key, url_title, deal_title, deal_description, deal_value,category_url,stores.store_url_title,deal_price,(select avg(rating) from rating where type_id=product.deal_id and module_id=2) as avg_rating from product  join stores on stores.store_id=product.shop_id join category on category.category_id=product.category_id where $conditions and product.deal_status = 1 ".$this->club_condition." group by product.deal_id order by product.deal_id DESC"; 
 		$result = $this->db->query($query);
 	       
 	        return $result;
@@ -173,7 +187,7 @@ class Stores_Model extends Model
 	
 	public function get_auction_categories($store_id = "",$search="",$type="")
 	{
-		$conditions = "auction.shop_id = $store_id and auction.deal_status = 1 and enddate > ".time()."";
+		$conditions = "auction.shop_id = $store_id and auction.deal_status = 1   ".$this->club_condition." and enddate > ".time()."";
 		$order1="";
 		$order="";
 		  if($search){
@@ -202,8 +216,14 @@ class Stores_Model extends Model
                             ->get();
                     return $result;
 		}else {
+			
+			$n_condition = array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1);
+			
+			if($this->club_condition_arr)
+				$n_condition = array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1, "auction.for_store_cred" => 0);
+				
 		        $result = $this->db->from("auction")
-			->where(array("shop_id" => $store_id,"enddate >" => time(),"deal_status"=>1))
+			->where($n_condition)
 			->join("stores","stores.store_id","auction.shop_id")
 			->join("users","users.user_id","auction.merchant_id")
 			->join("category","category.category_id","auction.category_id")

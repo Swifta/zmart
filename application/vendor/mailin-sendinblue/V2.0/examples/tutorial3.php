@@ -1,6 +1,6 @@
 <?php
 
-require('Mailin.php');
+require('../../../mailin-api-php-master/V2.0/examples/Mailin.php');
 /*
  * This will initiate the API with the endpoint and your access key.
  *
