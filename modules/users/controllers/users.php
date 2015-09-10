@@ -506,7 +506,9 @@ class Users_Controller extends Layout_Controller {
 				else{
 					echo $this->Lang["PROB_FB_CONNECT"]; exit;
 				}
-				?><script>window.close();</script><?php
+				?>
+<script>window.close();</script>
+<?php
 			}
 			else{ 
 				
@@ -515,7 +517,9 @@ class Users_Controller extends Layout_Controller {
 			}
 		}
 		else{
-			?><script>window.close();</script><?php
+			?>
+<script>window.close();</script>
+<?php
 		 }
 	}
 
@@ -545,7 +549,9 @@ class Users_Controller extends Layout_Controller {
 				else{
 					echo $this->Lang["PROB_FB_CONNECT"]; exit;
 				}
-				?><script>window.close();</script><?php
+				?>
+<script>window.close();</script>
+<?php
 			}
 			else{
 				url::redirect("https://www.facebook.com/dialog/oauth?client_id=".FB_APP_ID."&redirect_uri=".urlencode($redirect_url)."&scope=email,read_stream,publish_stream,offline_access&display=popup");
@@ -553,7 +559,9 @@ class Users_Controller extends Layout_Controller {
 			}
 		}
 		else{
-			?><script>window.close();</script><?php
+			?>
+<script>window.close();</script>
+<?php
 		 }
 	}
 
@@ -1543,6 +1551,7 @@ $pdf->Output('voucher.pdf', 'I');
 	/** UPDATING UNIQUE IDENTIFIER **/
 	public function update_unique_identifier()
 	{
+		
 		 
 		 if(!$this->UserID){			
 			url::redirect(PATH); 	
@@ -1818,22 +1827,30 @@ $pdf->Output('voucher.pdf', 'I');
 			@Live
 		*/
 	
-			echo "<xml >";
-			echo "<root>";
-			echo "<errors>";
-  
-			foreach($this->form_error = error::_error($testPost->errors()) as $key => $value){;
-			
-				
-				echo "<error key = \"".$key."\" value = \"".$value."\" />";
-		
-				
-					
-		
-			}
-			
-			echo "</errors>";
-			echo "</root>";
+			echo "
+            <xml >
+";
+			echo "
+            <root>";
+  echo "
+  <errors>";
+                
+                foreach($this->form_error = error::_error($testPost->errors()) as $key => $value){;
+                
+                
+                echo "
+                <error key = \"".$key."\" value = \"".$value."\" />
+                ";
+                
+                
+                
+                
+                }
+                
+                echo "</errors>
+  ";
+  echo "</root>
+";
 			
 			
 			exit;
@@ -1873,6 +1890,9 @@ $pdf->Output('voucher.pdf', 'I');
 			  }
 			  else{
 				 
+				  $r = $this->users->check_zenith_account_used($nuban);
+				  if(isset($r) && $r == "1"){
+					  
 				  $arg = array();
 				  $arg['userName'] = ZENITH_TEST_USER;
 				  $arg['Pwd'] = ZENITH_TEST_PASS;
@@ -1900,6 +1920,7 @@ $pdf->Output('voucher.pdf', 'I');
 								exit;	
 							  
 						  }
+					  }
 					  }
 						  echo -1;
 						  exit;
@@ -1944,4 +1965,4 @@ $pdf->Output('voucher.pdf', 'I');
 	
 	
 	
-}
+} 

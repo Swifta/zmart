@@ -849,7 +849,15 @@
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li>
+                                                    
+                                                    
+                                                    <!-- 
+                                                    	Remove my profile feature to edit/add a unique identifier.
+                                                    	@Live
+                                                    -->
+                                                    
+                                                    
+                                                   <!-- <li>
                                                         <h4><?php echo $this->Lang['UNIQ_IDEN']; ?></h4>
                                                         <div class="pi_detail">
                                                             <div class="pi_detail_info" id="city_user">
@@ -869,7 +877,7 @@
                                                                 <p><a class="cursor profile_edit9" style="cursor:pointer;" title="<?php echo $this->Lang['EDIT2']; ?>"><?php echo $this->Lang['EDIT2']; ?></a></p>
                                                             </div>
                                                         </div>
-                                                    </li>
+                                                    </li>-->
                                                 </ul>
                                             </div>
                                         </div>
