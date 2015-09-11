@@ -205,8 +205,7 @@ class Email{
 									$send_now
 		);
 		
-		var_dump($r);
-		exit;
+		
             if(!$r){
 			  	common::message(-1,  "Operation was complete but sending email failed. Please contact administrator");
 			 	error_log($r);
