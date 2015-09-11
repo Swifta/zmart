@@ -58,13 +58,17 @@ class Email{
 
 	}
 
-	/** SEND EMAIL USING SMTP MAILER **/
+	/** 
+		SEND EMAIL USING SMTP MAILER
+		and Sendinblue smtp acccount
+		@Live
+		
+	 **/
 
-    public function smtp_back($from = "",$receiver = array(), $subject = "", $message = "",$file = "")
+    public function smtp($from = "",$receiver = array(), $subject = "", $message = "",$file = "")
     {
 
-
-
+		
         $sitename = SITENAME;
         if(!$sitename){
             $sitename = $_SERVER['HTTP_HOST'];
@@ -76,20 +80,18 @@ class Email{
         require_once(APPPATH.'vendor/mail/class.phpmailer.php');
         $mail = new PHPMailer(TRUE);
         $mail->IsSMTP();
+		
+		
         try {
-            $mail->Host       = "mail.yourdomain.com";         // SMTP server
-            $mail->SMTPDebug  = 2;                             // enables SMTP debug information (for testing)
-            $mail->SMTPAuth   = TRUE;                          // enable SMTP authentication
-            $mail->SMTPSecure = "ssl";                         // sets the prefix to the servier
-            $mail->Host       = HOST;                  // sets GMAIL as the SMTP server
-            $mail->Port       = PORT;                  // set the SMTP port for the GMAIL server
+            
+            $mail->SMTPDebug  = 2;
+            $mail->SMTPAuth   = TRUE;
+            $mail->SMTPSecure = "tls";
+            $mail->Host       = HOST;
+            $mail->Port       = PORT; 
             $mail->Username   = USERNAME;
             $mail->Password   = PASSWORD;
-
-
             $mail->AddReplyTo($from) ;
-
-
             $mail->AddAddress($receiver);
             $mail->SetFrom($from);
             $mail->Subject = $subject;
@@ -99,30 +101,140 @@ class Email{
 			{
 					foreach($file as $f){
 						$mail->AddAttachment($f);
+						
 
 					}
 			}
-			//$mail->AddAttachment("images/pdf/Voucher0.pdf");
-
-            $mail->Send();
+			
+			$r = $mail->Send();
+            if(!$r){
+			  	common::message(-1,  "Operation was complete but sending email failed. Please contact administrator");
+				return FALSE;
+			}
+			 
+			
 
         }
         catch(phpmailerException $e) {
             common::message(-1,  $e->errorMessage());
+			return FALSE;
 
         }
         catch (Exception $e) {
             common::message(-1,  $e->getMessage());
+			return FALSE;
         }
-        return;
+		return TRUE;
+        
+    }
+	
+	
+	/** 
+		SEND CAMPAIN Sendinblue API
+		@Live
+		
+	 **/
+
+    public function send_campaign($subject = "", $message = "",$file = "")
+    {
+
+		
+        $sitename = SITENAME;
+        if(!$sitename){
+            $sitename = $_SERVER['HTTP_HOST'];
+        }
+        $fromEmail = NOREPLY_EMAIL;
+        if(!$fromEmail){
+            $fromEmail = "noreply@".$_SERVER['HTTP_HOST'];
+        }
+        require_once(APPPATH.'vendor/mail/class.phpmailer.php');
+        $mail = new PHPMailer(TRUE);
+		
+		$message = $mail->MsgHTML($message);
+		require_once(APPPATH.'vendor/mailin-sendinblue/V2.0/Mailin.php');
+   		$mail = new Mailin("https://api.sendinblue.com/v2.0",PASSWORD);
+       
+		
+		
+        try {
+            
+            
+			$category = $subject;
+			$from_name = NEWSLETTER_FROM_NAME;
+			$name = $subject;
+			$bat_sent = NEWSLETTER_TEST_EMAIL;
+			$html_content = $message;
+			$html_url = "";
+			$listid = array("4");
+			$scheduled_date = "2015-09-12 15:53:30";
+			$subject = $subject;
+			$from_email = NEWSLETTER_FROM_EMAIL;
+			$reply_to = $from_email;
+			$to_field = "";
+			$exclude_list = array();
+			$inline_image = 1;
+			$mirror_active ="";
+			$send_now = 1;
+
+            if($file != "")
+			{
+					foreach($file as $f){
+						$attachmentUrl = $f;
+					}
+			}
+			
+			
+			$r = $mail->create_campaign(
+		
+									$category,
+									$from_name,
+									$name,
+									$bat_sent,
+									$html_content,
+									$html_url,
+									$listid,
+									$scheduled_date,
+									$subject,
+									$from_email,
+									$reply_to,
+									$to_field,
+									$exclude_list,
+									$attachmentUrl,
+									$inline_image,
+									$mirror_active,
+									$send_now
+		);
+		
+		var_dump($r);
+		exit;
+            if(!$r){
+			  	common::message(-1,  "Operation was complete but sending email failed. Please contact administrator");
+			 	error_log($r);
+				return FALSE;
+			}
+			
+			if(isset($r['code']) && $r['code'] == 'success')
+				return TRUE;
+			 
+			
+        }
+        catch(phpmailerException $e) {
+            common::message(-1,  $e->errorMessage());
+			return FALSE;
+
+        }
+        catch (Exception $e) {
+            common::message(-1,  $e->getMessage());
+			return FALSE;
+        }
+		return TRUE;
+        
     }
 
 		/** SEND EMAIL USING SMTP MAILER **/
 
     public function smtp1($from = "",$receiver = array(), $subject = "", $message = "")
     {
-
-
 
         $sitename = SITENAME;
         if(!$sitename){
@@ -594,7 +706,7 @@ public function sendgrid_attach1($receiver= "", $subject = "", $message = "", $f
 
 */
 
-public function smtp($from = "",$receiver = array(), $subject = "", $message = "",$file = ""){
+public function smtp_sendinblue($from = "",$receiver = array(), $subject = "", $message = "",$file = ""){
    require_once(APPPATH.'vendor/mailin-sendinblue/V2.0/Mailin.php');
    $mail = new Mailin("https://api.sendinblue.com/v2.0","Kx4syT6qOJmWCbLU");
    
@@ -612,23 +724,33 @@ public function smtp($from = "",$receiver = array(), $subject = "", $message = "
 			{
 					$x = 0;
 					foreach($file as $f){
-						$attachment[x] = $f;
+						$attachment[$x] = $f;
 						$x++;
 
 					}
 			}
 			
-			$to = array();
-			$to[$receiver] = "";	
-			$subject = "";
+			
+			
+			$from = array($from,"support@zmart");
+			$to = array($receiver => "");
 			$cc = array(); 
 			$bcc = array();
-			$replyto = array("noreply@zmart.com","NOREPLY"); 
-			$attachment = array(); 
+			$replyto = array($from,"support@zmart"); 
+			$attachment = array();
+			var_dump($message);
+			exit; 
 			$headers = array("Content-Type"=> "text/html; charset=iso-8859-1","X-Ewiufkdsjfhn"=> "hello","X-Custom" => "Custom");
-            $r = $mail->send_email($to,$subject,$from,$message,"",$cc,$bcc,$replyto,$attachment,$headers);
-			var_dump($r);
-			exit;
+            $r = $mail->send_email($to,$subject,$from, $message," ", $cc,$bcc,$replyto,$attachment,$headers);
+			
+			
+			if(isset($r['code']) && $r['code'] == 'success')
+				 return;
+			else
+				common::message(-1,  "Email sending failed. Please contact site administrator.");
+			
+			
+			return;
 			
 
         }

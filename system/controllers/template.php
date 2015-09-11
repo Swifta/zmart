@@ -141,6 +141,10 @@ abstract class Template_Controller extends Controller {
 				define('ZENITH_TEST_ENDPOINT', $s->z_test_endpoint);
 				define('ZENITH_TEST_USER', $s->z_test_user);
 				define('ZENITH_TEST_PASS', $s->z_test_pass);
+				
+				
+				
+				
 			}
 		}
 		else
@@ -167,6 +171,15 @@ abstract class Template_Controller extends Controller {
 				define('LISTID', $e->list_id);
 				define('REPLAY_TO_MAIL', $e->replay_to_mail);
 				define('FROM', $e->from_name);
+				
+				/*
+					Sendinblue Campaign API creds.
+					@Live
+				*/
+				define('NEWSLETTER_FROM_NAME', $e->newsletter_name);
+				define('NEWSLETTER_FROM_EMAIL', $e->newsletter_email);
+				define('NEWSLETTER_TEST_EMAIL', $e->newsletter_test_email);
+				
 			}
 		}
 		else

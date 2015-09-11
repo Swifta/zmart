@@ -123,15 +123,21 @@ class Users_Controller extends Layout_Controller {
 				$subject = $this->Lang['YOUR'].' '.SITENAME.' '.$this->Lang['REG_COMPLETE'];
 				$message = new View("themes/".THEME_NAME."/mail_template");
 				if(EMAIL_TYPE==2){
+					
 					email::smtp($from, $post->email,$subject, $message);
 				} else {
 					email::sendgrid($from, $post->email,$subject, $message);
 				}
+				
 				common::message(1, $this->Lang["SUCC_SIGN"]);
-                                url::redirect(PATH."users/my-account.html");
+                url::redirect(PATH."users/my-account.html");
+				
+				
                     }
+					
                 }
 		if($this->UserID ){
+			
 			url::redirect(PATH);
 		}
 		$this->login = 1;
@@ -616,10 +622,12 @@ class Users_Controller extends Layout_Controller {
 
 	public function my_account()
 	{
+		
 	        if(!$this->UserID){
 			url::redirect(PATH);
+			
 		}
-
+		
 		$this->user_detail1 = $this->users->get_user_data_list($this->input->get('fb_user_id'));
 		if($_POST){
 

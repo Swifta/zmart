@@ -131,6 +131,9 @@ class Users_Model extends Model
 		
 		$result = $this->db->insert("users", array("firstname" => $post->f_name, "email" => $post->email, "password" =>  md5($post->password),"city_id" => $post->city, "country_id" => $post->country, "referral_id" => $referral_id, "referred_user_id" =>$referred_user_id, "joined_date" => time(),"last_login" => time(), "user_type"=> 4,"gender" =>$post->gender,"age_range"=>$post->age_range,"unique_identifier"=>$post->unique_identifier,"user_auto_key"=>$user_auto_key));
 		
+			$this->session->set(array("UserID" => $result->insert_id(), "UserName" => $post->f_name, "UserEmail" => $post->email, "city_id" => $post->city, "UserType" => 4, "Club" => 0));
+		
+		
 		$result_city = $this->db->select("category_id,city_id")->from("email_subscribe")->where(array("email_id" =>$post->email))->get();
 		        if(count($result_city) > 0) {
                         $city_subscribe = $result_city->current()->city_id;
@@ -141,12 +144,6 @@ class Users_Model extends Model
 			$category_subscribe = $category_result->current()->category_id;
 		        $result_email_subscribe = $this->db->insert("email_subscribe", array("user_id" => $result->insert_id(), "email_id" => $post->email,"city_id" => $post->city,"country_id" =>$post->country,"category_id" =>$category_subscribe));
   		      }
-		/*
-			TODO
-			Add club member to this session.
-			@Live
-		*/
-		$this->session->set(array("UserID" => $result->insert_id(), "UserName" => $post->f_name, "UserEmail" => $post->email, "city_id" => $post->city, "UserType" => 4, "Club" => 0));
 		
 		return 1;
 	}

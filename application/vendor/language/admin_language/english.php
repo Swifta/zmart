@@ -696,9 +696,9 @@ $content_text = array(
 
 			"DEAL_DELETE" => "Deal deleted successfully !",
 
-			"NEWS_SENT" => "Newsletter send successfully!",
+			"NEWS_SENT" => "Newsletter sent successfully!",
 
-			"NEWS_NOT_SENT" => "Newsletter dosen't send !",
+			"NEWS_NOT_SENT" => "Error occured while sending news letter. Please contact site administrator!",
 
 			"DAILY_DEALS_SENT" => "Daily deals sent successfully !",
 

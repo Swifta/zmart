@@ -128,9 +128,20 @@ class Newsletter_Controller extends website_Controller {
 					               
 					$file1=array();
 					pdf::template_create($post->template,$post->subject,$post->message);
-				   
-					array_push($file1, $_SERVER['DOCUMENT_ROOT']."/images/newsletter/newsletter.pdf");
-					//chmod($_SERVER['DOCUMENT_ROOT']."/images/newsletter/newsletter.pdf",0777);
+					
+					
+					/*
+						This points to server root folder which makes the path
+						wrong if the site resides in another folder inside root.
+						Original: array_push($file1, $_SERVER['DOCUMENT_ROOT']."images/newsletter/newsletter.pdf");
+						New: array_push($file1, DOCROOT.'images/newsletter/newsletter.pdf');
+						
+						@Live
+					*/
+					
+					
+					array_push($file1, DOCROOT.'images/newsletter/newsletter.pdf');
+					//chmod($_SERVER['DOCUMENT_ROOT']."images/newsletter/newsletter.pdf",0777);
                     $status = $this->news->send_newsletter(arr::to_object($this->userPost),$file1,$logo);
                     if($_FILES["attach"]["name"]!=''){
 						$logo = $_FILES["attach"]["name"];

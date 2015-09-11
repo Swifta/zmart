@@ -52,10 +52,95 @@ class Newsletter_Model extends Model
 		return count($result);
 	}
 	
-    
-	/** NEWSLETTER SEND **/
+	
+	
+	/** 
+		NEWSLETTER SEND
+		SWIFTA implementation(Modification of vendor's implementation)
+		@Live
+		 
+	**/
 
 	public function send_newsletter($post="",$file="",$logo="")
+	{
+		
+		if(!isset($post->email)){
+			
+            	$this->email_id = "";
+				$this->name = "";
+				$this->message = $post->message;
+				$this->news_title = $post->title;
+				$this->news_message = $post->message;
+				$this->news_footer = $post->footer;
+				$this->news_logo = $logo;
+				$message = new View("themes/".THEME_NAME."/Template_file_".$post->template);
+				if(EMAIL_TYPE==2){
+					
+					if(!email::send_campaign($post->subject,$message,$file))
+						return -1;
+					
+						
+					
+				} else{
+					email::sendgrid($from, $c->email,$post->subject,$message);
+				}
+			
+			return 1;
+  		
+  		
+		}
+			if(isset($post->email) && $post->email!="") 
+			{
+				$email = $post->email;
+				
+				$i=0;
+				foreach($email as $mail){
+					
+					if($mail=="0"){
+						if($i=="0" && $mail=="0"){
+										return -1;
+										}
+					}
+					
+					$mails = explode("__",$mail);
+					$useremail = $this->mail= $mails[0];
+					$username =  $mails[1];
+					if(isset($username) && isset($useremail))
+					$message = " <p> ".$post->message." </p>";
+					$this->email_id = $useremail;
+					$this->name = $username;
+					$this->message = $message;
+					$fromEmail = NOREPLY_EMAIL;
+					$this->newstitle = $post->title;
+					$this->newsmessage = $post->message;
+					$this->newsfooter = $post->footer;
+					$this->newslogo = $logo;
+					$message = new View("themes/".THEME_NAME."/Template_file_".$post->template);
+
+					$fromEmail = NOREPLY_EMAIL;
+					if(EMAIL_TYPE==2){
+						email::smtp($fromEmail,$useremail,$post->subject,$message,$file);
+					}else {
+						email::sendgrid($fromEmail,$useremail,$post->subject,$message);
+					}
+					$i++;
+				}return 1;
+				
+			}
+	
+		
+	}
+
+	
+    
+	/** 
+		NEWSLETTER SEND
+		Vendor implementation
+		@Live
+		 
+	**/
+
+	public function send_newsletter_backup($post="",$file="",$logo="")
 	{
 		$conditions="";
 		
@@ -106,7 +191,10 @@ class Newsletter_Model extends Model
 				$this->news_logo = $logo;
 				$message = new View("themes/".THEME_NAME."/Template_file_".$post->template);
 				if(EMAIL_TYPE==2){
-					email::smtp($from, $c->email,$post->subject,$message,$file);
+					
+					var_dump(email::smtp($from, $c->email,$post->subject,$message,$file));
+					var_dump($message);
+					exit;
 				} else{
 					email::sendgrid($from, $c->email,$post->subject,$message);
 				}
