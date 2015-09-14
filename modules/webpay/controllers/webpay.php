@@ -94,6 +94,7 @@ class Webpay_Controller extends Layout_Controller
             $this->session->set('payment_result', $this->result_transaction);
             $this->template->title = $this->result_transaction->ACK." Interswitch Payment System";
             $this->template->content = new View("themes/".THEME_NAME."/interswitch/payment_finished");   
+			$this->session->delete('payment_result');
         }
 
 
@@ -159,7 +160,7 @@ class Webpay_Controller extends Layout_Controller
                 $TRANSACTIONID = text::random($type = 'alnum', $length = 15);
                 //while($loop < $total_item_in_cart){
 		foreach($_SESSION as $key=>$value){
-                    
+                  
                     //$value = $this->session->get("count");
                     if(!is_array($value)){
                     if(($value && $key=='product_cart_id'.$value)){

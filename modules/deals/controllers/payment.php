@@ -335,6 +335,7 @@ class Payment_Controller extends Layout_Controller {
 			url::redirect(PATH);
 		}
 	        $this->session->delete('payment_result');
+			
 		$this->template->content = new View("themes/".THEME_NAME."/success_payment");
 	}
 	

@@ -10,6 +10,7 @@ class Pay_later_Controller extends Layout_Controller
 
 	public function product_payment()
 	{
+		
 		$cart_merchant=array();
 		$merchant_id_array=array();
 		foreach($_SESSION as $key=>$value)
@@ -159,6 +160,7 @@ class Pay_later_Controller extends Layout_Controller
 					$taxdeal_amount=($deal_value*$item_qty)+$shipping_amount;
 					$tax_amount = ((TAX_PRECENTAGE_VALUE/100)*$taxdeal_amount);
 					$pay_amount1 += ($taxdeal_amount+$tax_amount);
+					
 					foreach($_SESSION as $key=>$value)
 					{
 						if(($key=='product_size_qty'.$deal_id)){
