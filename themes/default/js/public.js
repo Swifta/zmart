@@ -316,7 +316,8 @@ function showlogin(z_offer)
 	$('.popup_block').css({'display' : 'block'});
 	$('.popup_block1').css({'display' : 'none'});
 	$('.popup_block2').css({'display' : 'none'});
-	$('.popup_block3').css({'display' : 'none'});
+	$('.popup_block3_0').css({'display' : 'none'});
+	$('.popup_block3_1').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
 	
 	var f_offer_click_status = $('#id_z_offer_click_status');
@@ -346,7 +347,8 @@ function showforgotpassword()
 	$('.popup_block2').css({'display' : 'block'});
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
-	$('.popup_block3').css({'display' : 'none'});
+	$('.popup_block3_0').css({'display' : 'none'});
+	$('.popup_block3_1').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
 }
 
@@ -376,7 +378,8 @@ function showsignup(z_offer)
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'block'});
 	$('.popup_block2').css({'display' : 'none'});
-	$('.popup_block3').css({'display' : 'none'});
+	$('.popup_block3_0').css({'display' : 'none'});
+	$('.popup_block3_1').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'none'});
 	
 	var f_offer_click_status = $('#id_z_offer_click_status_signup');
@@ -404,7 +407,34 @@ function showmembershipsignup(x)
         $('#fname_error').html('');
          $('#terms_error').html('');
 	$('#fade').css({'visibility' : 'visible'});
-	$('.popup_block3').css({'display' : 'block'});
+	$('.popup_block3_0').css({'display' : 'block'});
+	$('.popup_block3_1').css({'display' : 'none'});
+	$('.popup_block').css({'display' : 'none'});
+	$('.popup_block1').css({'display' : 'none'});
+	$('.popup_block2').css({'display' : 'none'});
+	
+}
+
+function showmembershipsignup_open(x)
+{
+	document.signup.f_name.value='';
+	document.signup.password.value='';
+	document.signup.email.value='';
+	document.signup.city.value='-99';
+	$('#fname_error').html('');
+	$('#emai_error').html('');
+	$('#pass_error').html('');
+	$('#city_error').html('');
+	$('#country_error').html('');
+        $('#emai_error').html('');
+        $('#city_error').html('');
+        $('#pass_error').html('');
+        $('#cpass_error').html('');
+        $('#fname_error').html('');
+         $('#terms_error').html('');
+	$('#fade').css({'visibility' : 'visible'});
+	$('.popup_block3_0').css({'display' : 'none'});
+	$('.popup_block3_1').css({'display' : 'block'});
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
 	$('.popup_block2').css({'display' : 'none'});
@@ -1273,7 +1303,8 @@ function showfbsignup()
 	$('.popup_block2').css({'display' : 'none'});
 	$('.popup_block').css({'display' : 'none'});
 	$('.popup_block1').css({'display' : 'none'});
-	$('.popup_block3').css({'display' : 'none'});
+	$('.popup_block3_0').css({'display' : 'none'});
+	$('.popup_block3_1').css({'display' : 'none'});
 	$('.popup_block4').css({'display' : 'block'});
 	
 }

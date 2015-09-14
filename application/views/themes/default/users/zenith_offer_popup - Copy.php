@@ -4,7 +4,7 @@
         <div class="sign_up_outer">  
             <div class="sign_up_logo">
                 <a href="<?php echo PATH;?>"><img alt="<?php echo $this->Lang['LOGO']; ?>" src="<?php echo PATH;?>themes/<?php echo THEME_NAME; ?>/images/logo.png"/></a>        	
-                <a class="close2" title="<?php echo $this->Lang['CLOSE']; ?>" id="closeOffer">&nbsp;</a>                
+                <a class="close2" title="<?php echo $this->Lang['CLOSE']; ?>" id="close_verify_acc">&nbsp;</a>                
             </div>
             <div class="signup_content clearfix">
               <div class="signup_form_block">
@@ -161,7 +161,7 @@
                                 </div>   
                             </li>
                           <li>
-                              <input class="sign_submit" id ="submit_acc" type="submit" value="Apply for Offer" title="Apply for Offer" onclick="return false;">
+                              <input class="sign_submit" id ="submit_acc" type="submit" value="<?php echo $this->Lang['Z_SUBSCRIBE NOW'];?>" title="Apply for Offer" onclick="return false;">
                           </li>
                       </ul>
                       </form>
@@ -179,6 +179,24 @@ $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade la
 //Close Popups and Fade Layer
 $('#closeOffer').live('click', function() {
 		$('.popup_block3').css({'display' : 'none'});
+		
+		$('#fade').css({'visibility' : 'hidden'});
+			//  location.reload();
+	
+	return false;
+});
+
+$('#close_open_acc').live('click', function() {
+		$('.popup_block3_0').css({'display' : 'none'});
+		
+		$('#fade').css({'visibility' : 'hidden'});
+			//  location.reload();
+	
+	return false;
+});
+
+$('#close_verify_acc').live('click', function() {
+		$('.popup_block3_1').css({'display' : 'none'});
 		
 		$('#fade').css({'visibility' : 'hidden'});
 			//  location.reload();

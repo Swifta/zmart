@@ -1780,9 +1780,17 @@ $content_text = array(
     
 "ZENITH_ACCOUNT_OPEN" => "Open A Zenith Bank A/C",
 
-"ZENITH_ALREADY_HAVE_ACCOUNT" => "Already Have an A/C ?",
+"ZENITH_ALREADY_HAVE_ACCOUNT" => "Club Membership Subscription",
     
-"ZENITH_INFO_OFFER" => "Verify your Zenith Account.",
+"ZENITH_INFO_OFFER" => "Enter your Zenith Bank Account below for instant subscription.",
+
+"Z_OPEN" => "Don't have a Zenith Bank Account? Click link below.",
+
+"Z_SUBSCRIBE NOW" => "Subscribe now",
+
+"Z_HERE" => "here",
+
+"Z_ACC_OPEN" => "Click to open up a Zenith Bank Account",
 	
 "ACCOUNT_NUMBER" => "NUBAN Account Number",
     

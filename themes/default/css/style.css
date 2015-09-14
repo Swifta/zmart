@@ -1942,7 +1942,8 @@ transition: all 0.4s ease;-webkit-transition: all 0.4s ease;-o-transition: all 0
 .popup_block {display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:630px;margin:0 0 0 -315px;}
 .popup_block1 {display:none;float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%; z-index: 101;width:630px;margin:0 0 0 -315px;}
 .popup_block2 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
-.popup_block3 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
+.popup_block3_0 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
+.popup_block3_1 { display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101; width:630px;margin:0 0 0 -315px;}
 .popup_block4 {float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:433px;margin:0 0 0 -216px;}
 .popup_block5 {display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:730px;margin:0 0 0 -365px;}
 .popup_block6 {display:none;float: left; font-size: 1.2em; position: absolute; top: 0; left:50%; z-index: 101;width:1030px;margin:0 0 0 -515px;}
@@ -2438,3 +2439,9 @@ transition: all 0.4s ease;-webkit-transition: all 0.4s ease;-o-transition: all 0
 
 .new_store_transaction{border:1px solid #D3D2D1;box-sizing:border-box;-webkit-box-sizing:border-box;margin-bottom:15px;}
 .new_store_transaction h1{font:16px arial;color:#A61C00;padding:8px 10px;width:98%;border-bottom:1px solid #d3d2d1;}
+
+.zenith_verify_center{
+	float:none;
+	margin: 0 auto;
+	
+}

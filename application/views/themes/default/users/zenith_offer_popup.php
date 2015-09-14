@@ -1,83 +1,67 @@
-z	
+    <script type="text/javascript">
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://plus.google.com/js/client:plusone.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+    </script>
     
-    <div class="shadow_bg"></div>
-        <div class="sign_up_outer">  
-            <div class="sign_up_logo">
-                <a href="<?php echo PATH;?>"><img alt="<?php echo $this->Lang['LOGO']; ?>" src="<?php echo PATH;?>themes/<?php echo THEME_NAME; ?>/images/logo.png"/></a>        	
-                <a class="close2" title="<?php echo $this->Lang['CLOSE']; ?>" id="closeOffer">&nbsp;</a>                
-            </div>
-            <div class="signup_content clearfix">
-              <div class="signup_form_block">
-                  <h2 class="signup_title"><?php echo $this->Lang['ZENITH_ACCOUNT_OPEN']; ?></h2>
-                  <!--
-                  	TODO
-                  	Client side validation of this form needed.
-                    #Live 
-                    
-                    I have disabled the onsubmit function below
-                    This is for form onsubmit event
-                    ::::onsubmit="return validateForms();
-                    
-                    This is for the submit button.
-                    ::::onclick="return validateForms();
-                    
-                    Backup for action
-                    ::::<?php //echo PATH; ?>users/club_open_bank_account_user
-                    
-                    This was no Gender field.
-                    ::::onchange="return city_change_merchant(this.value);"
-                  ---->
-                  
-                  
-                  <form id="zenith_account_open" name="zenith_offer" method="POST" onsubmit="return false" action="<?php echo PATH; ?>users/club_open_bank_account_user"   autocomplete="off">
-                      <ul>
+
+<div class="shadow_bg"></div>
+            <div class="sign_up_outer">  	                        
+                    <div class="sign_up_logo">
+                        <a href="<?php echo PATH;?>"><img alt="<?php echo $this->Lang['LOGO']; ?>" src="<?php echo PATH;?>themes/<?php echo THEME_NAME; ?>/images/logo.png"/></a>
+                        <a class="close2" title="<?php echo $this->Lang['CLOSE']; ?>" id="close_verify_acc"></a>
+                    </div>				
+                <div class="signup_content new_user_signup clearfix">
+                    <div class="signup_form_block">
+                        <h2 class="signup_title"><?php echo $this->Lang['USER_SIGN_UP']; ?></h2>
+                          <form id="zenith_account_open" name="zenith_offer" method="POST" onsubmit="return false" action="<?php echo PATH; ?>users/club_open_bank_account_user"   autocomplete="off">
+                            <ul>                               
                             <li>
-                                <label><?php echo $this->Lang["FIRST_NAME"]; ?>:<span class="form_star">*</span></label>
+                              <label><?php echo $this->Lang["FIRST_NAME"]; ?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                    <input class="z_acc_input" name="f_name" type="text" maxlength="20"  placeholder="<?php echo $this->Lang['ENTER_NAME']; ?>" value="" autofocus />
                                    <em id="f_name_err"></em>
-                                </div>   
+                                </div> 
                             </li>
-                            
-                            <li>
+                             <li>
+                             
                                 <label><?php echo $this->Lang["LAST_NAME"]; ?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                    <input name="l_name" class="z_acc_input" type="text" maxlength="20"  placeholder="<?php echo $this->Lang['ENTER_NAME']; ?>" value="" autofocus />
                                    <em id="l_name_err"></em>
-                                </div>   
+                                </div>  
+                                
+                                
                             </li>
-                            
-                            
-                             <li>
+                            <li>
                                 <label><?php echo $this->Lang['EMAIL']; ?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                   <input name="email" class="z_acc_input" type="text" maxlength="64" placeholder="<?php echo $this->Lang['ENTER_EMAIL']; ?>" value="" />
                                   <em id="email_err"></em>
-                                </div>   
-                            </li> 
-                            
-                            
-                            <li>
+                                </div>     
+                            </li>
+                             <li>
                                 <label><?php echo $this->Lang["PHO"]; ?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                    <input name="phone" class="z_acc_input" type="text" maxlength="20"  placeholder="<?php echo $this->Lang['ENTER_PHONE']; ?>" value="" autofocus />
                                    <em id="phone_err"></em>
-                                </div>   
+                                </div>  
                             </li>
-                            
                             <li>
-                                <label><?php echo $this->Lang["ADDRES"]; ?>:<span class="form_star">*</span></label>
+                                
+                                
+                                 <label><?php echo $this->Lang["ADDRES"]; ?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                    <input name="addr" class="z_acc_input" type="text" maxlength="20"  placeholder="<?php echo $this->Lang['ENTER_ADD']; ?>" value="" autofocus />
                                    <em id="addr_err"></em>
                                 </div>   
+                                
+                                 
                             </li>
-                            
-                            
-                            
-                            
-                            
-                                            
                             <li>
                                 <label><?php echo $this->Lang['GENDER'];?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
@@ -89,14 +73,13 @@ z
    
                                     </select>
                                      <em id="gender_err"></em>
-                                </div>
-                            
-
+                                </div>  
                             </li>
-                            
-                            
-                            
+
+
                             <li>
+                            
+                            
                                 <label><?php echo $this->Lang['ZENITH_BRANCH'];?>:<span class="form_star">*</span></label>
                                 <div class="fullname" >
                                         <div id="CitySD_log">
@@ -106,11 +89,14 @@ z
                                     </div>
                                      <em id="branch_no_err"></em>
                                 </div>
+                                
+                                
+                                
                             </li>
+                            <li>
                             
                             
-                              <li>
-                                <label><?php echo $this->Lang['ZENITH_CLASS_CODE'];?>:<span class="form_star">*</span></label>
+                               <label><?php echo $this->Lang['ZENITH_CLASS_CODE'];?>:<span class="form_star">*</span></label>
                                 <div class="fullname">
                                         <div id="CitySD_log">
                                       <select name="class_code" id = "id_z_class" class="z_acc_input" >
@@ -119,66 +105,42 @@ z
                                     </div>
                                      <em id="class_code_err"></em>
                                 </div>
-                            </li>
-                            
-                            
-                           
-                            
-                            
-                            <li class="check_box">
-                                <p><input type="checkbox" name="terms" id="id_terms" class="z_acc_input" value="0" ><?php echo $this->Lang['Z_BY_CLICKING_SUBMIT']; ?> 									
+                                
+                           </li>
+                           <input type="hidden" name="unique_identifier" value="0000000000" />
+			    <!--<li>
+                                <label><?php echo $this->Lang['UNIQ_IDEN'];?>:<span class="form_star"></span></label>
+                                <div class="fullname">
+                                    <input name="unique_identifier" maxlength="15" placeholder="<?php echo $this->Lang['ENTER_UNIQ_IDEN']; ?>" type="text" value="" />
+                                </div>   
+                                <label></label>
+                            </li>-->
+                           <li class="check_box">
+                                  <p><input type="checkbox" name="terms" id="id_terms" class="z_acc_input" value="0" ><?php echo $this->Lang['Z_BY_CLICKING_SUBMIT']; ?> 									
                                 <a class="forget_link" target="_blank" title="<?php echo $this->Lang['TEMRS']; ?>" href="<?php echo PATH; ?>zenith_terms-and-conditions.php"><?php echo $this->Lang['TEMRS']; ?></a>
                          								
                                 </p>
                                 <em id="terms_err"></em>
                             </li>
-                          <li>
-                          
-                              
-                              <!--
-                                    I have remove this from the input field below. and commented out original input field.
-                                    ::return validateForms();
-                                    ::<input class="sign_submit" type="submit" value="Open Account" title="OPEN ACCOUNT" />
-                                    @Live
-                              	-->
-                               <input class="sign_submit" id ="id_z_open_account" type="submit" value="Open Account" title="Open Account">
-                               
-                          </li>
-                      </ul>                                                                       
-                  </form>
-              </div>
-              <div class="signup_social_block">
-                  <h2 class="signup_title"><?php echo $this->Lang['ZENITH_ALREADY_HAVE_ACCOUNT']; ?></h2>
-                      <p><?php echo $this->Lang['ZENITH_INFO_OFFER']; ?></p>
-                      <form id="zenith_account_verify" name="zenith_offer"  
-                            onsubmit="return false;"  autocomplete="off">
-                      <ul>
-                            <li>
-                                <label><?php echo $this->Lang["ACCOUNT_NUMBER"]; ?>:<span class="form_star">*</span></label>
-                                <div class="fullname">
-                                   <input name="nuban" id="id_nuban" type="text" maxlength="10"  placeholder="<?php echo $this->Lang['ENTER_ACCOUNT_NUMBER']; ?>" value="" autofocus />
-                                   <em id="z_acc_error"></em>
-                                </div>   
+                            
+                            <li>                                  
+                                 <input class="sign_submit" id ="id_z_open_account" type="submit" value="Open Account" title="Open Account">
                             </li>
-                          <li>
-                              <input class="sign_submit" id ="submit_acc" type="submit" value="Apply for Offer" title="Apply for Offer" onclick="return false;">
-                          </li>
-                      </ul>
-                      </form>
-                      <!--<a class="f_connect" onclick="return false;" title="<?php echo $this->Lang['SIGN_UP_WITH']; ?>">&nbsp;</a> -->
-                      <p><?php echo $this->Lang['DONT_HAV']; ?> <a class="forget_link" title="<?php echo $this->Lang['SIGN_UP']; ?>" href="javascript:showsignup();"><?php echo $this->Lang['SIGN_UP']; ?></a> </p>                
-              </div>
+                            </ul>
+                        </form>
+                    </div>
+                                                                      
+                    </div>
+                </div>                          
             </div>
-        </div>
               
-
 <script type="text/javascript">
 $(document).ready(function(){
 $('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
 $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 				   		   
 //Close Popups and Fade Layer
-$('#closeOffer').live('click', function() {
-		$('.popup_block3').css({'display' : 'none'});
+$('#close_verify_acc').live('click', function() {
+		$('.popup_block3_0').css({'display' : 'none'});
 		
 		$('#fade').css({'visibility' : 'hidden'});
 			//  location.reload();
@@ -186,15 +148,17 @@ $('#closeOffer').live('click', function() {
 	return false;
 });
 
+
 $(document).keyup(function(e) { 
 	if (e.keyCode == 27) { // esc keycode
-		$('.popup_block3').css({'display' : 'none'});
+		$('.popup_block3_0').css({'display' : 'none'});
 		$('#fade').css({'visibility' : 'hidden'});
 	
 	
 	return false;
 	}
 });
+
 
 
 /*if(password == '')

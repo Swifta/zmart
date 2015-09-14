@@ -209,7 +209,7 @@ smaller than 1024
 .user_email_ref{float:left;width:100%;padding:20px 0 0;text-align: right;}
 /* Settings pages end */
 /* Poup start */
-.popup_block, .popup_block1, .popup_block2, .popup_block3, .popup_auction, .popup_block4, .popup_block5{position: absolute;}
+.popup_block, .popup_block1, .popup_block2, .popup_block3_0,.popup_block3_1, .popup_auction, .popup_block4, .popup_block5{position: absolute;}
  .popup_block6{width:98%;margin:0 0 0 -49%;}
 /* Poup end */
 /* Blog page start */
@@ -467,7 +467,7 @@ smaller than 685
 .feture_deal_listing_1{width:31%;}    
 /* Stort list page end */
 /* Popup start */
-.popup_block,.popup_block1,.popup_block2, .popup_block3,.popup_auction,.popup_block4{width:98%;margin:0 0 0 -49%;}
+.popup_block,.popup_block1,.popup_block2, .popup_block3_0, .popup_block3_1, .popup_auction,.popup_block4{width:98%;margin:0 0 0 -49%;}
 .signup_content{padding:20px 2%;}
 .place_midd_bott{padding:20px 2%;}
 .signup_form_block{border:0;width:100%;}

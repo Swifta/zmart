@@ -1,6 +1,7 @@
 .popup_block { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
 .popup_block1 { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
 .popup_block2 { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
-.popup_block3 { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
+.popup_block3_0 { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
+.popup_block3_1 { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 20px; left:50%;margin-left:-303px; z-index: 101; clear:both; }
 .popup_auction { visibility: hidden; float: left; font-size: 1.2em; position: fixed; top: 40px; left:50%;margin-left:-195px; z-index: 101; clear:both; }
 #fade { visibility: hidden;  background: #000; position: fixed; left: 0; top: 0; z-index: 10; width: 100%; height: 100%; opacity: .50; z-index: 100; }
