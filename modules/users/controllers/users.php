@@ -1815,7 +1815,8 @@ $pdf->Output('voucher.pdf', 'I');
 			
 		}
 		
-		$r = $this->users->update_user_to_club_membership(TRUE, $response);
+		$nuban = $response['accountNumber'];
+		$r = $this->users->update_user_to_club_membership(TRUE, $nuban);
 		if($r == 1){
 			echo $r;
 			common::message(1, "Thank you! Your Zenith bank account has been successfully created. please check it out in your profile.");
@@ -1913,7 +1914,7 @@ $pdf->Output('voucher.pdf', 'I');
 						  $nuban_response = (isset($response['errorMessage']))?-1:1;
 						  if($nuban_response == 1){
 							 
-							   $r = $this->users->update_user_to_club_membership(FALSE, $arg);
+							   $r = $this->users->update_user_to_club_membership(FALSE, $nuban);
 								common::message(1, "Thank you for signup! You can now enjoy club membership offers.");
 								if($r == 1){
 									 $urlreferer = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:PATH;
