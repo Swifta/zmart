@@ -39,7 +39,7 @@
                                 <div class="payment_form payment_shipping_form ">
                                 <ul>
                                     <li>
-                                        <label><?php echo $this->Lang["FIRST_NAME"]; ?>:</label>
+                                        <label><?php echo $this->Lang["FIRST_NAME"]; ?> <span style="color:red;">*</span>:</label>
                                 <div class="fullname">
 									<input autofocus type="text" name="firstname" class="required " placeholder= "<?php echo $this->Lang['ENTER_FIRST_NAME']; ?>" 
 									<?php if($this->session->get('firstname')) { ?>
@@ -51,7 +51,7 @@
 								</div>
                                     </li>
 					<li>			
-                                            <label><?php echo $this->Lang["LAST_NAME"]; ?>:</label>
+                                            <label><?php echo $this->Lang["LAST_NAME"]; ?> <span style="color:red;">*</span>:</label>
 								<div class="fullname">
 								        
 									<input type="text" name="lastname" class="required " placeholder= "<?php echo $this->Lang['ENTER_LAST_NAME']; ?>" 
@@ -63,7 +63,7 @@
 								</div>
                                     </li>
                                     <li>
-                                        <label><?php echo $this->Lang["EMAIL_F"]; ?>:</label>
+                                        <label><?php echo $this->Lang["EMAIL_F"]; ?> <span style="color:red;">*</span>:</label>
 								<div class="fullname">
 									<input type="text" name="email"  class="required email " placeholder= "<?php echo $this->Lang['ENTE_EMAIL_F']; ?>"
 									<?php if($this->session->get('memail')) { ?>
@@ -74,7 +74,7 @@
 								</div>
                                     </li>
                                     <li style="display: none;">
-                                        <label><?php echo $this->Lang['ADD_PAYPAL_ACC']; ?>:</label>
+                                        <label><?php echo $this->Lang['ADD_PAYPAL_ACC']; ?> <span style="color:red;">*</span>:</label>
                                 <div class="fullname">
                                 
 									<input type="text" name="payment_acc" class=" " 
@@ -89,7 +89,7 @@
                                     
                                     
                                 <li >
-                                        <label><?php echo $this->Lang["ZENITH_ACCOUNT_ENTER"]; ?>:</label>
+                                        <label><?php echo $this->Lang["ZENITH_ACCOUNT_ENTER"]; ?> <span style="color:red;">*</span>:</label>
 								<div class="fullname">
 									<input type="text" name="nuban" class="required number" placeholder= "<?php echo $this->Lang['ZENITH_ACCOUNT_ENTER_PLACEHOLDER']; ?>"
 									<?php if($this->session->get('nuban_session')) { ?>
@@ -101,7 +101,7 @@
                                 </li>
                                 
 					<li class="frm_clr">			
-                                            <label><?php echo $this->Lang["ADDR1"]; ?>:</label>
+                                            <label><?php echo $this->Lang["ADDR1"]; ?> <span style="color:red;">*</span>:</label>
 								<div class="fullname">
 									<input type="text" name="mr_address1" class="required " placeholder= "<?php echo $this->Lang['ENTER_ADDR1']; ?>"
 									<?php if($this->session->get('mraddress1')) { ?>
@@ -113,7 +113,7 @@
                                     </li>
                                     
                                 <li>
-                                    <label><?php echo $this->Lang["ADDR2"]; ?>:</label>
+                                    <label><?php echo $this->Lang["ADDR2"]; ?> <span style="color:red;">*</span>:</label>
                                  <div class="fullname">
 									<input type="text" name="mr_address2" class="required " 
 									<?php if($this->session->get('mraddress2')) { ?>
@@ -124,7 +124,7 @@
                                  </div>
                                 </li>
                                 <li class="frm_clr">
-                                        <label><?php echo $this->Lang["PHONE"]; ?>:</label>
+                                    <label><?php echo $this->Lang["PHONE"]; ?> <span style="color:red;">*</span>:</label>
 								<div class="fullname">
 									<input type="text" name="mr_mobile" class="required number" placeholder= "<?php echo $this->Lang['ENTER_PHONE']; ?>"
 									<?php if($this->session->get('mphone_number')) { ?>
@@ -135,12 +135,8 @@
                                 </div>
                                 </li>
 
-                                
-
-                                
-                                
                                  <li >
-                                <label><?php echo $this->Lang["SECTOR"]; ?>:</label>
+                                <label><?php echo $this->Lang["SECTOR"]; ?> <span style="color:red;">*</span>:</label>
 				<div class="fullname">
                                 <select name="sector" id="sector"  class="select required"  onchange="changing_sectors(this.value)">
                                 <option value=""><?php echo $this->Lang["SECTOR_SEL"]; ?></option>
@@ -153,10 +149,11 @@
                                 </div>
                                 </li>
                                 <li class="subsector_list">
-                                <label><?php echo $this->Lang['SUBSECTOR']; ?> : </label>
+                                <label><?php echo $this->Lang['SUBSECTOR']; ?> <span style="color:red;">*</span>: </label>
                                 <div class="fullname">
 				<?php if($this->session->get('sector')){ ?>
-                                <select name="subsector" id="subSector"  class="select required">
+                                <select name="subsector" id="subSector"  class="select required" onchange="previewTheme(this.text);">
+                                            
                                 <?php foreach ($this->sub_sector_list as $c) { ?>
                                 <?php if($this->session->get('sector')==$c->main_sector_id){?>
                                 <option  value="<?php echo $c->sector_id; ?>"<?php if($this->session->get('sub_sector')){ if ($this->session->get('sub_sector')==$c->sector_id ){ ?> selected <?php }}  ?> title="<?php echo $c->sector_name; ?>" ><?php echo $c->sector_name; ?></option>
@@ -164,7 +161,7 @@
                                 </select> 
                                 <?php }else{ ?>
                                 
-                                <select name="subsector" id="subSector" class="required">
+                                <select name="subsector" id="subSector" class="required" onchange="previewTheme(this.text);">
                                 <option value=""><?php echo $this->Lang['SELECT_SECTORS_FIRST']; ?></option>
                                
                                 </select>
@@ -175,10 +172,19 @@
                                 } ?></em>
 
                                 </li>
+
+
+                                
+                                <li class="fullname" style="margin-top: -30px;">
+                                    <label><?php echo $this->Lang["STORE_PREVIEW"]; ?> :</label>
+                                    <a href="javascript:openMainView();">
+                                        <img src="" class="preview_theme_selected" style="width:150px;height:150px;"/>
+                                    </a>
+                                </li>
                                 
                                 
                                 <li >
-                                    <label>Shipping method:</label>
+                                    <label>Shipping method <span style="color:red;">*</span>:</label>
                          <table> 
                                  <label>
                                         <?php if($this->free_shipping_setting == 1){ ?>
@@ -227,11 +233,42 @@
         </div>
     </div>
         </div>
+        
+        
+        <div class='popup_block_theme'><?php echo new View("themes/" . THEME_NAME . '/seller/preview_theme_popup'); ?></div>
     <!-- SELLER SIGNUP -->
     
  <script>
  
+function openMainView(){
+	$('#fade').css({'visibility' : 'visible'});
+	$('.popup_block_theme').css({'display' : 'block'});
+}
+
+function previewTheme(s){
+    
+    var select = document.getElementById("subSector");
+    var value = "";
+    var image_path = "<?php echo PATH; ?>custom/images/themes/";
+    //alert(value);
+    //preview_theme_selected
+    if (select.selectedIndex !== -1){
+        value = select.options[select.selectedIndex].text;
+        image_path+=value.toLowerCase()+".jpg";
+    }
+    else{
+        value = "";
+        image_path+="default.jpg";
+    }
+    
+    $(".preview_theme_selected").attr("src", image_path);
+    //document.getElementById("preview_theme_selected").src= image_path;
+    //alert(image_path);
+    
+}
+
     $(document).ready(function(){
+        $('.popup_block_theme').css({'display' : 'none'});
          $("#signup2").validate({
 			 messages: {				 
 		   firstname: {
@@ -286,12 +323,13 @@
  </script>
  
  <script> 
-	function atleast_onecheckbox(e) {
+function atleast_onecheckbox(e) {
           if ($("input[type=checkbox]:checked").length === 0) {
               e.preventDefault();
               alert('Shipping Method Should be Mandatory, You should choose any one of the shipping method');
               return false;
           }
 }
+
 	</script>
 	

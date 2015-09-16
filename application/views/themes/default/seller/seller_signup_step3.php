@@ -42,7 +42,7 @@
                             <div class="payment_form merchant_paymet_form">
                                 <ul>
                                     <li>
-                                        <label><?php echo $this->Lang["STORE_NAME"]; ?>:</label>
+                                        <label><?php echo $this->Lang["STORE_NAME"]; ?> <span style="color:red">*</span>:</label>
                                  <div class="fullname">
                                  <input type="text" name="storename" class="required" placeholder="<?php echo $this->Lang["ENTER_STORE_NAME"]; ?>"  value="<?php if(!isset($this->form_error['storename']) && isset($this->userPost['storename'])){echo $this->userPost['storename'];}?>" autofocus />
 				<em><?php if(isset($this->form_error['storename'])){ echo $this->form_error["storename"]; }?></em>
@@ -50,7 +50,7 @@
                              </li>
                              
                               <li>
-                                        <label><?php echo $this->Lang["USER_NAME"]; ?>:</label>
+                                        <label><?php echo $this->Lang["USER_NAME"]; ?> <span style="color:red">*</span>:</label>
                                  <div class="fullname">
                                  <input type="text" name="username" class="required" placeholder="<?php echo $this->Lang["ENTER_STORE_USER_NAME"]; ?>"  value="<?php if(!isset($this->form_error['username']) && isset($this->userPost['username'])){echo $this->userPost['username'];}?>" autofocus />
 				<em><?php if(isset($this->form_error['username'])){ echo $this->form_error["username"]; }?></em>
@@ -58,7 +58,7 @@
                              </li>
                              
                               <li>
-                                        <label><?php echo $this->Lang["EMAIL_ID"]; ?>:</label>
+                                        <label><?php echo $this->Lang["EMAIL_ID"]; ?> <span style="color:red">*</span>:</label>
                                  <div class="fullname">
                                  <input type="text" name="store_email_id" id="store_email_id"  class="required" placeholder="<?php echo $this->Lang["ENTER_STORE_EMAIL_ID"]; ?>"  value="<?php if(!isset($this->form_error['store_email_id']) && isset($this->userPost['store_email_id'])){echo $this->userPost['store_email_id'];}?>" autofocus />
 				<em><?php if(isset($this->form_error['store_email_id'])){ echo $this->form_error["store_email_id"]; }?></em>
@@ -66,7 +66,7 @@
                              </li>
                              
                             <li>
-                             <label><?php echo $this->Lang["PHONE"]; ?>:</label>
+                             <label><?php echo $this->Lang["PHONE"]; ?> <span style="color:red">*</span>:</label>
                                  <div class="fullname">
 									<input type="text" name="mobile" maxlength="15" class="required number" placeholder="<?php echo $this->Lang["ENTER_PHONE"]; ?>" value="<?php if(!isset($this->form_error['mobile']) && isset($this->userPost['mobile'])){echo $this->userPost['mobile'];}?>"/>
                                      <em><?php if(isset($this->form_error['mobile'])){ echo $this->form_error["mobile"]; }?></em>
@@ -74,7 +74,7 @@
                                 </li>
                             
                                  <li>
-                                     <label><?php echo $this->Lang["ADDR1"]; ?>:</label>
+                                     <label><?php echo $this->Lang["ADDR1"]; ?> <span style="color:red">*</span>:</label>
                                  <div class="fullname">
                             <input type="text" name="address1" class="required" value="<?php if(isset($this->userPost['address1'])){echo $this->userPost['address1'];}?>" placeholder="<?php echo $this->Lang["ENTER_ADDR1"]; ?>" />
                             
@@ -82,7 +82,7 @@
                                  </div>
                                      </li>
                                     <li>
-                                        <label><?php echo $this->Lang["ADDR2"]; ?>:</label>
+                                        <label><?php echo $this->Lang["ADDR2"]; ?> <span style="color:red">*</span>:</label>
 				 <div class="fullname">				
                             <input type="text" name="address2" class="required" value="<?php if(isset($this->userPost['address2'])){echo $this->userPost['address2'];}?>" placeholder="<?php echo $this->Lang["ENTER_ADDR2"]; ?>" />
                             
@@ -91,7 +91,7 @@
                                  </li>
                                  
                                 <li>
-                                <label><?php echo $this->Lang['COUNTRY']; ?></label>
+                                <label><?php echo $this->Lang['COUNTRY']; ?> <span style="color:red">*</span>:</label>
                                 <div class="fullname">
                                 <select name="country" id="country" onchange="return city_change_payment_step(this.value);" class="select required">
                                 <option value=""><?php echo $this->Lang["SEL_COUNTRY"]; ?></option> 
@@ -106,7 +106,7 @@
                                 </li>
                             
                                 <li class="frm_clr">
-                                <label><?php echo $this->Lang['CITY']; ?></label>
+                                <label><?php echo $this->Lang['CITY']; ?> <span style="color:red">*</span>:</label>
                                 <div class="fullname">
                                 <select name="city" id="CitySD"  class="select required">
                                 <option value=""><?php echo $this->Lang["COUNTRY_FIRST"]; ?></option>
@@ -121,12 +121,12 @@
 
                                 </li>
 
-                                <li>
-                                        <label><?php echo $this->Lang["SEARCH_LOCATION"]; ?>:</label>
+                                <li class="frm_clr">
+                                        <label style="width:480px"><?php echo $this->Lang["SEARCH_LOCATION"]; ?> <span style="color:red">*</span>:</label>
                                         <div class="fullname map_loc_section map_re_w">
                                         <div class="gllpLatlonPicker">
                                         <div class="top_popup_select2">        
-                                        <input type="text" class="gllpSearchField">
+                                        <input type="text" class="gllpSearchField required" style="width:370px">
                                         <input type="button" class="gllpSearchButton sign_submit"  value="<?php echo $this->Lang['SEARCH']; ?>">
                                         </div>
                                         <br/>
@@ -173,7 +173,7 @@
                                     <li>
                                         <label><?php echo $this->Lang['IM_UP_S']; ?>:</label>
                                  <div class="fullname">
-									<input type="file" name="image" />
+									<input type="file" name="image" class="required" />
 									
 									<em><?php if(isset($this->form_error["image"])){ echo $this->form_error["image"]; }?></em>
                                  <label><?php echo $this->Lang['IM_UP_S']; ?> <?php echo STORE_DETAIL_WIDTH; ?> X <?php echo STORE_DETAIL_HEIGHT; ?> </label>

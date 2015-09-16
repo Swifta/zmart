@@ -67,11 +67,12 @@ if(PRIVILEGES_TRANSACTIONS==1){?>
 <li> <a <?php   if(isset($this->mer_transactions_act)){ ?> class="active" <?php } ?> href="<?php echo PATH?>merchant/transaction-dashboard.html"> <?php echo $this->Lang['TRANSACTIONS']; ?> </a>  </li>
 <?php }?>
 
+<!--
 <?php 
 if(PRIVILEGES_FUNDREQUEST==1){ ?>
 <li> <a <?php   if(isset($this->mer_fund_act)){ ?> class="active" <?php } ?> href="<?php echo PATH?>merchant/fund_request.html"><?php echo $this->Lang['FUND_REQ']; ?></a>  </li>
 <?php } ?>
-
+-->
 <?php 
 	if(PRIVILEGES_SHOPS==1){?>
 <li> <a <?php  if(isset($this->mer_merchant_act)){ ?> class="active" <?php } ?>href="<?php echo PATH?>merchant/manage-shop.html"> <?php echo $this->Lang['SHOP']; ?> </a>  </li>

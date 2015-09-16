@@ -3,7 +3,10 @@ $THIS_SITENAME = SITENAME;
 $content_text = array(
 
 // general
-
+"STORE_PREVIEW" => "Store Preview",
+    
+"SELECT_A_SUB_SECTOR"=> "Select a Theme (See Preview Image)",
+    
 "PAGE_NOT" => "Page Not Found!",
 
 "HOME" => "Home",
@@ -1028,7 +1031,7 @@ $content_text = array(
     
 "YOUR_PAYMENT_PENDING_COD" => "Your order has been sent, Payment is Pending by you.\nYou need to PAY ON DELIVERY",
 
-"ZENITH_ACCOUNT_ENTER" => "Enter Your Zenith Bank A/C (NUBAN) <sup>*</sup>",
+"ZENITH_ACCOUNT_ENTER" => "Enter Your Zenith Bank A/C (NUBAN)",
     
 "ZENITH_ACCOUNT_ENTER_PLACEHOLDER" => "Zenith Bank A/C Number(NUBAN)",
     
@@ -1406,7 +1409,7 @@ $content_text = array(
 
 "SELLER_INTRODUCTION" => "Over the next few simple steps you will be shown how to create your own personal online store front which you will be able to use to sell your products or deals or auctions to thousands of people across the Nigeria. By clicking the ‘Accept’ button below and proceeding to create an online store front on $THIS_SITENAME you are agreeing to the Terms of Use, Privacy Policy and Marketplace Rules. You are also confirming that you wish to use this service, that you wish to list your products and/or services for sale on RocketBoxit and that these services are able to be provided by you proficiently and confidently as a professional in your chosen field, or that these products are of your own design or creation and have been made by you, that you own the rights of sale/re-sale and/or the rights of distribution.",
 
-"SEARCH_LOCATION" => "Search location",
+"SEARCH_LOCATION" => "Locate your store (Enter Full Address below &amp; Search)",
 
 "HOT_PRODUCT" => "Hot Products",
 

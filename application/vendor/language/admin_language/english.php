@@ -1230,6 +1230,8 @@ $content_text = array(
 			"REQUEST_AMOUNT"=>"Request Amount",
 
 			"ACC_BAL"=>"Account Balance",
+    
+                        "TOTAL_SALES"=>"Total Sales",
 
 			"DATE"=>"Date",
 
