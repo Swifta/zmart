@@ -1,0 +1,4 @@
+Certificate updated
+================================================================================================
+Version 1.0.0 - Release 11/01/2007
+- Initial release for EncryptedWebPayments(EWP) PHP library with PDT and IPN samples.
