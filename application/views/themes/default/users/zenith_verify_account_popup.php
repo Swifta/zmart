@@ -24,7 +24,7 @@
                                 </div>   
                             </li>
                           <li>
-                              <input class="sign_submit" id ="submit_acc" type="submit" value="<?php echo $this->Lang['Z_SUBSCRIBE NOW'];?>" title="<?php echo $this->Lang['Z_SUBSCRIBE NOW'];?>" onclick="return false;">
+                              <input class="sign_submit" id ="submit_acc" type="submit" value="<?php echo $this->Lang['Z_SUBSCRIBE NOW'];?>" title="<?php echo $this->Lang['Z_SUBSCRIBE NOW'];?>" onclick="show_gif(this);">
                           </li>
                            <li>
                            <br />
@@ -107,7 +107,29 @@ $('#id_z_class').focus(function(e) {
    
 });
 
-$('#id_z_open_account').click(function(e) {
+
+
+
+$('#id_z_open_accountx').click(function(e) {
+	
+	alert("XYM");
+	
+	
+	
+});
+
+
+
+
+/*
+
+
+	var sub_btn = $('#id_z_open_account').parent();
+	var sub_btn_parent = sub_btn.parent().parent().parent().parent();
+	var sub_btn_parent_bak = sub_btn_parent.html();
+	
+	sub_btn_parent.html("<div style = \"text-align:center\" ><img src = \"<?php echo PATH."images/anim/6.gif";?>\" /><p>Processing...</p></div>");
+	
 	
 	$('#f_name_err').text("");
 	$('#l_name_err').text("");
@@ -128,15 +150,121 @@ $('#id_z_open_account').click(function(e) {
 	   return false;
    }
    
-   is_z_open_account_api_running = true;
-   javascript:open_zenith_account();
-   return;
+    is_z_open_account_api_running = true;
    
-});
-
-
-$('#submit_acc').click(function() {
+   var url = <?php echo PATH;?>+'users/club_open_bank_account_user'; 
 	
+	var fs = $($('.z_acc_input'));
+	
+	//var n1 = $(fs[0]).attr('name'); 
+	var v1 = $(fs[0]).val();
+	
+	//var n2 = $(fs[1]).attr('name'); 
+	var v2 = $(fs[1]).val();
+	
+	//var n3 = $(fs[2]).attr('name'); 
+	var v3 = $(fs[2]).val();
+	
+	//var n4 = $(fs[3]).attr('name'); 
+	var v4 = $(fs[3]).val();
+	
+	//var n5 = $(fs[4]).attr('name'); 
+	var v5 = $(fs[4]).val();
+	
+	//var n6 = $(fs[5]).attr('name'); 
+	var v6 = $(fs[5]).val();
+	
+	//var n7 = $(fs[6]).attr('name'); 
+	var v7 = $(fs[6]).val();
+	
+	//var n8 = $(fs[7]).attr('name'); 
+	var v8 = $(fs[7]).val();
+	
+	//var n9 = $(fs[8]).attr('name'); 
+	var v9 = $(fs[8]).val();
+	
+	$('#terms_err').text('');
+	
+	var params_obj = {
+		
+		f_name:v1,
+		l_name:v2,
+		email:v3,
+		phone:v4,
+		addr:v5,
+		gender:v6,
+		branch_no:v7,
+		class_code:v8,
+		terms:v9
+	}
+	
+
+	
+	      $.ajax({
+		        type:'POST',
+		        url:url,
+				data:params_obj,
+		        cache:true,
+		        async:true,
+		        global:false,
+		        dataType:"html",
+		        success:function(response){
+					sub_btn_parent.html(sub_btn_parent_bak);
+					is_z_open_account_api_running = false;
+					var res;
+					try{
+					var res = $(response);
+					}catch(e){
+					}
+					
+					
+					if(isNaN(response) && res){
+						var error_obj = res.children();
+						if(error_obj){
+							var errors = error_obj.children().children();
+							if(errors)
+							for(i = 0; i < errors.length; i++){
+								var error_f_part = $(errors[i]).attr('key');
+								var error_f = error_f_part+"_err";
+								$("#"+error_f).text($(errors[i]).attr('value'));
+							}
+							exit;
+						}
+					
+					}
+					
+					
+					if(isNaN(response)){
+						
+						return false;
+						
+					}else{
+						$('#terms_err').text("Sorry, something went wrong opening your account. Please try again.");
+						
+						exit;
+						
+					}
+					
+				
+				return;
+		
+		        },
+		       	 error:function(){
+					 sub_btn_parent.html(sub_btn_parent_bak);
+					is_z_open_account_api_running = false;
+			        alert('No data found.');
+		        }
+		  });
+*/
+
+
+$('#submit_accxm').click(function() {
+	
+		
+			var sub_btn = $('#submit_acc').parent();
+			var sub_btn_parent = sub_btn.parent();
+			var sub_btn_parent_parent_bak = sub_btn_parent.parent();
+			var sub_btn_parent_bak = sub_btn_parent.html();
 			
 			$('#z_acc_error').html('');
 			
@@ -167,9 +295,57 @@ $('#submit_acc').click(function() {
 			is_z_verify_account_api_running = true;
 			
 			var url = Path+'users/club_registration_logged_in_user/'; 
+			sub_btn_parent.html("<img src = \"<?php echo PATH."images/anim/6.gif";?>\" /><p>verifying...</p>");
 			
 
-	            $.ajax(
+	            
+		});
+		
+		
+		
+
+	
+	
+});
+
+
+function show_gif(obj){
+	
+			var sub_btn = $(obj).parent();
+			var sub_btn_parent = sub_btn.parent();
+			var sub_btn_parent_bak = sub_btn_parent.html();
+			
+			$('#z_acc_error').html('');
+			
+			var nuban = $('#id_nuban').val();
+			if(nuban == ''){
+				alert("Empty field");
+				return false;
+			}
+			
+			var reg = /\d{10}/;
+			var is_no = reg.exec(nuban);
+			if(!is_no){
+				if(nuban.length != 10){
+					alert("Zenith A/C no must be 10 digits.");
+					return false;
+				}
+				
+				alert("Only digits (i.e. 0,1, 2... 9)");
+				return false;
+			}
+			
+			if(is_z_verify_account_api_running){
+				return false;	
+			}
+			
+			
+	
+			is_z_verify_account_api_running = true;
+			var url = Path+'users/club_registration_logged_in_user/'; 
+			sub_btn_parent.html("<img src = \"<?php echo PATH."images/anim/6.gif";?>\" /><p>verifying...</p>");
+			
+			$.ajax(
 	            {
 		        type:'POST',
 		        url:url,
@@ -180,11 +356,11 @@ $('#submit_acc').click(function() {
 		        dataType:"html",
 		        success:function(check)
 		        {
-					
 					is_z_verify_account_api_running = false;
 					if(isNaN(check)){
+						sub_btn_parent.html(sub_btn_parent_bak);
 						window.location.href = check;
-						return;
+						return false;
 					}
 					
 					/*
@@ -194,14 +370,15 @@ $('#submit_acc').click(function() {
 					 */
 					
 					if(check == -1){
+						sub_btn_parent.html(sub_btn_parent_bak);
 						$('#z_acc_error').html("<?php echo "Sorry, Account verification failed. Please try again."; ?>");
-						return;
+						return false;
 					}
 					
 					
-					
+					sub_btn_parent.html(sub_btn_parent_bak);
 					$('#z_acc_error').html("<?php echo "Something went wrong. Please contact site admin."; ?>");
-					return;
+					return false;
 						
 			
 				 
@@ -209,17 +386,17 @@ $('#submit_acc').click(function() {
 		        },
 		        error:function()
 		        {
+					sub_btn_parent.html(sub_btn_parent_bak);
 					is_z_verify_account_api_running = false;
-			        alert('No data found.');
+					$('#z_acc_error').html("<?php echo "Something went wrong. Please contact site admin."; ?>");
+					return false;
 		        }
 
-	                });
-		});
-		
-
+	         });
+			 
+			return false;
 	
-	
-});
+}
 
 
 </script>

@@ -1,4 +1,34 @@
     <script type="text/javascript">
+	 function open_acc(btn){
+	
+			$('#f_name_err').text("");
+			$('#l_name_err').text("");
+			$('#email_err').text("");
+			$('#phone_err').text("");
+			$('#addr_err').text("");
+			$('#gender_err').text("");
+			$('#branch_no_err').text("");
+			$('#class_code_err').text("");
+			
+			if(!document.getElementById('id_terms').checked){
+				alert("Please accept terms before submitting");
+				exit;
+			}
+			
+		
+			if(is_z_open_account_api_running){
+			   return false;
+		   }
+		  
+		   is_z_open_account_api_running = true;
+		   var sub_btn_parent= $(btn).parent();
+		   var sub_btn_bak = sub_btn_parent.html();
+		   sub_btn_parent.html("<div id = \"img_z_open_account\" width=\"10px\" height=\"10px\" style = \"padding-top: 20px;text-align:left;\" ><img src = \"<?php echo PATH."images/anim/6.gif";?>\" /><p>Processing...</p></div>");
+		   
+		   javascript:open_zenith_account(sub_btn_bak);
+		   return false;
+}
+	
   (function() {
     var po = document.createElement('script');
     po.type = 'text/javascript'; po.async = true;
@@ -17,8 +47,8 @@
                     </div>				
                 <div class="signup_content new_user_signup clearfix">
                     <div class="signup_form_block">
-                        <h2 class="signup_title"><?php echo $this->Lang['USER_SIGN_UP']; ?></h2>
-                          <form id="zenith_account_open" name="zenith_offer" method="POST" onsubmit="return false" action="<?php echo PATH; ?>users/club_open_bank_account_user"   autocomplete="off">
+                        <h2 class="signup_title"><?php echo $this->Lang['ZENITH_ACCOUNT_OPEN']; ?></h2>
+                          <form id="zenith_account_open" name="zenith_offer" method="POST" onsubmit="return false"   autocomplete="off">
                             <ul>                               
                             <li>
                               <label><?php echo $this->Lang["FIRST_NAME"]; ?>:<span class="form_star">*</span></label>
@@ -124,7 +154,7 @@
                             </li>
                             
                             <li>                                  
-                                 <input class="sign_submit" id ="id_z_open_account" type="submit" value="Open Account" title="Open Account">
+                                 <input class="sign_submit" id ="id_z_open_account" onclick="open_acc(this);" type="submit" value="Open Account" title="Open Account">
                             </li>
                             </ul>
                         </form>
@@ -197,116 +227,9 @@ $('#id_z_class').focus(function(e) {
    
 });
 
-$('#id_z_open_account').click(function(e) {
-	
-	$('#f_name_err').text("");
-	$('#l_name_err').text("");
-	$('#email_err').text("");
-	$('#phone_err').text("");
-	$('#addr_err').text("");
-	$('#gender_err').text("");
-	$('#branch_no_err').text("");
-	$('#class_code_err').text("");
-	
-	if(!document.getElementById('id_terms').checked){
-		alert("Please accept terms before submitting");
-		exit;
-	}
-	
-
-	if(is_z_open_account_api_running){
-	   return false;
-   }
+ 
    
-   is_z_open_account_api_running = true;
-   javascript:open_zenith_account();
-   return;
-   
-});
 
-
-$('#submit_acc').click(function() {
-	
-			
-			$('#z_acc_error').html('');
-			
-			var nuban = $('#id_nuban').val();
-			if(nuban == ''){
-				alert("Empty field");
-				return false;
-			}
-			
-			var reg = /\d{10}/;
-			var is_no = reg.exec(nuban);
-			if(!is_no){
-				if(nuban.length != 10){
-					alert("Zenith A/C no must be 10 digits.");
-					return false;
-				}
-				
-				alert("Only digits (i.e. 0,1, 2... 9)");
-				return false;
-			}
-			
-			if(is_z_verify_account_api_running){
-				return false;	
-			}
-			
-			
-	
-			is_z_verify_account_api_running = true;
-			
-			var url = Path+'users/club_registration_logged_in_user/'; 
-			
-
-	            $.ajax(
-	            {
-		        type:'POST',
-		        url:url,
-				data:{nuban:nuban},
-		        cache:false,
-		        async:true,
-		        global:false,
-		        dataType:"html",
-		        success:function(check)
-		        {
-					
-					is_z_verify_account_api_running = false;
-					if(isNaN(check)){
-						window.location.href = check;
-						return;
-					}
-					
-					/*
-					  TODO
-					  Need to internationalize the string below.
-					  @Live
-					 */
-					
-					if(check == -1){
-						$('#z_acc_error').html("<?php echo "Sorry, Account verification failed. Please try again."; ?>");
-						return;
-					}
-					
-					
-					
-					$('#z_acc_error').html("<?php echo "Something went wrong. Please contact site admin."; ?>");
-					return;
-						
-			
-				 
-		          
-		        },
-		        error:function()
-		        {
-					is_z_verify_account_api_running = false;
-			        alert('No data found.');
-		        }
-
-	                });
-		});
-	
-});
 
 
 </script>

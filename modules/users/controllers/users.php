@@ -1705,6 +1705,7 @@ $pdf->Output('voucher.pdf', 'I');
   
 
   public function club_open_bank_account_user($status = NULL){
+	 
   
   //before attempting to open this account for this user
   //need to check if user already created an account with this platform before
@@ -1815,7 +1816,8 @@ $pdf->Output('voucher.pdf', 'I');
 			
 		}
 		
-		$r = $this->users->update_user_to_club_membership(TRUE, $response);
+		$nuban = $response['accountNumber'];
+		$r = $this->users->update_user_to_club_membership(TRUE, $nuban);
 		if($r == 1){
 			echo $r;
 			common::message(1, "Thank you! Your Zenith bank account has been successfully created. please check it out in your profile.");
@@ -1886,7 +1888,7 @@ $pdf->Output('voucher.pdf', 'I');
 			  @Live
 		  */
 		  public function club_registration_logged_in_user(){  
-		  
+		  		  
 		  		
 		  
 		  if($_POST){
@@ -1900,20 +1902,28 @@ $pdf->Output('voucher.pdf', 'I');
 				 
 				  $r = $this->users->check_zenith_account_used($nuban);
 				  if(isset($r) && $r == "1"){
-					  
-				  $arg = array();
-				  $arg['userName'] = ZENITH_TEST_USER;
-				  $arg['Pwd'] = ZENITH_TEST_PASS;
-				  $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
-				  $arg['account_number'] = $nuban;
-				  $fun_resp = $soap->VerifyAccount($arg);
+					   $fun_resp = null;
+						try{
+						
+						  $arg = array();
+						  $arg['userName'] = ZENITH_TEST_USER;
+						  $arg['Pwd'] = ZENITH_TEST_PASS;
+						  $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
+						  $arg['account_number'] = $nuban;
+						  $fun_resp = $soap->VerifyAccount($arg);
+							
+					  } catch(Exception $e){
+						  echo -1;
+						  exit;
+					  }
 				  
 				  $response = (array)$fun_resp->VerifyAccountResult;
+				  
 					  if($response){
 						  $nuban_response = (isset($response['errorMessage']))?-1:1;
 						  if($nuban_response == 1){
 							 
-							   $r = $this->users->update_user_to_club_membership(FALSE, $arg);
+							   $r = $this->users->update_user_to_club_membership(FALSE, $nuban);
 								common::message(1, "Thank you for signup! You can now enjoy club membership offers.");
 								if($r == 1){
 									 $urlreferer = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:PATH;

@@ -1629,7 +1629,8 @@ function login_after_zenith_offer_click(email, password, z_offer){
 	Open Zenith Account
 	@Live
 */
-function open_zenith_account(){
+function open_zenith_account(form_html){
+	
 	var url = Path+'users/club_open_bank_account_user'; 
 	
 	var fs = $($('.z_acc_input'));
@@ -1687,7 +1688,10 @@ function open_zenith_account(){
 		        global:false,
 		        dataType:"html",
 		        success:function(response){
+					
 					is_z_open_account_api_running = false;
+					$('#img_z_open_account').parent().html(form_html);
+					
 					var res;
 					try{
 					var res = $(response);
@@ -1727,8 +1731,10 @@ function open_zenith_account(){
 		
 		        },
 		       	 error:function(){
-					is_z_open_account_api_running = false;
-			        alert('No data found.');
+					 is_z_open_account_api_running = false;
+					 $('#img_z_open_account').parent().html(form_html);
+					
+			       
 		        }
 
 	          });	  

@@ -1003,10 +1003,8 @@ class Users_Model extends Model
          * WE SEND AN EMAIL TO THE USER
          * @param JSONObject of valid required fields to Open an account
         */
-        public function update_user_to_club_membership($create_account = false, $params=""){
+        public function update_user_to_club_membership($create_account = false, $account_number=""){
             
-			$params_obj = arr::to_object($params);	
-			
 			try{
 				
 				/*
@@ -1018,7 +1016,7 @@ class Users_Model extends Model
 				
 				
 				$u_tb_name = 'users';
-				$u_columns = array('nuban'=>$params_obj->account_number, 'club_member'=>1);
+				$u_columns = array('nuban'=>$account_number, 'club_member'=>1);
 				$u_where = array('user_id'=>$this->UserID);
 				$results = $this->db->update($u_tb_name, $u_columns, $u_where);
 				
