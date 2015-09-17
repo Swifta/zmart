@@ -379,9 +379,10 @@ class Seller_Controller extends Layout_Controller {
 		                foreach($CitySlist as $s) {	
                                         if($s->sector_id != 0)
                                         {
-                                                $list = '<select name="subsector" class="subSector" >';
+                                                $list = '<select name="subsector" class="subSector" onchange="previewTheme(this.text);">';
                                         }
                                 }
+                                $list.='<option value="">'.$this->Lang['SELECT_A_SUB_SECTOR'].'</option>';
 		                foreach($CitySlist as $s){
 			                $list .='<option value="'.$s->sector_id.'">'.ucfirst($s->sector_name).'</option>';
 		                }

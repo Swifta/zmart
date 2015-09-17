@@ -1308,6 +1308,10 @@ function showfbsignup()
 	$('.popup_block4').css({'display' : 'block'});
 	
 }
+
+
+
+
 function changing_sectors(sector)
 {
 	if(sector == ''){ var sector = -1;  }

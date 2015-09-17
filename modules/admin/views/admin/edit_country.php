@@ -25,7 +25,7 @@
                 <tr>
                     <td><label><?php echo $this->Lang["CUUR_SYM"]; ?></label><span>*</span></td>
                     <td><label>:</label></td>
-                     <td><input type="text" name="currency_symbol" maxlength="3" value="<?php echo $this->countryData->current()->currency_symbol; ?>" />
+                     <td><input type="text" name="currency_symbol" maxlength="16" value="<?php echo $this->countryData->current()->currency_symbol; ?>" />
                      <em><?php if(isset($this->form_error["currency_symbol"])){ echo $this->form_error["currency_symbol"]; }?></em></td>
                      
                 </tr>

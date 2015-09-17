@@ -411,9 +411,10 @@
         </ul>
       </li>*/?>
   
-  <?php if(ADMIN_PRIVILEGES_FUNDREQUEST){?>
+      <!--
+  <?php /*if(ADMIN_PRIVILEGES_FUNDREQUEST){
+      
     <div class="menu_title"><p> <img style="float:left;padding:0px 0px 10px 10px;" src="<?php echo PATH ?>images/title_fund_request.png" alt="title_fund_request"/><span><?php echo $this->Lang['FUND_REQ']; ?></span></p></div>
-    
 
 	<li <?php if(isset($this->all_fund)){ ?> class="menu_active"  <?php } ?>>
         
@@ -432,7 +433,7 @@
         <a href="<?php echo PATH; ?>admin/failed-fund-request.html" class="menu_rgt" title="<?php echo $this->Lang["WITH_DRAW_FAIL"]; ?>"><span class="withdraw_fund_request"><?php echo $this->Lang["WITH_DRAW_FAIL"]; ?></span></a></li>
 
   	
-	<?php } 
+	<?php } */
 	}?>
 	<?php   if(isset($this->blog_act) && ADMIN_PRIVILEGES_BLOG){ ?>
 

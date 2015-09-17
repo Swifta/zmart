@@ -879,6 +879,7 @@ class Merchant_Model extends Model
                 
 	    if(($post->size_val) == 1){
 	        $i= 0;
+            if(isset($post->size)){
 	        foreach($post->size as $s){
 	            $result_count = $this->db->from("product_size")->where(array("deal_id" => $product_id, "size_id" => $s))->get();
 	            if(count($result_count)==0){
@@ -892,6 +893,8 @@ class Merchant_Model extends Model
 					}
 	            $i++; }
 	        }
+                
+            }
 	        }
 
                 //Attribute start

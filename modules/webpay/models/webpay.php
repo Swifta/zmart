@@ -184,6 +184,7 @@ class Webpay_Model extends Model
                                 ->join("city","city.city_id","shipping_info.city")
                                 ->orderby("shipping_id","DESC")
                                 ->get();
+                        //var_dump($result);die;
 		return $result;	
                 
 	}

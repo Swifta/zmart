@@ -34,10 +34,13 @@ function toggle(ids){
 	<?php if(isset($this->mer_transactions_act)){ ?>
 	 <div class="menu_title"><p> <img src="<?php echo PATH ?>images/title_balance.png" alt="<?php echo $this->Lang['TRANS']; ?>"/><span><?php echo $this->Lang['TRANS']; ?></span></p></div>
 	<?php }} ?>
+         
+         <!--
 	<?php if(PRIVILEGES_FUNDREQUEST==1){ ?>
 	<?php if(isset($this->mer_fund_act)){ ?>
 	 <div class="menu_title"><p> <img src="<?php echo PATH ?>images/title_fund_request.png" alt="<?php echo $this->Lang['FUND_REQ']; ?>"/><span><?php echo $this->Lang['FUND_REQ']; ?></span></p></div>
 	<?php } }?>
+         -->
 	<?php if(isset($this->mer_settings_act)){ ?>
 	 <div class="menu_title"><p> <img src="<?php echo PATH ?>images/title_module_settings.png" alt="<?php echo $this->Lang['SETTINGS']; ?>" /><span><?php echo $this->Lang['SETTINGS']; ?></span></p></div>
 	<?php } ?>
@@ -163,7 +166,7 @@ function toggle(ids){
         
         <?php if (PRIVILEGES_TRANSACTIONS) { ?>
      <?php if((PRIVILEGES_DEALS)||(PRIVILEGES_PRODUCTS)||(PRIVILEGES_AUCTIONS)){ ?>
-        
+        <!--
         <?php if(isset($this->mer_fund_act)){ ?>	
         <li <?php if(isset($this->manage_fund_request)){ ?> class="menu_active"  <?php } ?> >        
         <a class="menu_rgt"  href="<?php echo PATH; ?>merchant/fund_request.html" title="<?php echo $this->Lang["FUND_REQ_REP"]; ?>"><span class="fund_management fl"><?php echo $this->Lang["FUND_REQ_REP"]; ?></span></a></li>
@@ -171,7 +174,7 @@ function toggle(ids){
         <li <?php if(isset($this->add_fund_request)){ ?> class="menu_active"  <?php } ?>>        
         <a class="menu_rgt"  href="<?php echo PATH; ?>merchant/add_fund_request.html" title="<?php echo $this->Lang["WITHDRAW_FUND"]; ?>"><span class="fund_management fl"><?php echo $this->Lang["WITHDRAW_FUND"]; ?></span></a></li>
         <?php } }?>
-
+        -->
 	<?php   if(isset($this->mer_transactions_act)){ ?>    
 	<li <?php if(isset($this->dashboard_transaction)){ ?> class="menu_active"  <?php } ?>>        
         <a href="<?php echo PATH; ?>merchant/transaction-dashboard.html" class="menu_rgt" title="<?php echo $this->Lang['TRANS_DASH']; ?>"><span class="payment_transactions"><?php echo $this->Lang['TRANS_DASH']; ?></span></a></li>	

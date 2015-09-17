@@ -52,11 +52,11 @@
                 </tr>
                 <?php } ?>
                 
-                 <tr>
+                 <!--<tr>
                     <td><label><?php echo $this->Lang["PAYMENT_ACC"]; ?></label></td>
                     <td><label>:</label></td>
                     <td><?php echo $u->payment_account_id;?></td>
-                </tr>
+                </tr>-->
                 <?php  /*if($this->user_type==3){   ?>
                 <tr>
                 <td><label>Auto post facebook wall</label></td>

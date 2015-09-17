@@ -1949,6 +1949,7 @@ transition: all 0.4s ease;-webkit-transition: all 0.4s ease;-o-transition: all 0
 .popup_block6 {display:none;float: left; font-size: 1.2em; position: absolute; top: 0; left:50%; z-index: 101;width:1030px;margin:0 0 0 -515px;}
 .popup_auction {display:none;float: left; font-size: 1.2em; position: fixed; top: 40px; left:50%;width:430px;margin:0 0 0 -215px; z-index: 101;}
 .popup_block4 {display:none;float: left; font-size: 1.2em; position: fixed; top: 122px; left:50%; z-index: 101;width:410;margin:0 0 0 -270px;}
+.popup_block_theme {display:none;float: left; font-size: 1.2em; position: fixed; top: 5%; left:50%; z-index: 101;width:630px;margin:0 0 0 -315px;}
 
 #fade { visibility: hidden;  background: #000; position: fixed; left: 0; top: 0; z-index: 10; width: 100%; height: 100%; opacity: .50; z-index: 100; }
 /* Popup end */
@@ -2049,7 +2050,7 @@ input.sign_cancel{padding:7px 10px;line-height:17px;}
 .seller_signup_introduction, .seller_signup_form_submit, .seller_signup_payment, .seller_signup_finish{width:33.3%;float:left;position:relative;}
 .merchant_intro{font:normal 13px/18px arial;color:#666666;}
 .merchant_paymet_form{width:100%;}
-.merchant_paymet_form li label{display: inline-block;width:100px;vertical-align: top;}
+.merchant_paymet_form li label{display: inline-block;width:240px;vertical-align: top;}
 .merchant_paymet_form .fullname{display: inline-block;vertical-align: top;}
 .merchant_paymet_form li .fullname label{display: block;width:100%;}
 .merchant_submit_buttons{padding:15px 0;float:left;width:100%;}

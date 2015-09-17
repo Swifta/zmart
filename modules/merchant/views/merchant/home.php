@@ -256,8 +256,8 @@ foreach($this->store_details as $deta){
 	</a> */ ?>
 	<p> Welcome to <?php echo SITENAME; ?>, <?php echo $this->session->get("name"); ?></p>
 	<p class="acc_bal">
-		<?php echo $this->Lang['ACC_BAL']; ?> :
-			<span class="blink"><?php echo " ".CURRENCY_SYMBOL." ".$this->balance; ?>
+		<?php echo $this->Lang['TOTAL_SALES']; ?> :
+                <span class="blink"><?php echo " ".CURRENCY_SYMBOL." ".number_format($this->balance, 0); ?>
 			</span>
 	</p>
 
@@ -623,10 +623,11 @@ foreach($this->store_details as $deta){
   		         
 			
   		           
-			<li>
+			<!--<li>
                      <div class="dash_active_left"> </div> 
                      <div class="dash_active_mid">
-                                          
+                         
+                    
                       <div class="dash_act_img">
                     
                      <a class="dash_icons" href="<?php echo PATH?>merchant/fund_request.html" title="<?php echo $this->Lang['FUND_REQ']; ?>">
@@ -641,7 +642,7 @@ foreach($this->store_details as $deta){
                       
                        </div> <div class="dash_active_right">  </div> 
                        
-                       </li>
+                       </li>-->
 			<li>
                      <div class="dash_active_left"> </div> 
                      <div class="dash_active_mid">
