@@ -75,6 +75,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc
 <?php } ?>
                 </ul>
             </div >
+            <!--
             <span id="success_message"></span>
 <?php if (!empty($this->response)) { ?>
                 <div class="msg_show"  id="messagedisplay">            
@@ -104,7 +105,83 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc
                     </div>
                 </div>
             <?php } ?>
-			<script type="text/javascript">
+            -->
+<script src="<?php echo PATH; ?>themes/<?php echo THEME_NAME; ?>/toastr/jquery.jnotify.js"></script>
+
+<script type="text/javascript">
+    <?php
+    
+        if($this->response != "" || $this->error_response != ""){
+            $success_alert = false;
+            $msg_to_alert = $this->error_response;
+            if($this->response != ""){
+                $success_alert = true;
+                $msg_to_alert = $this->response;
+            }
+    ?>
+    $(document).ready(function() {
+        var jNotify = $.JNotify({
+
+          // addional CSS class
+          'className':'JNotify-success', 
+
+          // warning, info, success or error
+          'theme':'error', 
+
+          // background color
+          'backgroundColor':'#FFFFFF', 
+
+          // border color
+          'borderColor':'#BCE8F1',
+
+          // border radius
+          'borderRadius':'3px', 
+
+          // left, center or right
+          'position':'center',
+
+          // max width
+          'maxWidth':'390px',
+
+          // top position
+          'top':20, 
+
+          // z-index
+          'zIndex': 888,
+
+          // height
+          'height':null, 
+
+          // padding
+          'padding':'8px',
+
+          // custom message
+          'message':'<?php echo $msg_to_alert; ?>',
+
+          // font size
+          'fontSize':'19px', 
+
+          // font color
+          'fontColor': '#FFFFFF', 
+
+          // auto close
+          'autoClose':true,
+
+          // shows a close button
+          'showCloseButton':true,
+
+          // show / close duration
+          'showDuration':5000,  
+          'closeDuration':1000
+
+        });
+        <?php if($success_alert){ ?>
+        jNotify.setTheme('success');
+        <?php } ?>
+    });
+    <?php
+        }
+    ?>
 				$(window).load(function() {
 					$(".wloader_img").fadeOut("slow");
 					$(".wloader_img").css("visibility:visible");

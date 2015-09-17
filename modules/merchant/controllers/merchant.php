@@ -17,12 +17,12 @@ class Merchant_Controller extends website_Controller
                 else
                 {
 		        if((!$this->user_id && ( $this->user_type != 3||$this->user_type != 8)) && $this->uri->last_segment() != "merchant-login.html" && $this->uri->last_segment() != "forgot-password.html"){
-			        url::redirect(PATH);
+			        url::redirect(PATH."/merchant-login.html");
 		        }
 		        if($this->user_type==1||$this->user_type==7)
 		        {
 					$this->session->destroy();
-					url::redirect(PATH);
+					url::redirect(PATH."/merchant-login.html");
 				}
 		        $this->merchant = new Merchant_Model();
 		        $this->merchant_panel="1";
@@ -69,7 +69,7 @@ class Merchant_Controller extends website_Controller
 				}
 				else{
 					common::message(-1,$this->Lang["CANT_LOGIN"]);
-					url::redirect(PATH);
+					url::redirect(PATH."/merchant-login.html");
 				}
 			} else {
 				$this->error_login = $this->Lang["EMAIL_REQUIRED"];

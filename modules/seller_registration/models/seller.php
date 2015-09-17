@@ -20,9 +20,15 @@ class Seller_Model extends Model
           $arg['Pwd'] = ZENITH_TEST_PASS;
           $soap = new SoapClient(ZENITH_TEST_ENDPOINT);
           $arg['account_number'] = $nuban;
-          $fun_resp = $soap->VerifyAccount($arg);
+          try{
+            $fun_resp = $soap->VerifyAccount($arg);
+            $response = (array)$fun_resp->VerifyAccountResult;
+          }
+          catch(Exception $e){
+              error_log($e->getMessage());
+              $response = false;
+          }
           
-          $response = (array)$fun_resp->VerifyAccountResult;
           if($response){
               $nuban_response = (isset($response['errorMessage']))?-1:1;
               if($nuban_response == 1){

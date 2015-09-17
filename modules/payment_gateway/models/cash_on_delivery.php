@@ -37,23 +37,37 @@ class Cash_on_delivery_Model extends Model
 	        $ip_country_name="";
 	        $ip_city_name="";		
 		$url = "http://api.ipinfodb.com/v3/ip-city/?key=8042c4ccb295723ec0791f306df5f9e92632e9b1ba0beda3e1ff399f207d2767&ip=$ip";
-		$data = file_get_contents($url);
-		$dat = explode(";",$data);
-		if($dat[3] != "-"){
-		        $ip_country_code=$dat[3];
-		        $ip_country_name=$dat[4];
-		        $ip_city_name=$dat[5];
-		} else {
-                        $geodata = Kogeoip::getRecord($ip);
-                        if(isset($geodata->country_code)){
-                                $ip_country_code=$geodata->country_code;
-                                $ip_country_name=$geodata->country_name;
-                                $ip_city_name="";
-                        } else {
-                                $ip_country_code = "Other";
-                                $ip_country_name="Other";
-                                $ip_city_name="Other";
-                        }
+		$data = @file_get_contents($url);
+                if($data != ""){
+                    $dat = explode(";",$data);
+                    if($dat[3] != "-"){
+                            $ip_country_code=$dat[3];
+                            $ip_country_name=$dat[4];
+                            $ip_city_name=$dat[5];
+                    } else {
+                            $geodata = Kogeoip::getRecord($ip);
+                            if(isset($geodata->country_code)){
+                                    $ip_country_code=$geodata->country_code;
+                                    $ip_country_name=$geodata->country_name;
+                                    $ip_city_name="";
+                            } else {
+                                    $ip_country_code = "Other";
+                                    $ip_country_name="Other";
+                                    $ip_city_name="Other";
+                            }
+                    }
+                }
+                else{
+                    $geodata = Kogeoip::getRecord($ip);
+                    if(isset($geodata->country_code)){
+                            $ip_country_code=$geodata->country_code;
+                            $ip_country_name=$geodata->country_name;
+                            $ip_city_name="";
+                    } else {
+                            $ip_country_code = "Other";
+                            $ip_country_name="Other";
+                            $ip_city_name="Other";
+                    }
                 }
                 if($prime_customer == ""){
                     $prime_customer = 0;
