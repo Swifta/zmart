@@ -946,10 +946,13 @@
                                                         
                                                         
                                                         <div class="uploadWrapper">
+                                                        
                                                             <span class="image_upload">
+                                                           
                                                                 <img src="<?php echo PATH.'images/image_upload.png';?>" alt="<?php echo $this->Lang['EDIT']; ?>" title="<?php echo $this->Lang['EDIT']; ?>" />
                                                             </span>
-                                                        <input type="file" name="image[]"  class="first" id="first<?php echo '_'.$i;?>" onchange="return validateFileExtension1(this,<?php echo $i;?>)"  style="width:24px;"  title="<?php echo $this->Lang['EDIT']; ?>"/>                                                        
+                                                        <input type="file" name="image[]"  class="first" id="first<?php echo '_'.$i;?>" onchange="return validateFileExtension1(this,<?php echo $i;?>)"  style="width:24px;"  title="<?php echo $this->Lang['EDIT']; ?>"/>   
+                                                                                                             
                                                             <?php if($i!=1){ ?>
                                                             <?php  if(file_exists(DOCROOT.'images/products/1000_800/'.$u->deal_key.'_'.$i.'.png'))  { ?>
 

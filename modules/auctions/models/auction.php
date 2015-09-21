@@ -903,6 +903,8 @@ class Auction_Model extends Model
 	public function get_store_id($storeurl="") 
 	{ 
 			$result = $this->db->select("store_id")->from("stores")->where(array("store_url_title"=>$storeurl))->get();
+			var_dump($result);
+			exit;
 			return $result->current()->store_id;
 	}
 

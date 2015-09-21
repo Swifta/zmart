@@ -1464,6 +1464,8 @@ class Admin_products_Controller extends website_Controller
 	/*MULTIPLE IMAGE DELETE */
 	public function delete_product_images()
 	{
+		
+		
 		$this->img=$this->input->get("img");
 		$this->deal_id=$this->input->get("id");
 		$IMG_NAME=base64_decode($this->img);
@@ -1473,6 +1475,7 @@ class Admin_products_Controller extends website_Controller
 		$a = explode('_',$IMG_NAME);
 
 		if($a[1] == 1) {
+			
 			if(file_exists(DOCROOT.'images/products/1000_800/'.$IMG_NAME.'.png')) {
 			for($i=2;$i<=5;$i++) {
 				$IMG_NAME1 = $this->deal_key."_".$i;
@@ -1517,8 +1520,19 @@ class Admin_products_Controller extends website_Controller
 			$filename= DOCROOT.'images/products/1000_800/'.$IMG_NAME.'.png';
 			unlink($filename);
 		}
+		
+		
+		$redir_url = PATH."admin/edit-products/".base64_encode($this->deal_id)."/".$this->deal_key.".html";
+		
+		/**
+		*	Default redirection url is invalid heere.
+			Changed it to refer to the one in the SERVER session array.
+		*	@Live
+		*/
+		if(isset($_SERVER['HTTP_REFERER']))
+				$redir_url = $_SERVER['HTTP_REFERER'];
 
-		url::redirect(PATH."admin/edit-products/".base64_encode($this->deal_id)."/".$this->deal_key.".html");
+		url::redirect($redir_url);
 	}
 
 	/* UPDATE STATUS DELIVERY FOR PRODUCT */

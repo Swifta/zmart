@@ -629,5 +629,14 @@ exit;
            		echo new View("themes/".THEME_NAME."/auction/listing");
 			exit;
 	}
+	
+	public function test_store_id(){
+		
+		$auction_model = new Auction_Model();
+		$store_ids = $auction_model->get_store_id();
+		var_dump($store_ids);
+		exit;
+		
+	}
 
 }
