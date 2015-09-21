@@ -171,7 +171,8 @@ class Admin_merchant_Controller extends website_Controller {
 									}
 									
 									if(EMAIL_TYPE==2){				
-										email::smtp($from, $post->email, SITENAME ." - ".$this->Lang['CRT_MER_ACC'] , $message);
+										if(email::smtp($from, $post->email, SITENAME ." - ".$this->Lang['CRT_MER_ACC'] , $message))
+										email::add_account_to_sendinblue("merchant", $post->email);
 									}
 									else{
 										email::sendgrid($from, $post->email, SITENAME ." - ".$this->Lang['CRT_MER_ACC'] , $message);

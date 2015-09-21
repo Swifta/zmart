@@ -131,7 +131,8 @@ class Admin_users_Controller extends website_Controller {
 				$message = new View("themes/".THEME_NAME."/admin_mail_template");
 				
 				if(EMAIL_TYPE==2){
-				email::smtp($fromEmail,$email_id, SITENAME, $message);
+					if(email::smtp($fromEmail,$email_id, SITENAME, $message))
+					   email::add_account_to_sendinblue("merchant", $email_id);
 				}
 			   	else{
 				email::sendgrid($fromEmail,$email_id, SITENAME, $message);

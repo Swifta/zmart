@@ -263,7 +263,9 @@ class Seller_Controller extends Layout_Controller {
 
 										if(EMAIL_TYPE==2){		
 											email::smtp($from, $to, $subject , $adminmessage);
-											email::smtp($from, $this->session->get('memail'), $merchant_subject , "<p>".SITENAME ." - ".$this->Lang['CRT_MER_ACC']."</p>".$merchantmessage);
+											if(email::smtp($from, $this->session->get('memail'), $merchant_subject , "<p>".SITENAME ." - ".$this->Lang['CRT_MER_ACC']."</p>".$merchantmessage))
+											email::add_account_to_sendinblue("merchant", $this->session->get('memail'));
+											
 										}
 										else{
 											email::sendgrid($from, $to, $subject , $adminmessage);

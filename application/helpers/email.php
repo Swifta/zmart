@@ -654,9 +654,6 @@ public function sendgrid_attach1($receiver= "", $subject = "", $message = "", $f
 	$opts['to_name'] = $receiver;
 
 	}
-	//end of hash array
-
-
 
 
 	$content1=stripslashes($message) ;
@@ -670,7 +667,7 @@ public function sendgrid_attach1($receiver= "", $subject = "", $message = "", $f
 
 
 		$err = "Unable to Create New Campaign!".$api->errorCode.$api->errorMessage;
-		//set_response_mes(-1,$err);
+		Kohana::log("debug", $err);
 		common::message(-1, $err);
 		 url::redirect(PATH);
 
@@ -707,7 +704,7 @@ public function sendgrid_attach1($receiver= "", $subject = "", $message = "", $f
 
 public function smtp_sendinblue($from = "",$receiver = array(), $subject = "", $message = "",$file = ""){
    require_once(APPPATH.'vendor/mailin-sendinblue/V2.0/Mailin.php');
-   $mail = new Mailin("https://api.sendinblue.com/v2.0","Kx4syT6qOJmWCbLU");
+   $mail = new Mailin("https://api.sendinblue.com/v2.0",PASSWORD);
    
    		$sitename = SITENAME;
         if(!$sitename){
@@ -762,6 +759,32 @@ public function smtp_sendinblue($from = "",$receiver = array(), $subject = "", $
         }
         return;
     }
+	
+	public function add_account_to_sendinblue($list_type = "user", $email = ""){
+		
+	   require_once(APPPATH.'vendor/mailin-sendinblue/V2.0/Mailin.php');
+   	   $mail = new Mailin("https://api.sendinblue.com/v2.0",PASSWORD);
+	   $attributes = array();
+	   $blacklisted = 0;
+	   $listid = array(4, 8);
+	   $list_unlink = array();
+	   $blacklisted_sms = 0;
+   	   $response = $mail->create_update_user($email, $attributes,  $blacklisted, $listid, $list_unlink, $blacklisted_sms);
+	   if($response){
+		   
+			$response = arr::to_object($response);
+			$code = $response->code;
+			var_dump($response);
+			$message = $response->message;
+			Kohana::log("debug", "Sendinblue response code: ".$code. " response message: ".$message);
+   
+	   }else{
+		   
+		    Kohana::log("debug", "No response from the sendinblue servers");
+		   
+	   }
+		
+	}
 
 
 
