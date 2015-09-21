@@ -1,6 +1,6 @@
 <?php
 
-date_default_timezone_set('Asia/Calcutta');
+date_default_timezone_set('Africa/Lagos');
 /**
  * This file acts as the "front controller" to your application. You can
  * configure your application, modules, and system directories here.

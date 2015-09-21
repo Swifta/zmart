@@ -158,7 +158,13 @@ class Email{
 		
         try {
             
-            
+			//Schedule campaign 10 Minutes ahead.
+            $date = date("Y-m-d");
+			$delay = 5*60;
+			$time = date("H:i:s", time() + $delay);
+			$shedule = $date." ".$time;
+			
+			
 			$category = $subject;
 			$from_name = NEWSLETTER_FROM_NAME;
 			$name = $subject;
@@ -166,7 +172,7 @@ class Email{
 			$html_content = $message;
 			$html_url = "";
 			$listid = array("4");
-			$scheduled_date = "2015-09-12 15:53:30";
+			$scheduled_date = $shedule;
 			$subject = $subject;
 			$from_email = NEWSLETTER_FROM_EMAIL;
 			$reply_to = $from_email;

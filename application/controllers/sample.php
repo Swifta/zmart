@@ -16,6 +16,14 @@ public function smtp($from = "",$receiver = array(), $subject = "", $message = "
 	$receiver = array();
 	$subject = "TEST";
 	
+	$delay = 10*60;
+	$date = date("Y-m-d");
+	$time = date("H:i:s", time() + $delay);
+	
+	$timestamp = $date." ".$time;
+	var_dump($timestamp);
+	exit;
+	
 	/*$to = array("to@example.net"=>"to whom!"); //mandatory
 	$subject = "My subject"; //mandatory
 	$from = array("from@email.com","from email!"); //mandatory
