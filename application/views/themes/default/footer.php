@@ -175,7 +175,10 @@
         </div>
     </div>
 </div>
+
+
 <script>
+
 function check_subscribe(){
 	var email = $("#subscribe").val();
 	var atpos=email.indexOf("@");

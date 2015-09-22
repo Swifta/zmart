@@ -49,7 +49,9 @@ abstract class Template_Controller extends Controller {
 		} else {
 			define('PATH', "http://".$_SERVER['HTTP_HOST'].$SEGMENT);
 		} */
-		define('PATH', "http://".$_SERVER['HTTP_HOST'].$SEGMENT);
+                 if(!defined('PATH')){
+                    define('PATH', "http://".$_SERVER['HTTP_HOST'].$SEGMENT);
+                 }
 		//include Kohana::find_file('vendor', "mobile_device_detect");
 		//$mobile = mobile_device_detect();
 
@@ -58,7 +60,9 @@ abstract class Template_Controller extends Controller {
 		}*/
 		
                 $website_message = "<p style='margin:150px auto;background:#f7f7f7;font:nomral 20px arial;color:#000;text-align:center;width:600px;border:1px solid #dfdfdf;padding:20px;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;'>Page not found...! Please contact <a href='http://www.uniecommerce.com/' title = 'UniEcommerce'>UniEcommerce</a> for further clarifications.</p>";
-                define('DEFAULT_WEBSITE_MESSAGE', $website_message);
+                if(!defined('DEFAULT_WEBSITE_MESSAGE')){
+                    define('DEFAULT_WEBSITE_MESSAGE', $website_message);
+                }
                 
                 $actual_link = $_SERVER['HTTP_HOST'];                
                 $serverurl= $_SERVER['HTTP_HOST']; 
@@ -83,7 +87,7 @@ abstract class Template_Controller extends Controller {
 				if($this->session->get("theme")){
 					define('THEME_NAME', $this->session->get("theme"));
 				} else {
-					define('THEME_NAME', $s->theme);
+                                    define('THEME_NAME', $s->theme);
 				}
 
 				define('SITENAME', $s->site_name);
